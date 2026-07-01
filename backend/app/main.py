@@ -2272,6 +2272,7 @@ async def run_pipeline(
                     break
                 
             if not is_trusted:
+                logger.warning(f"Unauthorized pipeline run attempt. Headers: {dict(request.headers)}")
                 return JSONResponse({"error": "Unauthorized. Invalid pipeline trigger secret."}, status_code=401)
     if theme_slug:
         # Validate that theme is bootstrapped
