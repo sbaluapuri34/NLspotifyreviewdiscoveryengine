@@ -1,0 +1,43 @@
+# Python Virtual Environments
+backend/venv/
+venv/
+.venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+.pytest_cache/
+
+# Databases & SQLite Files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Cached JSON & Metadata
+backend/scripts/*_cache.json
+backend/scripts/cumulative_*.json
+backend/scripts/decomposed_themes*.json
+backend/scripts/research_question_answers*.json
+backend/scripts/executive_insights*.json
+backend/scripts/compiled_evidence_packages*.json
+cluster_metadata_cache.json
+research_answers_cache.json
+decomposed_themes_cache.json
+executive_insights_cache.json
+
+# Environment Variables & Secrets
+.env
+.env.*
+secrets.json
+
+# Node & Frontend
+node_modules/
+dist/
+.DS_Store
+
+# Temporary & Scratch Files
+scratch/
+tmp/
+*.log
+torchinductor_pc/

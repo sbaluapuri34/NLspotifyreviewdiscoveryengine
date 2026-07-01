@@ -1,0 +1,15 @@
+fastapi>=0.100.0
+uvicorn>=0.22.0
+google-play-scraper>=1.2.4
+beautifulsoup4>=4.12.0
+httpx>=0.24.0
+google-api-python-client>=2.90.0
+apify-client>=1.3.0
+langdetect>=1.0.9
+deep-translator>=1.11.4
+loguru>=0.7.0
+python-dotenv>=1.0.0
+pytest>=7.3.0
+pytest-asyncio>=0.21.0
+numpy>=1.24.0
+

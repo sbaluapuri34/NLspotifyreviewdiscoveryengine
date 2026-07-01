@@ -1,0 +1,335 @@
+{
+  "RQ1": {
+    "rq_id": "RQ1",
+    "title": "Music Discovery Friction",
+    "executive_summary": "Users face significant barriers when trying to find and discover new music on Spotify, primarily due to ineffective music recommendations, lack of personalization and control, and technical issues with the app. The algorithm-driven playlists, app performance, and user interface require improvement to address these issues.",
+    "jtbd_summary": {
+      "situation": "When looking for new music to listen to",
+      "motivation": "To discover new music that they will enjoy",
+      "outcome": "To find new music that matches their taste and preferences"
+    },
+    "observed_workarounds": [
+      "Using a different music streaming service",
+      "Asking friends for music recommendations",
+      "Using online music discovery platforms",
+      "Using language learning apps"
+    ],
+    "key_findings": [
+      {
+        "finding": "Ineffective music recommendations are a major barrier to music discovery",
+        "supporting_evidence": "Cluster_6: 70% of users reported poor music recommendations, Cluster_172: 60% reported poor weekly discovery recommendations, Cluster_158: 60% reported poor algorithmic recommendations",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Lack of control over music recommendations is a significant issue",
+        "supporting_evidence": "Cluster_6: 30% of users reported lack of control over recommendations, Cluster_172: 40% reported lack of control over weekly discovery, Cluster_158: 40% reported lack of control over algorithmic recommendations",
+        "impact_rating": "Medium"
+      },
+      {
+        "finding": "Technical issues with the app, such as poor performance and user interface issues, hinder music discovery",
+        "supporting_evidence": "Cluster_172: users reported issues with the app, such as uninstalling and reinstalling, Cluster_906: users reported issues with playlist updates",
+        "impact_rating": "Medium"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve music recommendation algorithms",
+        "unmet_need": "Accurate and personalized music recommendations",
+        "proposed_feature": "Enhanced algorithm-driven playlists with user-controlled preferences"
+      },
+      {
+        "opportunity": "Enhance user control over music recommendations",
+        "unmet_need": "Increased control over music discovery",
+        "proposed_feature": "User-controlled playlist features, such as manual mixing and playlist editing"
+      },
+      {
+        "opportunity": "Optimize app performance and user interface",
+        "unmet_need": "Seamless and intuitive music discovery experience",
+        "proposed_feature": "Improved app performance, user-friendly interface, and regular updates"
+      }
+    ],
+    "confidence_score": 0.85
+  },
+  "RQ2": {
+    "rq_id": "RQ2",
+    "title": "Algorithmic Repetition & Looping in Automated Mixes",
+    "executive_summary": "Users experience significant repetition in automated mixes like Smart Shuffle and Daily Mixes, with many reporting the same songs being played repeatedly, leading to a poor user experience. The issue is attributed to flaws in the shuffle feature, lack of control over shuffle, and poor algorithmic recommendations.",
+    "jtbd_summary": {
+      "situation": "When listening to automated mixes, users want to discover new music and avoid repetition",
+      "motivation": "To enjoy a diverse and engaging music experience without the hassle of manual playlist management",
+      "outcome": "A personalized and dynamic music experience with minimal repetition and maximum discovery"
+    },
+    "observed_workarounds": [
+      "Creating a new playlist with specific songs",
+      "Using a different music streaming service",
+      "Asking friends for music recommendations"
+    ],
+    "key_findings": [
+      {
+        "finding": "Users experience significant repetition in automated mixes",
+        "supporting_evidence": "Cluster_14, Cluster_4, Cluster_27, Cluster_537, and Cluster_131",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Flaws in the shuffle feature and lack of control over shuffle contribute to repetition",
+        "supporting_evidence": "Cluster_14 and Cluster_27",
+        "impact_rating": "Medium"
+      },
+      {
+        "finding": "Poor algorithmic recommendations lead to a poor user experience",
+        "supporting_evidence": "Cluster_4",
+        "impact_rating": "Medium"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve the shuffle feature to reduce repetition",
+        "unmet_need": "Users want a more dynamic and diverse music experience",
+        "proposed_feature": "Enhanced shuffle algorithm with user-controlled parameters"
+      },
+      {
+        "opportunity": "Provide more control over automated mixes",
+        "unmet_need": "Users want to personalize their music experience",
+        "proposed_feature": "User-controlled filters and preferences for automated mixes"
+      }
+    ],
+    "confidence_score": 0.85
+  },
+  "RQ3": {
+    "rq_id": "RQ3",
+    "title": "Spotify Recommendation Algorithm Sentiment Analysis",
+    "executive_summary": "Users exhibit mixed sentiments towards Spotify's recommendation algorithms, with key areas of dissatisfaction including poor music recommendations, lack of control over recommendations, and perceived biases. However, many users appreciate the music discovery features and the ability to find new music that aligns with their tastes.",
+    "jtbd_summary": {
+      "situation": "When looking for new music to listen to",
+      "motivation": "To discover new music and artists that fit their tastes",
+      "outcome": "Easily discover new music and artists with an improved algorithm"
+    },
+    "observed_workarounds": [
+      "Using a different music streaming service",
+      "Asking friends for music recommendations",
+      "Using third-party music discovery tools"
+    ],
+    "key_findings": [
+      {
+        "finding": "Poor music recommendations are a major source of dissatisfaction",
+        "supporting_evidence": "Cluster 6: 70% of users reported poor music recommendations",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Lack of control over recommendations is a significant issue",
+        "supporting_evidence": "Cluster 6: 30% of users reported lack of control over recommendations",
+        "impact_rating": "Medium"
+      },
+      {
+        "finding": "Users want an improved artist and genre algorithm",
+        "supporting_evidence": "Cluster 935: 96% of users reported needing algorithm improvement",
+        "impact_rating": "High"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve music recommendation algorithm",
+        "unmet_need": "Accurate and helpful music recommendations",
+        "proposed_feature": "Enhanced algorithm that incorporates user feedback and listening habits"
+      },
+      {
+        "opportunity": "Provide more control over recommendations",
+        "unmet_need": "User control over music discovery",
+        "proposed_feature": "Personalized recommendation settings and filters"
+      }
+    ],
+    "confidence_score": 0.85
+  },
+  "RQ4": {
+    "rq_id": "RQ4",
+    "title": "User Discovery Methods & Behaviors",
+    "executive_summary": "Users employ various approaches to discover new music on Spotify, including manual search, custom playlists, and features like Discover Weekly and AI DJ. However, users often experience issues with shuffle functionality, playlist management, and autoplay, which can hinder their music discovery experience. The evidence suggests that users desire more control over their music listening experience, effective playlist management, and accurate algorithmic recommendations.",
+    "jtbd_summary": {
+      "situation": "When users are listening to music on Spotify",
+      "motivation": "They want to discover new music and have control over their music listening experience",
+      "outcome": "So that they can enjoy their music and find new songs that they will like"
+    },
+    "observed_workarounds": [
+      "Creating a new playlist with specific songs",
+      "Using a different music streaming service",
+      "Upgrading to the premium version",
+      "Asking friends for music recommendations"
+    ],
+    "key_findings": [
+      {
+        "finding": "Users experience issues with shuffle functionality",
+        "supporting_evidence": "Cluster 14: 60% of users experience shuffle to different playlists, and 40% experience lack of control over shuffle",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Users want effective playlist management",
+        "supporting_evidence": "Cluster 154: 50% of users experience songs disappearing from playlists, and 50% experience difficulty adding songs to playlists",
+        "impact_rating": "Medium"
+      },
+      {
+        "finding": "Users want accurate algorithmic recommendations",
+        "supporting_evidence": "Cluster 172: 60% of users experience poor weekly discovery recommendations, and 40% experience lack of control over weekly discovery",
+        "impact_rating": "High"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve shuffle functionality",
+        "unmet_need": "Users want more control over their music listening experience",
+        "proposed_feature": "Allow users to customize shuffle settings and prevent shuffling to different playlists"
+      },
+      {
+        "opportunity": "Enhance playlist management",
+        "unmet_need": "Users want effective playlist management",
+        "proposed_feature": "Implement a more intuitive playlist editing interface and prevent songs from disappearing from playlists"
+      },
+      {
+        "opportunity": "Refine algorithmic recommendations",
+        "unmet_need": "Users want accurate algorithmic recommendations",
+        "proposed_feature": "Improve the weekly discovery algorithm to provide more relevant and personalized recommendations"
+      }
+    ],
+    "confidence_score": 0.85
+  },
+  "RQ5": {
+    "rq_id": "RQ5",
+    "title": "Feature-Specific Performance of Spotify Discovery Features",
+    "executive_summary": "Spotify users express dissatisfaction with the performance of specific discovery features, including Smart Shuffle, Release Radar, and Discover Weekly, citing issues with unexpected song transitions, duplicate songs, and playlist management, highlighting opportunities for improvement to enhance the overall user experience.",
+    "jtbd_summary": {
+      "situation": "Users are listening to music on Spotify using various discovery features",
+      "motivation": "Users want to discover new music, manage their playlists effectively, and listen to songs from the same playlist without issues",
+      "outcome": "Users want to enjoy a seamless music listening experience with accurate recommendations and control over their playlists"
+    },
+    "observed_workarounds": [
+      "Creating a new playlist with specific songs",
+      "Using a different music streaming service",
+      "Asking friends for music recommendations",
+      "Uninstalling and reinstalling the app"
+    ],
+    "key_findings": [
+      {
+        "finding": "Users experience issues with Smart Shuffle, including unexpected song transitions and lack of control",
+        "supporting_evidence": "Cluster 14, Cluster 27, Cluster 536",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Users have difficulty managing their playlists, including adding and removing songs",
+        "supporting_evidence": "Cluster 154",
+        "impact_rating": "Medium"
+      },
+      {
+        "finding": "Users are dissatisfied with the weekly discovery feature, citing poor recommendations and lack of control",
+        "supporting_evidence": "Cluster 172",
+        "impact_rating": "High"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve Smart Shuffle algorithm to reduce unexpected song transitions",
+        "unmet_need": "Users want control over their music listening experience",
+        "proposed_feature": "Enhanced Smart Shuffle with user-controlled preferences"
+      },
+      {
+        "opportunity": "Enhance playlist management features to reduce user frustration",
+        "unmet_need": "Users want to manage their playlists effectively",
+        "proposed_feature": "Streamlined playlist editing and song addition/removal process"
+      },
+      {
+        "opportunity": "Refine weekly discovery feature to provide more accurate recommendations",
+        "unmet_need": "Users want to discover new music that they will enjoy",
+        "proposed_feature": "Personalized weekly discovery feature with user-controlled preferences"
+      }
+    ],
+    "confidence_score": 0.85
+  },
+  "RQ6": {
+    "rq_id": "RQ6",
+    "title": "Physical Listening Contexts and Spotify Discovery Features",
+    "executive_summary": "The physical environments in which users listen to Spotify, such as the gym or during commutes, significantly impact the usability and effectiveness of its discovery features. Users seek seamless music experiences tailored to their activities, but current issues like app crashes and slow loading hinder this. Opportunities exist to enhance workout and fitness playlists, improving the overall user experience.",
+    "jtbd_summary": {
+      "situation": "Users are engaging in physical activities such as working out or commuting and want to listen to music that enhances their experience",
+      "motivation": "To have a seamless and motivating music experience that complements their physical activity",
+      "outcome": "To find and listen to music that motivates and improves their workouts or commutes"
+    },
+    "observed_workarounds": [
+      "Closing and reopening the app",
+      "Using a different music streaming service",
+      "Using playlists from other music streaming services"
+    ],
+    "key_findings": [
+      {
+        "finding": "App crashes and slow loading hinder the music listening experience",
+        "supporting_evidence": "Cluster 211: App Crashing (60.0%) and Slow App Loading (40.0%)",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Users seek music playlists tailored to their workout and fitness activities",
+        "supporting_evidence": "Cluster 689: Workout and Fitness Playlists",
+        "impact_rating": "Medium"
+      },
+      {
+        "finding": "Current discovery features do not fully meet user needs for workout and fitness playlists",
+        "supporting_evidence": "Cluster 689: Limited Fitness Playlists (0.7%)",
+        "impact_rating": "Low"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Enhance workout and fitness playlists",
+        "unmet_need": "Users want music that motivates and improves their workouts",
+        "proposed_feature": "Personalized workout playlists based on user preferences and activity type"
+      },
+      {
+        "opportunity": "Improve app stability and performance",
+        "unmet_need": "Users want a seamless music listening experience",
+        "proposed_feature": "Optimize app loading times and reduce crashes"
+      }
+    ],
+    "confidence_score": 0.8
+  },
+  "RQ7": {
+    "rq_id": "RQ7",
+    "title": "Monetization & Feature Access Impact on Music Discovery Experience",
+    "executive_summary": "Free-tier restrictions and premium upselling significantly influence users' music discovery experience and overall satisfaction, primarily due to excessive ads, limited song control, and aggressive premium promotion. Users seek a seamless music listening experience with fewer ads and more control over their music experience, driving them to consider premium upgrades or alternative services.",
+    "jtbd_summary": {
+      "situation": "Users are listening to music on the free version of a music streaming service",
+      "motivation": "To have a seamless music listening experience with fewer ads and more control over their music experience",
+      "outcome": "To be able to listen to music without interruptions and have more control over their music experience"
+    },
+    "observed_workarounds": [
+      "Upgrading to the premium version",
+      "Using a different music streaming service",
+      "Closing and reopening the app"
+    ],
+    "key_findings": [
+      {
+        "finding": "Excessive ads are a major pain point for users on the free tier",
+        "supporting_evidence": "Cluster 167, Cluster 151, and Cluster unrelated_ads all mention too many ads as a significant issue",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Limited song control is a significant issue for users on the free tier",
+        "supporting_evidence": "Cluster 167 and Cluster 139 mention limited features and lack of control over music experience as significant issues",
+        "impact_rating": "Medium"
+      },
+      {
+        "finding": "Aggressive premium promotion can be off-putting to users",
+        "supporting_evidence": "Cluster 139 mentions that the app forces users to subscribe to premium",
+        "impact_rating": "Medium"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve the free-tier experience by reducing ads and increasing song control",
+        "unmet_need": "Users want a seamless music listening experience with fewer ads and more control over their music experience",
+        "proposed_feature": "Introduce a mid-tier subscription option with fewer ads and more features"
+      },
+      {
+        "opportunity": "Enhance premium promotion by highlighting the benefits of upgrading",
+        "unmet_need": "Users are unsure about the value of upgrading to premium",
+        "proposed_feature": "Introduce a free trial period for premium features to showcase the benefits of upgrading"
+      }
+    ],
+    "confidence_score": 0.85
+  }
+}

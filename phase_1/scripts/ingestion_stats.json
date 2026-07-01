@@ -1,0 +1,24 @@
+{
+    "total_runtime": 427.53256940841675,
+    "total_scraped": 15652,
+    "total_saved": 919,
+    "scraped_by_source": {
+        "youtube": 329,
+        "app_store": 0,
+        "google_play": 15000,
+        "reddit": 243,
+        "spotify_community": 80
+    },
+    "saved_by_source": {
+        "spotify_community": 73,
+        "youtube": 270,
+        "google_play": 362,
+        "reddit": 214
+    },
+    "rejected_lang": 3541,
+    "rejected_dup": 211,
+    "rejected_short": 1476,
+    "translation_batches": 129,
+    "translated_count": 430,
+    "db_batches": 128
+}

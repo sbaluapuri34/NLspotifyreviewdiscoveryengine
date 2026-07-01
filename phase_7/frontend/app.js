@@ -1,0 +1,1680 @@
+// App State
+let state = {
+    activeTab: 'clusters',
+    activeSource: null, // Slicing filter
+    clusters: [],
+    selectedCluster: null,
+    researchQuestions: [],
+    refinedThemes: [],
+    operationalCategories: [],
+    canvasScale: 1.0,
+    canvasOffset: { x: 0, y: 0 },
+    pipelineRunning: false,
+    lastTargetSource: null
+};
+
+// DOM Elements
+const menuItems = document.querySelectorAll('.menu-item');
+const tabPanes = document.querySelectorAll('.tab-pane');
+const pageTitle = document.getElementById('page-title');
+const pageSubtitle = document.getElementById('page-subtitle');
+const clusterCanvas = document.getElementById('cluster-canvas');
+const clusterCtx = clusterCanvas ? clusterCanvas.getContext('2d') : null;
+const detailPanel = document.getElementById('cluster-detail-panel');
+const detailContent = detailPanel ? detailPanel.querySelector('.detail-content') : null;
+const emptyState = detailPanel ? detailPanel.querySelector('.empty-state') : null;
+const terminalLogs = document.getElementById('terminal-logs');
+
+// Initialize App
+document.addEventListener('DOMContentLoaded', async () => {
+    initTabs();
+    initSSE();
+    initPipelineButton();
+    initCanvasEvents();
+    initDecisionButtons();
+    
+    // Check if pipeline is already running in background
+    try {
+        const res = await fetch('/api/pipeline-status');
+        const status = await res.json();
+        if (status.status === 'running' || status.status === 'awaiting_decision') {
+            state.pipelineRunning = true;
+            showAllTabsLoading("Analysis in progress... (resuming view)");
+            if (status.status === 'awaiting_decision') {
+                showPipelineDecisionModal();
+            }
+        }
+    } catch (e) {
+        console.error("Error checking initial pipeline status:", e);
+    }
+    
+    loadSourceCounts();
+    loadClusters();
+    loadOperationalFriction();
+    loadResearch();
+    loadThematicRefinement();
+    
+    const onlyLatestCheckbox = document.getElementById('pipeline-only-latest');
+    const menuPipelineDetails = document.getElementById('menu-pipeline-details');
+    if (onlyLatestCheckbox) {
+        onlyLatestCheckbox.addEventListener('change', () => {
+            loadSourceCounts();
+            loadClusters();
+            loadOperationalFriction();
+            
+            if (onlyLatestCheckbox.checked) {
+                if (menuPipelineDetails) {
+                    menuPipelineDetails.style.display = 'flex';
+                }
+                switchTab('pipeline-details');
+            } else {
+                if (menuPipelineDetails) {
+                    menuPipelineDetails.style.display = 'none';
+                }
+                if (state.activeTab === 'pipeline-details') {
+                    switchTab('clusters');
+                }
+            }
+        });
+    }
+
+    // Add change listeners to date inputs to automatically filter the dashboard view in real time
+    const fromDateInput = document.getElementById('pipeline-from-date');
+    const toDateInput = document.getElementById('pipeline-to-date');
+    const reloadDashboard = () => {
+        loadSourceCounts();
+        loadClusters();
+        loadOperationalFriction();
+        if (state.activeTab === 'executive') loadExecutiveOverview();
+        if (state.activeTab === 'strategic') loadStrategicRoadmap();
+        if (state.activeTab === 'deep-themes') loadDeepThemeAnalysis();
+        if (state.activeTab === 'diagnostic') loadDiagnosticAccuracy();
+    };
+    if (fromDateInput) fromDateInput.addEventListener('change', reloadDashboard);
+    if (toDateInput) toDateInput.addEventListener('change', reloadDashboard);
+});
+
+// 1. Tab Navigation
+function initTabs() {
+    menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const tab = item.getAttribute('data-tab');
+            switchTab(tab);
+        });
+    });
+}
+
+function switchTab(tab) {
+    menuItems.forEach(mi => {
+        if (mi.getAttribute('data-tab') === tab) {
+            mi.classList.add('active');
+        } else {
+            mi.classList.remove('active');
+        }
+    });
+    
+    tabPanes.forEach(pane => {
+        if (pane.id === `tab-${tab}`) {
+            pane.classList.add('active');
+        } else {
+            pane.classList.remove('active');
+        }
+    });
+    
+    state.activeTab = tab;
+    updateHeaderInfo();
+    
+    if (tab === 'clusters') {
+        resizeCanvas();
+    }
+}
+
+function updateHeaderInfo() {
+    switch (state.activeTab) {
+        case 'clusters':
+            pageTitle.innerText = 'Cluster Explorer';
+            pageSubtitle.innerText = 'Interactive 2D vector space of user feedback clusters';
+            break;
+        case 'executive':
+            pageTitle.innerText = 'Executive Overview';
+            pageSubtitle.innerText = 'High-level Share of Voice and prevalence analysis';
+            loadExecutiveOverview();
+            break;
+        case 'strategic':
+            pageTitle.innerText = 'Product Strategy & Roadmap';
+            pageSubtitle.innerText = 'Jobs-to-be-Done, observed user workarounds, and PM feature backlog';
+            loadStrategicRoadmap();
+            break;
+        case 'deep-themes':
+            pageTitle.innerText = 'Deep Theme Analysis';
+            pageSubtitle.innerText = 'Granular sub-theme counts and co-occurrence overlaps';
+            loadDeepThemeAnalysis();
+            break;
+        case 'diagnostic':
+            pageTitle.innerText = 'Diagnostic Accuracy';
+            pageSubtitle.innerText = 'Double-pass validation diagnostics and opportunity deciles';
+            loadDiagnosticAccuracy();
+            break;
+        case 'operational':
+            pageTitle.innerText = 'Operational Friction';
+            pageSubtitle.innerText = 'Analysis of non-discovery-related user complaints';
+            break;
+        case 'research':
+            pageTitle.innerText = 'Research Questions';
+            pageSubtitle.innerText = 'Synthesized answers and opportunities for the 7 core research questions';
+            break;
+        case 'thematic':
+            pageTitle.innerText = 'Deep Thematic Refinement';
+            pageSubtitle.innerText = 'Niche sub-themes extracted and validated against reviews';
+            break;
+        case 'terminal':
+            pageTitle.innerText = 'Live Logs Stream';
+            pageSubtitle.innerText = 'Real-time stdout logs of the ingestion and analysis pipeline';
+            break;
+        case 'pipeline-details':
+            pageTitle.innerText = 'Pipeline Run Details';
+            pageSubtitle.innerText = 'Granular insights and stage-by-step metrics for the recent scraping execution';
+            break;
+    }
+}
+
+// Helper to get active query parameters including source, dates, and only_latest
+function getQueryParams() {
+    let params = [];
+    
+    const onlyLatest = document.getElementById('pipeline-only-latest') ? document.getElementById('pipeline-only-latest').checked : false;
+    params.push(`only_latest=${onlyLatest}`);
+    
+    if (state.activeSource) {
+        params.push(`source=${state.activeSource}`);
+    }
+    
+    // Only apply date filters if we are NOT showing only the latest scrape
+    if (!onlyLatest) {
+        const fromDate = document.getElementById('pipeline-from-date').value;
+        const toDate = document.getElementById('pipeline-to-date').value;
+        if (fromDate) params.push(`start_date=${fromDate}`);
+        if (toDate) params.push(`end_date=${toDate}`);
+    }
+    
+    // Always append cache buster to guarantee real-time data fetch
+    params.push(`_=${Date.now()}`);
+    
+    return params.join('&');
+}
+
+// 2. Server-Sent Events (SSE) Connection
+function initSSE() {
+    const eventSource = new EventSource('/api/stream');
+    
+    eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        
+        if (data.type === 'pipeline_counts') {
+            updateLiveCounts(data);
+            return;
+        }
+        
+        appendTerminalLog(data.message, data.level);
+        
+        // Update global progress bar and active tab loading message
+        if (data.progress !== undefined) {
+            const container = document.getElementById('pipeline-progress-container');
+            const bar = document.getElementById('pipeline-progress-bar');
+            const percentage = document.getElementById('pipeline-progress-percentage');
+            const statusText = document.getElementById('pipeline-progress-status');
+            
+            if (container && bar && percentage && statusText) {
+                container.classList.remove('hidden');
+                bar.style.width = `${data.progress}%`;
+                percentage.innerText = `${data.progress}%`;
+                statusText.innerText = data.message;
+                
+                if (data.progress === 100) {
+                    setTimeout(() => {
+                        container.classList.add('hidden');
+                    }, 4000);
+                }
+            }
+            
+            // Also update the message on the loading overlays if running
+            if (state.pipelineRunning) {
+                showAllTabsLoading(`${data.message} (${data.progress}%)`);
+            }
+        } else if (data.message && state.pipelineRunning) {
+            showAllTabsLoading(data.message);
+        }
+
+        // If pipeline requires a decision on date-range review mismatch
+        if (data.message && data.message.includes('DECISION_REQUIRED')) {
+            showPipelineDecisionModal();
+        }
+        
+        // If pipeline completed, reload all dashboard data
+        if (data.message && data.message.includes('PIPELINE EXECUTION COMPLETED')) {
+            // Hide loading overlays
+            hideAllTabsLoading();
+            state.pipelineRunning = false;
+            
+            // Auto-switch source filter if a single source was targeted
+            if (state.lastTargetSource) {
+                state.activeSource = state.lastTargetSource;
+                const sourceFilter = document.getElementById('filter-source');
+                if (sourceFilter) {
+                    sourceFilter.value = state.lastTargetSource;
+                }
+                state.lastTargetSource = null; // Reset
+            }
+            
+            loadSourceCounts();
+            loadClusters();
+            loadOperationalFriction();
+            loadResearch();
+            loadThematicRefinement();
+            // Reload advanced tabs if visible
+            if (state.activeTab === 'executive') loadExecutiveOverview();
+            if (state.activeTab === 'strategic') loadStrategicRoadmap();
+            if (state.activeTab === 'deep-themes') loadDeepThemeAnalysis();
+            if (state.activeTab === 'diagnostic') loadDiagnosticAccuracy();
+        }
+    };
+    
+    eventSource.onerror = () => {
+        appendTerminalLog('Connection to log stream lost. Retrying...', 'WARNING');
+    };
+}
+
+function updateLiveCounts(data) {
+    const container = document.getElementById('header-source-badges');
+    if (!container) return;
+    
+    const sourceMeta = {
+        "google_play": { name: "Play Store", icon: "📱" },
+        "reddit": { name: "Reddit", icon: "👽" },
+        "youtube": { name: "YouTube", icon: "📺" },
+        "spotify_community": { name: "Forums", icon: "🗣️" },
+        "app_store": { name: "App Store", icon: "🍎" }
+    };
+    
+    const fmt = (num) => Number(num || 0).toLocaleString();
+    
+    // Calculate total fetched, analysed, pending
+    let totalFetched = 0;
+    let totalAnalysed = 0;
+    
+    const sourceKeys = ["google_play", "reddit", "youtube", "spotify_community", "app_store"];
+    sourceKeys.forEach(src => {
+        totalFetched += (data.fetched[src] || 0);
+        totalAnalysed += (data.analysed[src] || 0);
+    });
+    const totalPending = totalFetched - totalAnalysed;
+    
+    container.innerHTML = '';
+    
+    // 1. All Sources card
+    const allCard = document.createElement('div');
+    allCard.className = `source-card ${state.activeSource === null ? 'active' : ''}`;
+    allCard.innerHTML = `
+        <div class="source-card-header">
+            <span class="source-icon">📦</span>
+            <span class="source-name">All Sources (Live)</span>
+        </div>
+        <div class="source-metrics-grid">
+            <div class="metric-item">
+                <span class="metric-label">F:</span>
+                <span class="metric-value">${fmt(totalFetched)}</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">A:</span>
+                <span class="metric-value">${fmt(totalAnalysed)}</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">P:</span>
+                <span class="metric-value ${totalPending > 0 ? 'pending-active' : 'pending-zero'}">${fmt(totalPending)}</span>
+            </div>
+        </div>
+    `;
+    container.appendChild(allCard);
+    
+    // 2. Individual source cards
+    sourceKeys.forEach(src => {
+        const fetched = data.fetched[src] || 0;
+        const analysed = data.analysed[src] || 0;
+        const pending = fetched - analysed;
+        const meta = sourceMeta[src] || { name: src, icon: "🔗" };
+        
+        const card = document.createElement('div');
+        card.className = `source-card ${state.activeSource === src ? 'active' : ''}`;
+        card.innerHTML = `
+            <div class="source-card-header">
+                <span class="source-icon">${meta.icon}</span>
+                <span class="source-name">${meta.name}</span>
+            </div>
+            <div class="source-metrics-grid">
+                <div class="metric-item">
+                    <span class="metric-label">F:</span>
+                    <span class="metric-value">${fmt(fetched)}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">A:</span>
+                    <span class="metric-value">${fmt(analysed)}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">P:</span>
+                    <span class="metric-value ${pending > 0 ? 'pending-active' : 'pending-zero'}">${fmt(pending)}</span>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function appendTerminalLog(message, level = 'INFO') {
+    if (!terminalLogs) return;
+    
+    const logLine = document.createElement('div');
+    logLine.className = `log-line log-${level.toLowerCase()}`;
+    
+    const timestamp = new Date().toLocaleTimeString();
+    logLine.innerText = `[${timestamp}] [${level}] ${message}`;
+    
+    terminalLogs.appendChild(logLine);
+    terminalLogs.scrollTop = terminalLogs.scrollHeight;
+}
+
+async function loadSourceCounts() {
+    const container = document.getElementById('header-source-badges');
+    if (!container) return;
+    
+    try {
+        const queryParams = getQueryParams();
+        const response = await fetch(`/api/source-counts?${queryParams}`);
+        const data = await response.json();
+        
+        // Update the dynamic "till date" text in the sidebar if present in the response
+        if (data.latest_date) {
+            const dateObj = new Date(data.latest_date);
+            const formattedDate = dateObj.toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+                timeZone: 'UTC'
+            });
+            const instructionText = document.getElementById('pipeline-instruction-text');
+            if (instructionText) {
+                instructionText.innerHTML = `Select the date range and number of reviews for which you want to scrape and analyze. Currently, we are showing a cumulative analysis of all the reviews scraped till <strong>${formattedDate}</strong>.`;
+            }
+        }
+        
+        const sources = data.sources || {};
+        const total = data.total || { fetched: 0, analysed: 0, pending: 0 };
+        
+        container.innerHTML = '';
+        
+        const sourceMeta = {
+            "google_play": { name: "Play Store", icon: "📱" },
+            "reddit": { name: "Reddit", icon: "👽" },
+            "youtube": { name: "YouTube", icon: "📺" },
+            "spotify_community": { name: "Forums", icon: "🗣️" },
+            "app_store": { name: "App Store", icon: "🍎" }
+        };
+        
+        const fmt = (num) => Number(num || 0).toLocaleString();
+        
+        // 1. Create the "All Sources" card
+        const allCard = document.createElement('div');
+        allCard.className = `source-card ${state.activeSource === null ? 'active' : ''}`;
+        allCard.innerHTML = `
+            <div class="source-card-header">
+                <span class="source-icon">📦</span>
+                <span class="source-name">All Sources</span>
+            </div>
+            <div class="source-metrics-grid">
+                <div class="metric-item">
+                    <span class="metric-label">F:</span>
+                    <span class="metric-value">${fmt(total.fetched)}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">A:</span>
+                    <span class="metric-value">${fmt(total.analysed)}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">P:</span>
+                    <span class="metric-value ${total.pending > 0 ? 'pending-active' : 'pending-zero'}">${fmt(total.pending)}</span>
+                </div>
+            </div>
+        `;
+        allCard.addEventListener('click', () => {
+            state.activeSource = null;
+            state.selectedCluster = null;
+            if (emptyState) emptyState.classList.remove('hidden');
+            if (detailContent) detailContent.classList.add('hidden');
+            loadSourceCounts();
+            loadClusters();
+            loadOperationalFriction();
+        });
+        container.appendChild(allCard);
+        
+        // 2. Create cards for individual sources
+        const sourceKeys = ["google_play", "reddit", "youtube", "spotify_community", "app_store"];
+        sourceKeys.forEach(src => {
+            const counts = sources[src] || { fetched: 0, analysed: 0, pending: 0 };
+            const meta = sourceMeta[src] || { name: src, icon: "🔗" };
+            
+            const card = document.createElement('div');
+            card.className = `source-card ${state.activeSource === src ? 'active' : ''}`;
+            card.innerHTML = `
+                <div class="source-card-header">
+                    <span class="source-icon">${meta.icon}</span>
+                    <span class="source-name">${meta.name}</span>
+                </div>
+                <div class="source-metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">F:</span>
+                        <span class="metric-value">${fmt(counts.fetched)}</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">A:</span>
+                        <span class="metric-value">${fmt(counts.analysed)}</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">P:</span>
+                        <span class="metric-value ${counts.pending > 0 ? 'pending-active' : 'pending-zero'}">${fmt(counts.pending)}</span>
+                    </div>
+                </div>
+            `;
+            
+            card.addEventListener('click', () => {
+                state.activeSource = (state.activeSource === src) ? null : src;
+                state.selectedCluster = null;
+                if (emptyState) emptyState.classList.remove('hidden');
+                if (detailContent) detailContent.classList.add('hidden');
+                loadSourceCounts();
+                loadClusters();
+                loadOperationalFriction();
+            });
+            container.appendChild(card);
+        });
+        
+    } catch (e) {
+        console.error('Error loading source counts:', e);
+    }
+}
+
+// 4. Cluster Explorer: Canvas Vector Map & Analytics
+async function loadClusters() {
+    try {
+        const queryParams = getQueryParams();
+        let url = `/api/clusters?${queryParams}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        // Update the analysis context banner
+        const contextText = document.getElementById('analysis-context-text');
+        const contextIcon = document.getElementById('analysis-context-icon');
+        const contextBanner = document.getElementById('analysis-context-banner');
+        if (contextText && data.metadata) {
+            const meta = data.metadata;
+            let htmlContent = '';
+            
+            if (meta.view_type === 'session') {
+                const stats = meta.ingestion_stats;
+                const rawScraped = stats ? (stats.raw_processed_total || (stats.fetched + (stats.associated_existing || 0))) : 3039;
+                const inRange = stats ? (stats.in_range_total || meta.total_reviews) : 1056;
+                const sentToPipeline = stats ? (stats.pipeline_analysed_total || 2623) : 2623;
+                const filteredNoise = stats ? (stats.filtered || 0) : 1929;
+                
+                htmlContent = `<strong>Temporary Session Analysis:</strong> ${meta.from_date} to ${meta.to_date} <span style="margin: 0 6px; opacity: 0.5;">|</span> Scraped/Processed: <strong>${rawScraped}</strong> <span style="margin: 0 6px; opacity: 0.5;">|</span> In-Range: <strong>${inRange}</strong> <span style="margin: 0 6px; opacity: 0.5;">|</span> Sent to Analysis Pipeline: <strong>${sentToPipeline}</strong>`;
+                
+                if (contextIcon) contextIcon.innerText = '⏱️';
+                if (contextBanner) {
+                    contextBanner.style.borderBottomColor = 'rgba(235, 87, 87, 0.2)';
+                    contextBanner.style.background = 'rgba(235, 87, 87, 0.04)';
+                    contextBanner.style.color = '#eb5757';
+                }
+                
+                // Update Pipeline Details tab cards dynamically
+                const pStatRaw = document.getElementById('pipeline-stat-raw');
+                const pStatInRange = document.getElementById('pipeline-stat-in-range');
+                const pStatDiscovery = document.getElementById('pipeline-stat-discovery');
+                const pStatFiltered = document.getElementById('pipeline-stat-filtered');
+                
+                if (pStatRaw) pStatRaw.innerText = rawScraped.toLocaleString();
+                if (pStatInRange) pStatInRange.innerText = inRange.toLocaleString();
+                if (pStatDiscovery) pStatDiscovery.innerText = sentToPipeline.toLocaleString();
+                if (pStatFiltered) pStatFiltered.innerText = filteredNoise.toLocaleString();
+            } else {
+                htmlContent = `<strong>Cumulative 6-Month Analysis:</strong> ${meta.from_date} to ${meta.to_date} (${meta.total_reviews} reviews)`;
+                if (contextIcon) contextIcon.innerText = '📅';
+                if (contextBanner) {
+                    contextBanner.style.borderBottomColor = 'rgba(29, 185, 84, 0.2)';
+                    contextBanner.style.background = 'rgba(29, 185, 84, 0.04)';
+                    contextBanner.style.color = '#1db954';
+                }
+                
+                // Add ingestion stats if available (compact inline styling!)
+                if (meta.ingestion_stats) {
+                    const stats = meta.ingestion_stats;
+                    htmlContent += ` <span style="margin: 0 8px; opacity: 0.5;">|</span> <span style="font-weight: 400; opacity: 0.9;">Latest Scrape: Fetched <strong>${stats.fetched}</strong> reviews ➔ Saved <strong>${stats.saved}</strong> (Filtered ${stats.filtered} old/duplicate/noise reviews)</span>`;
+                }
+            }
+            
+            contextText.innerHTML = htmlContent;
+        }
+        
+        // Filter out tiny singleton/doubleton noise clusters (under size 3)
+        state.clusters = (data.clusters || []).filter(c => c.size >= 3);
+        
+        const clusterCountBadge = document.getElementById('cluster-count-badge');
+        if (clusterCountBadge) {
+            clusterCountBadge.innerText = `${state.clusters.length} Clusters`;
+        }
+        
+        resizeCanvas();
+        renderThematicClassification();
+        renderWordMap();
+    } catch (e) {
+        console.error('Error loading clusters:', e);
+    }
+}
+
+function resizeCanvas() {
+    if (!clusterCanvas) return;
+    
+    const rect = clusterCanvas.parentElement.getBoundingClientRect();
+    clusterCanvas.width = rect.width;
+    clusterCanvas.height = rect.height - 40; // Leave space for legend
+    
+    drawClusters();
+}
+
+function drawClusters() {
+    if (!clusterCtx || !clusterCanvas || state.clusters.length === 0) return;
+    
+    clusterCtx.clearRect(0, 0, clusterCanvas.width, clusterCanvas.height);
+    
+    const xs = state.clusters.map(c => c.x);
+    const ys = state.clusters.map(c => c.y);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    
+    const padding = 40;
+    const width = clusterCanvas.width - padding * 2;
+    const height = clusterCanvas.height - padding * 2;
+    
+    state.clusters.forEach(c => {
+        const canvasX = padding + ((c.x - minX) / (maxX - minX || 1)) * width;
+        const canvasY = padding + ((c.y - minY) / (maxY - minY || 1)) * height;
+        
+        c.screenX = canvasX;
+        c.screenY = canvasY;
+        
+        clusterCtx.beginPath();
+        const radius = 4 + Math.log2(c.size) * 1.5;
+        clusterCtx.arc(canvasX, canvasY, radius, 0, 2 * Math.PI);
+        
+        // Uniform premium Spotify green with subtle opacity
+        clusterCtx.fillStyle = 'rgba(29, 185, 84, 0.65)';
+        clusterCtx.strokeStyle = 'rgba(29, 185, 84, 0.9)';
+        
+        if (state.selectedCluster && state.selectedCluster.cluster_id === c.cluster_id) {
+            clusterCtx.arc(canvasX, canvasY, radius + 4, 0, 2 * Math.PI);
+            clusterCtx.strokeStyle = '#FFFFFF';
+            clusterCtx.lineWidth = 2;
+        } else {
+            clusterCtx.lineWidth = 1;
+        }
+        
+        clusterCtx.fill();
+        clusterCtx.stroke();
+    });
+}
+
+function initCanvasEvents() {
+    if (!clusterCanvas) return;
+    
+    clusterCanvas.addEventListener('click', (e) => {
+        const rect = clusterCanvas.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickY = e.clientY - rect.top;
+        
+        let clickedCluster = null;
+        let minDist = 15;
+        
+        state.clusters.forEach(c => {
+            const dist = Math.hypot(c.screenX - clickX, c.screenY - clickY);
+            if (dist < minDist) {
+                minDist = dist;
+                clickedCluster = c;
+            }
+        });
+        
+        if (clickedCluster) {
+            selectCluster(clickedCluster);
+        }
+    });
+    
+    window.addEventListener('resize', () => {
+        if (state.activeTab === 'clusters') {
+            resizeCanvas();
+        }
+    });
+}
+
+function selectCluster(cluster) {
+    state.selectedCluster = cluster;
+    drawClusters();
+    
+    emptyState.classList.add('hidden');
+    detailContent.classList.remove('hidden');
+    
+    document.getElementById('detail-cluster-id').innerText = cluster.cluster_name;
+    document.getElementById('detail-size').innerText = cluster.size;
+    
+    // Render hierarchical themes & sub-issues
+    const subIssuesContainer = document.getElementById('detail-sub-issues');
+    subIssuesContainer.innerHTML = '';
+    
+    if (cluster.sub_themes && cluster.sub_themes.length > 0) {
+        cluster.sub_themes.forEach(theme => {
+            const themeSection = document.createElement('div');
+            themeSection.style.marginBottom = '16px';
+            themeSection.innerHTML = `
+                <div style="font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--spotify-green); margin-bottom: 8px; border-bottom: 1px dashed rgba(255,255,255,0.08); padding-bottom: 4px; letter-spacing: 0.5px;">
+                    ${theme.name}
+                </div>
+                <div style="font-size: 12px; opacity: 0.7; margin-bottom: 8px; font-style: italic;">
+                    ${theme.description}
+                </div>
+                <div class="theme-issues-list" id="issues-for-${theme.theme_id}"></div>
+            `;
+            subIssuesContainer.appendChild(themeSection);
+            
+            const issuesList = themeSection.querySelector(`#issues-for-${theme.theme_id}`);
+            const matchingIssues = (cluster.sub_issues || []).filter(sub => sub.associated_theme_id === theme.theme_id);
+            
+            if (matchingIssues.length > 0) {
+                matchingIssues.forEach(sub => {
+                    const item = document.createElement('div');
+                    item.className = 'sub-issue-item';
+                    item.style.marginLeft = '12px';
+                    item.innerHTML = `
+                        <div class="sub-issue-header">
+                            <span class="sub-issue-title">${sub.name}</span>
+                            <span class="sub-issue-pct">${sub.frequency_percentage}%</span>
+                        </div>
+                        <div class="sub-issue-desc">${sub.description}</div>
+                    `;
+                    issuesList.appendChild(item);
+                });
+            } else {
+                issuesList.innerHTML = '<div style="font-size:11px; opacity:0.5; padding-left:12px;">No specific sub-issues mapped.</div>';
+            }
+        });
+    } else if (cluster.sub_issues && cluster.sub_issues.length > 0) {
+        cluster.sub_issues.forEach(sub => {
+            const item = document.createElement('div');
+            item.className = 'sub-issue-item';
+            item.innerHTML = `
+                <div class="sub-issue-header">
+                    <span class="sub-issue-title">${sub.name}</span>
+                    <span class="sub-issue-pct">${sub.frequency_percentage || 0}%</span>
+                </div>
+                <div class="sub-issue-desc">${sub.description}</div>
+            `;
+            subIssuesContainer.appendChild(item);
+        });
+    } else {
+        subIssuesContainer.innerHTML = '<p style="color: var(--text-secondary); font-size: 13px;">No sub-theme or sub-issue decomposition available.</p>';
+    }
+    
+    // Render representative reviews with clickable URLs
+    const reviewsContainer = document.getElementById('detail-reviews');
+    reviewsContainer.innerHTML = '';
+    
+    if (cluster.top_reviews && cluster.top_reviews.length > 0) {
+        cluster.top_reviews.forEach(rev => {
+            const item = document.createElement('div');
+            item.className = 'representative-review-item';
+            
+            const sourceText = rev.source.toUpperCase().replace('_', ' ');
+            
+            item.innerHTML = `
+                <div class="rep-review-meta">
+                    <span class="rep-review-source">${sourceText}</span>
+                </div>
+                <div class="rep-review-text">"${rev.text}"</div>
+                <a href="${rev.url}" target="_blank" class="rep-review-link">View Source ↗</a>
+            `;
+            reviewsContainer.appendChild(item);
+        });
+    } else {
+        reviewsContainer.innerHTML = '<p style="color: var(--text-secondary); font-size: 13px;">No representative reviews found.</p>';
+    }
+}
+
+// 5. Thematic Shares & Word Map
+function renderThematicClassification() {
+    const container = document.getElementById('thematic-chart-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    const categories = {
+        "Music Discovery Friction": 0,
+        "Algorithmic Repetition & Looping": 0,
+        "Recommendation Algorithm Sentiment": 0,
+        "User Discovery Methods & Behaviors": 0,
+        "Physical Listening Contexts": 0,
+        "Monetization & Feature Access": 0
+    };
+    
+    let totalReviews = 0;
+    
+    state.clusters.forEach(c => {
+        const theme = c.themes[0] ? c.themes[0].toLowerCase() : "";
+        let mapped = false;
+        
+        if (theme.includes("repeat") || theme.includes("loop") || theme.includes("shuffle")) {
+            categories["Algorithmic Repetition & Looping"] += c.size;
+            mapped = true;
+        } else if (theme.includes("car") || theme.includes("bluetooth") || theme.includes("sonos")) {
+            categories["Physical Listening Contexts"] += c.size;
+            mapped = true;
+        } else if (theme.includes("free") || theme.includes("ad") || theme.includes("premium")) {
+            categories["Monetization & Feature Access"] += c.size;
+            mapped = true;
+        } else if (theme.includes("playlist") || theme.includes("dj")) {
+            categories["User Discovery Methods & Behaviors"] += c.size;
+            mapped = true;
+        } else if (theme.includes("recommend") || theme.includes("algorithm")) {
+            categories["Recommendation Algorithm Sentiment"] += c.size;
+            mapped = true;
+        }
+        
+        if (!mapped) {
+            categories["Music Discovery Friction"] += c.size;
+        }
+        totalReviews += c.size;
+    });
+    
+    Object.entries(categories).forEach(([catName, count]) => {
+        const pct = totalReviews > 0 ? Math.round((count / totalReviews) * 100) : 0;
+        
+        const group = document.createElement('div');
+        group.className = 'chart-bar-group';
+        group.innerHTML = `
+            <div class="chart-bar-header">
+                <span class="chart-bar-title">${catName}</span>
+                <span class="chart-bar-val">${count} (${pct}%)</span>
+            </div>
+            <div class="chart-bar-track">
+                <div class="chart-bar-fill" style="width: ${pct}%"></div>
+            </div>
+        `;
+        container.appendChild(group);
+    });
+}
+
+function renderWordMap() {
+    const container = document.getElementById('wordcloud-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    const wordCounts = {};
+    state.clusters.forEach(c => {
+        c.themes.forEach(theme => {
+            const words = theme.split(/\s+/);
+            words.forEach(w => {
+                const clean = w.toLowerCase().replace(/[^a-z0-9]/g, "");
+                if (clean && clean.length > 3) {
+                    wordCounts[clean] = (wordCounts[clean] || 0) + c.size;
+                }
+            });
+        });
+    });
+    
+    const topWords = Object.entries(wordCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 20);
+        
+    const maxCount = topWords[0] ? topWords[0][1] : 1;
+    
+    topWords.forEach(([word, count]) => {
+        const tag = document.createElement('span');
+        tag.className = 'word-tag';
+        
+        const fontSize = 11 + Math.round((count / maxCount) * 11);
+        tag.style.fontSize = `${fontSize}px`;
+        
+        const hue = Math.random() > 0.5 ? 141 : 270;
+        const sat = 70 + Math.round(Math.random() * 20);
+        const light = 50 + Math.round(Math.random() * 20);
+        tag.style.color = `hsl(${hue}, ${sat}%, ${light}%)`;
+        
+        tag.innerText = word;
+        container.appendChild(tag);
+    });
+}
+
+async function loadOperationalFriction() {
+    const container = document.getElementById('operational-categories-container');
+    if (!container) return;
+    
+    try {
+        const queryParams = getQueryParams();
+        let url = `/api/operational-friction?${queryParams}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        state.operationalCategories = data.categories || [];
+        
+        container.innerHTML = '';
+        
+        state.operationalCategories.forEach(cat => {
+            const card = document.createElement('div');
+            card.className = 'card-operational';
+            
+            let reviewsHtml = '';
+            cat.top_reviews.forEach(rev => {
+                const sourceText = rev.source.toUpperCase().replace('_', ' ');
+                reviewsHtml += `
+                    <div class="review-item">
+                        <div class="review-meta">
+                            <span>Source: ${sourceText}</span>
+                        </div>
+                        <div class="review-text">"${rev.text}"</div>
+                        <a href="${rev.url}" target="_blank" class="rep-review-link" style="margin-top: 4px; font-size: 12px;">View Source ↗</a>
+                    </div>
+                `;
+            });
+            
+            card.innerHTML = `
+                <div class="operational-header">
+                    <span class="operational-title">${cat.category_name}</span>
+                    <span class="operational-badge">${cat.count} reviews (${cat.percentage}%)</span>
+                </div>
+                <div class="operational-reviews-list">
+                    ${reviewsHtml || '<p style="color: var(--text-secondary); font-size: 13px; padding: 20px 0;">No reviews found in this category.</p>'}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+        
+    } catch (e) {
+        console.error('Error loading operational friction:', e);
+    }
+}
+
+// 7. Research Questions
+async function loadResearch() {
+    try {
+        const response = await fetch('/api/research');
+        const data = await response.json();
+        state.researchQuestions = data.answers || [];
+        renderResearchQuestions();
+    } catch (e) {
+        console.error('Error loading research questions:', e);
+    }
+}
+
+function renderResearchQuestions() {
+    const container = document.getElementById('research-questions-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    state.researchQuestions.forEach(rq => {
+        const card = document.createElement('div');
+        card.className = 'card card-research';
+        
+        let workaroundsHtml = '';
+        if (rq.observed_workarounds && rq.observed_workarounds.length > 0) {
+            workaroundsHtml = `
+                <div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px;">
+                    <span style="font-size: 10px; text-transform: uppercase; color: var(--text-secondary); width: 100%; margin-bottom: 2px;">User Workarounds:</span>
+                    ${rq.observed_workarounds.map(w => `
+                        <span class="tag" style="font-size: 9px; padding: 2px 6px; background: rgba(241, 196, 15, 0.08); border: 1px solid rgba(241, 196, 15, 0.15); color: #f1c40f; border-radius: 4px; display: inline-block;">
+                            ${w}
+                        </span>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        let jtbdHtml = '';
+        if (rq.jtbd_summary && rq.jtbd_summary.situation) {
+            jtbdHtml = `
+                <div class="jtbd-card" style="background: rgba(29, 185, 84, 0.04); border-left: 2px solid var(--spotify-green); padding: 8px 10px; border-radius: 4px; font-size: 11px; margin-top: 12px; line-height: 1.4; color: var(--text-primary);">
+                    <strong>JTBD:</strong> When ${rq.jtbd_summary.situation}, I want to ${rq.jtbd_summary.motivation}, so that ${rq.jtbd_summary.outcome}
+                </div>
+            `;
+        }
+
+        card.innerHTML = `
+            <div class="research-header">
+                <span class="research-id">${rq.rq_id}</span>
+                <span class="research-conf">Conf: ${Math.round(rq.confidence_score * 100)}%</span>
+            </div>
+            <h3>${rq.title}</h3>
+            <p>${rq.executive_summary.substring(0, 150)}...</p>
+            ${jtbdHtml}
+            ${workaroundsHtml}
+        `;
+        
+        card.addEventListener('click', () => showResearchModal(rq));
+        container.appendChild(card);
+    });
+    
+    // Render dynamic deep-inquiry follow-up research questions
+    const deepContainer = document.getElementById('deep-inquiry-questions-container');
+    if (deepContainer) {
+        deepContainer.innerHTML = '';
+        const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+        
+        fetch(`/api/executive-overview?only_latest=${onlyLatest}`)
+            .then(res => res.json())
+            .then(data => {
+                const questions = data.deep_inquiry_questions || [];
+                if (questions.length === 0) {
+                    deepContainer.innerHTML = '<p style="color: var(--text-secondary); font-size: 13px; grid-column: 1 / -1; text-align: center; padding: 20px;">No strategic follow-up questions generated yet. Run validation to generate.</p>';
+                } else {
+                    questions.forEach(q => {
+                        const card = document.createElement('div');
+                        card.className = 'card card-research';
+                        let pColor = '#e74c3c';
+                        if (q.priority === 'Medium') pColor = '#f1c40f';
+                        if (q.priority === 'Low') pColor = '#3498db';
+                        
+                        card.style.borderLeft = `3px solid ${pColor}`;
+                        card.innerHTML = `
+                            <div class="research-header">
+                                <span class="research-id" style="color: ${pColor}; font-weight: 700; border-color: ${pColor};">${q.priority.toUpperCase()} PRIORITY</span>
+                            </div>
+                            <h3>${q.question}</h3>
+                            <p style="margin-top: 8px;"><strong>Strategic Rationale:</strong> ${q.rationale}</p>
+                        `;
+                        deepContainer.appendChild(card);
+                    });
+                }
+            })
+            .catch(err => {
+                console.error("Error loading deep inquiry questions:", err);
+                deepContainer.innerHTML = '<p style="color: var(--text-secondary); font-size: 13px; grid-column: 1 / -1; text-align: center;">Error loading dynamic follow-up research questions.</p>';
+            });
+    }
+}
+
+function showResearchModal(rq) {
+    const modal = document.getElementById('research-modal');
+    if (!modal) return;
+    
+    document.getElementById('modal-title').innerText = `${rq.rq_id}: ${rq.title}`;
+    document.getElementById('modal-summary').innerText = rq.executive_summary;
+    
+    // Render Modal JTBD section
+    const jtbdSection = document.getElementById('modal-jtbd-section');
+    const jtbdContainer = document.getElementById('modal-jtbd');
+    if (jtbdSection && jtbdContainer) {
+        if (rq.jtbd_summary && rq.jtbd_summary.situation) {
+            jtbdContainer.innerHTML = `
+                <strong>Situation:</strong> When ${rq.jtbd_summary.situation}<br/>
+                <strong>Motivation:</strong> I want to ${rq.jtbd_summary.motivation}<br/>
+                <strong>Desired Outcome:</strong> so that ${rq.jtbd_summary.outcome}
+            `;
+            jtbdSection.style.display = 'block';
+        } else {
+            jtbdSection.style.display = 'none';
+        }
+    }
+    
+    // Render Modal Workarounds section
+    const workaroundsSection = document.getElementById('modal-workarounds-section');
+    const workaroundsContainer = document.getElementById('modal-workarounds');
+    if (workaroundsSection && workaroundsContainer) {
+        workaroundsContainer.innerHTML = '';
+        if (rq.observed_workarounds && rq.observed_workarounds.length > 0) {
+            rq.observed_workarounds.forEach(w => {
+                const badge = document.createElement('span');
+                badge.className = 'tag';
+                badge.style.background = 'rgba(241, 196, 15, 0.08)';
+                badge.style.borderColor = 'rgba(241, 196, 15, 0.15)';
+                badge.style.color = '#f1c40f';
+                badge.innerText = w;
+                workaroundsContainer.appendChild(badge);
+            });
+            workaroundsSection.style.display = 'block';
+        } else {
+            workaroundsSection.style.display = 'none';
+        }
+    }
+    
+    const findingsContainer = document.getElementById('modal-findings');
+    findingsContainer.innerHTML = '';
+    rq.key_findings.forEach(f => {
+        const item = document.createElement('div');
+        item.className = 'finding-item';
+        item.innerHTML = `
+            <div class="finding-title">${f.finding}</div>
+            <div class="finding-desc">${f.supporting_evidence}</div>
+        `;
+        findingsContainer.appendChild(item);
+    });
+    
+    const oppsContainer = document.getElementById('modal-opportunities');
+    oppsContainer.innerHTML = '';
+    rq.actionable_opportunities.forEach(o => {
+        const item = document.createElement('div');
+        item.className = 'opp-item';
+        item.innerHTML = `
+            <div class="opp-title">${o.opportunity}</div>
+            <div class="opp-desc"><strong>Unmet Need:</strong> ${o.unmet_need}<br><strong>Proposed Solution:</strong> ${o.proposed_feature}</div>
+        `;
+        oppsContainer.appendChild(item);
+    });
+    
+    modal.classList.remove('hidden');
+}
+
+// Close Modal Events
+const closeModalBtn = document.getElementById('btn-close-modal');
+if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', () => {
+        document.getElementById('research-modal').classList.add('hidden');
+    });
+}
+
+// 8. Deep Thematic Refinement
+async function loadThematicRefinement() {
+    try {
+        const response = await fetch('/api/thematic-refinement');
+        const data = await response.json();
+        state.refinedThemes = data.themes || [];
+        renderThematicRefinement();
+    } catch (e) {
+        console.error('Error loading thematic refinement:', e);
+    }
+}
+
+function renderThematicRefinement() {
+    const container = document.getElementById('thematic-themes-container');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    state.refinedThemes.forEach(theme => {
+        const group = document.createElement('div');
+        group.className = 'theme-group';
+        
+        let reviewsHtml = '';
+        theme.reviews.forEach(rev => {
+            const sourceText = rev.source.toUpperCase().replace('_', ' ');
+            reviewsHtml += `
+                <div class="review-item">
+                    <div class="review-meta">
+                        <span>Source: ${sourceText}</span>
+                    </div>
+                    <div class="review-text">"${rev.text}"</div>
+                    <a href="${rev.url}" target="_blank" class="rep-review-link" style="margin-top: 4px; font-size: 12px;">View Source ↗</a>
+                </div>
+            `;
+        });
+        
+        group.innerHTML = `
+            <div class="theme-group-header">
+                <span class="theme-group-header category-badge">${theme.category}</span>
+                <h3>${theme.name}</h3>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-top: 8px;">${theme.description}</p>
+            </div>
+            <div class="theme-reviews-list">
+                ${reviewsHtml || '<p style="color: var(--text-secondary); font-size: 13px;">No verified reviews mapped to this sub-theme.</p>'}
+            </div>
+        `;
+        
+        container.appendChild(group);
+    });
+}
+
+// 9. Pipeline Control Form (Per-Source Limits Trigger)
+function initPipelineButton() {
+    const runPipelineBtn = document.getElementById('btn-run-pipeline');
+    if (!runPipelineBtn) return;
+    
+    runPipelineBtn.addEventListener('click', async () => {
+        // Gather individual limits
+        const gp = document.getElementById('limit-google-play').value || 0;
+        const rd = document.getElementById('limit-reddit').value || 0;
+        const yt = document.getElementById('limit-youtube').value || 0;
+        const sc = document.getElementById('limit-spotify-community').value || 0;
+        const as = document.getElementById('limit-app-store').value || 0;
+        
+        const fromDate = document.getElementById('pipeline-from-date').value;
+        const toDate = document.getElementById('pipeline-to-date').value;
+        
+        // Track target source for auto-switching on completion
+        let targetSource = '';
+        const activeSources = [];
+        if (parseInt(gp) > 0) activeSources.push('google_play');
+        if (parseInt(rd) > 0) activeSources.push('reddit');
+        if (parseInt(yt) > 0) activeSources.push('youtube');
+        if (parseInt(sc) > 0) activeSources.push('spotify_community');
+        if (parseInt(as) > 0) activeSources.push('app_store');
+        
+        if (activeSources.length === 1) {
+            targetSource = activeSources[0];
+        }
+        state.lastTargetSource = targetSource;
+        state.pipelineRunning = true;
+        
+        // Show loading overlays across all analytical tabs
+        showAllTabsLoading("Starting pipeline... Scraping reviews.");
+        
+        // Build URL parameters
+        const disableKws = document.getElementById('pipeline-disable-keywords')?.checked || false;
+        let url = `/api/run-pipeline?limit_google_play=${gp}&limit_reddit=${rd}&limit_youtube=${yt}&limit_spotify_community=${sc}&limit_app_store=${as}&disable_keywords=${disableKws}`;
+        if (fromDate) url += `&from_date=${fromDate}`;
+        if (toDate) url += `&to_date=${toDate}`;
+        
+        try {
+            runPipelineBtn.disabled = true;
+            runPipelineBtn.innerText = 'Running...';
+            
+            // Switch to terminal tab and clear old logs so the user sees fresh progress
+            switchTab('terminal');
+            if (terminalLogs) terminalLogs.innerHTML = '';
+            appendTerminalLog('Triggering combined Scrape & Analysis Pipeline with per-source limits...', 'INFO');
+            
+            const response = await fetch(url, { method: 'POST' });
+            const data = await response.json();
+            appendTerminalLog(data.status, 'SUCCESS');
+            
+            // Automatically reload dashboard data to show the new scraping stats in the banner
+            appendTerminalLog('Reloading dashboard with fresh analysis...', 'INFO');
+            await loadSourceCounts();
+            await loadClusters();
+            await loadOperationalFriction();
+            
+            // If the user is on an active tab, refresh its data too
+            if (state.activeTab === 'executive') await loadExecutiveOverview();
+            if (state.activeTab === 'strategic') await loadStrategicRoadmap();
+            if (state.activeTab === 'deep-themes') await loadDeepThemeAnalysis();
+            if (state.activeTab === 'diagnostic') await loadDiagnosticAccuracy();
+            
+            appendTerminalLog('Dashboard reload complete!', 'SUCCESS');
+            
+        } catch (e) {
+            appendTerminalLog('Error starting pipeline: ' + e.message, 'WARNING');
+        } finally {
+            runPipelineBtn.disabled = false;
+            runPipelineBtn.innerText = '⚡ Scrape & Analyze';
+        }
+    });
+}
+
+// Helper to format logs
+function formatLog(message, type) {
+    const time = new Date().toLocaleTimeString();
+    let cssClass = 'log-info';
+    if (type === 'SUCCESS') cssClass = 'log-success';
+    if (type === 'WARNING') cssClass = 'log-warning';
+    
+    return `<div class="log-line ${cssClass}">[${time}] [${type}] ${message}</div>`;
+}
+
+// 10. Advanced Analytics Tab Loaders
+async function loadExecutiveOverview() {
+    try {
+        const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+        let url = `/api/executive-overview?only_latest=${onlyLatest}`;
+        if (state.activeSource) {
+            url += `&source=${state.activeSource}`;
+        }
+        const fromDate = document.getElementById('pipeline-from-date')?.value;
+        const toDate = document.getElementById('pipeline-to-date')?.value;
+        if (fromDate) url += `&start_date=${fromDate}`;
+        if (toDate) url += `&end_date=${toDate}`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        // Populate KPIs
+        document.getElementById('exec-total-reviews').innerText = data.total_reviews.toLocaleString();
+        document.getElementById('exec-discovery-reviews').innerText = data.confirmed_relevant.toLocaleString();
+        const pct = data.total_reviews > 0 ? ((data.confirmed_relevant / data.total_reviews) * 100).toFixed(1) : 0;
+        document.getElementById('exec-discovery-share').innerText = `${pct}%`;
+        
+        // Populate Global Share of Voice (SoV) list
+        const sovList = document.getElementById('global-sov-list');
+        sovList.innerHTML = '';
+        Object.entries(data.global_sov).forEach(([category, info]) => {
+            const group = document.createElement('div');
+            group.className = 'chart-bar-group';
+            group.innerHTML = `
+                <div class="chart-bar-header">
+                    <span class="chart-bar-title">${category}</span>
+                    <span class="chart-bar-val">${info.count.toLocaleString()} (${info.percentage}%)</span>
+                </div>
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="width: ${info.percentage}%; background: linear-gradient(90deg, ${category === 'Music Discovery Friction' ? 'var(--accent-color)' : 'var(--spotify-green)'}, #53d769);"></div>
+                </div>
+            `;
+            sovList.appendChild(group);
+        });
+        
+        // Populate Top Primary Themes
+        const topThemesContainer = document.getElementById('exec-top-themes');
+        topThemesContainer.innerHTML = '';
+        if (data.top_themes.length === 0) {
+            topThemesContainer.innerHTML = '<p style="opacity:0.6; font-size:13px; text-align:center;">No clusters found for active filters.</p>';
+        } else {
+            data.top_themes.forEach(theme => {
+                const item = document.createElement('div');
+                item.className = 'sub-issue-item';
+                item.innerHTML = `
+                    <div class="sub-issue-header">
+                        <span class="sub-issue-title">${theme.name}</span>
+                        <span class="sub-issue-pct">${theme.sov}% SoV</span>
+                    </div>
+                    <div style="font-size: 11px; opacity: 0.7; margin-top: 4px;">
+                        Size: ${theme.size} reviews | Avg Rating: ${theme.average_rating} ★
+                    </div>
+                `;
+                topThemesContainer.appendChild(item);
+            });
+        }
+        
+        // Explanation
+        document.getElementById('exec-prevalence-explanation').innerText = data.prevalence_explanation;
+        
+        // Populate PM Prioritized Feature Backlog table
+        const backlogContainer = document.getElementById('exec-pm-backlog');
+        if (backlogContainer) {
+            backlogContainer.innerHTML = '';
+            const backlog = data.pm_prioritized_backlog || [];
+            if (backlog.length === 0) {
+                backlogContainer.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 24px; opacity: 0.6; font-style: italic;">No prioritized backlog features compiled. Run the validation engine to generate.</td></tr>';
+            } else {
+                backlog.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                    
+                    const resolvedWorkarounds = (item.user_workarounds_resolved || []).map(w => `<span class="tag" style="background: rgba(241,196,15,0.08); border: 1px solid rgba(241,196,15,0.15); color: #f1c40f; font-size: 10.5px; padding: 2px 6px; border-radius: 4px; margin-right: 4px; display: inline-block;">${w}</span>`).join('');
+                    const actionItems = (item.pm_action_items || []).map(act => `• ${act}`).join('<br/>');
+                    
+                    let pColor = '#e74c3c';
+                    if (item.priority_level === 'Medium') pColor = '#f1c40f';
+                    if (item.priority_level === 'Low') pColor = '#3498db';
+                    
+                    tr.innerHTML = `
+                        <td style="padding: 12px; font-weight: 700; color: ${pColor};">${item.priority_level}</td>
+                        <td style="padding: 12px; font-weight: 600; color: var(--text-primary);">${item.feature_name}</td>
+                        <td style="padding: 12px; opacity: 0.8; line-height: 1.4;">${item.unmet_need}</td>
+                        <td style="padding: 12px; line-height: 1.4;">${resolvedWorkarounds || 'None'}</td>
+                        <td style="padding: 12px; font-size: 12px; line-height: 1.45; opacity: 0.9;">${actionItems}</td>
+                    `;
+                    backlogContainer.appendChild(tr);
+                });
+            }
+        }
+    } catch (err) {
+        console.error('Error loading executive overview:', err);
+    }
+}
+
+async function loadDeepThemeAnalysis() {
+    try {
+        const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+        let url = `/api/deep-theme-analysis?only_latest=${onlyLatest}`;
+        if (state.activeSource) {
+            url += `&source=${state.activeSource}`;
+        }
+        const fromDate = document.getElementById('pipeline-from-date')?.value;
+        const toDate = document.getElementById('pipeline-to-date')?.value;
+        if (fromDate) url += `&start_date=${fromDate}`;
+        if (toDate) url += `&end_date=${toDate}`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        // Populate Theme Cards
+        const themesGrid = document.getElementById('deep-themes-grid');
+        themesGrid.innerHTML = '';
+        data.themes.forEach(theme => {
+            const card = document.createElement('div');
+            card.className = 'card glass';
+            card.style.padding = '20px';
+            card.style.borderRadius = '12px';
+            card.style.border = '1px solid var(--border-color)';
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 700;">${theme.name}</h3>
+                    <span style="padding: 3px 8px; background: rgba(29, 185, 84, 0.1); border: 1px solid rgba(29, 185, 84, 0.2); color: var(--spotify-green); border-radius: 4px; font-size: 11px; font-weight: 600;">
+                        ${theme.percentage}% Share
+                    </span>
+                </div>
+                <p style="font-size: 12.5px; opacity: 0.7; line-height: 1.5; margin-bottom: 16px; flex-grow: 1;">${theme.description}</p>
+                <div style="display: flex; gap: 12px; border-top: 1px dashed var(--border-color); padding-top: 12px; font-size: 12px;">
+                    <div><strong>Raw:</strong> ${theme.raw_count} reviews</div>
+                    <div><strong>Pain Index:</strong> ${theme.weighted_count}</div>
+                </div>
+            `;
+            themesGrid.appendChild(card);
+        });
+        
+        // Populate Co-occurrence Matrix Table
+        const matrixTable = document.getElementById('co-occurrence-matrix-table');
+        matrixTable.innerHTML = '';
+        
+        // Build header
+        const headerRow = document.createElement('tr');
+        headerRow.innerHTML = '<th>Sub-Theme Overlap</th>' + data.theme_names.map(name => `<th style="font-size: 11px; max-width: 100px; word-wrap: break-word;">${name}</th>`).join('');
+        matrixTable.appendChild(headerRow);
+        
+        // Build rows
+        data.co_occurrence.forEach((row, i) => {
+            const tr = document.createElement('tr');
+            let cells = `<td style="text-align: left; font-weight: 600; font-size: 12px; width: 150px;">${data.theme_names[i]}</td>`;
+            row.forEach((val, j) => {
+                const isDiagonal = i === j;
+                let bgStyle = '';
+                if (!isDiagonal && val > 0) {
+                    const maxVal = Math.max(...row.filter((_, idx) => idx !== i));
+                    const ratio = maxVal > 0 ? (val / maxVal) : 0;
+                    bgStyle = `background: hsla(141, 73%, 42%, ${ratio * 0.4}); color: #fff;`;
+                }
+                cells += `<td class="${isDiagonal ? 'diagonal' : ''}" style="${bgStyle}">${val}</td>`;
+            });
+            tr.innerHTML = cells;
+            matrixTable.appendChild(tr);
+        });
+    } catch (err) {
+        console.error('Error loading deep theme analysis:', err);
+    }
+}
+
+async function loadDiagnosticAccuracy() {
+    try {
+        const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+        let url = `/api/diagnostic-accuracy?only_latest=${onlyLatest}`;
+        if (state.activeSource) {
+            url += `&source=${state.activeSource}`;
+        }
+        const fromDate = document.getElementById('pipeline-from-date')?.value;
+        const toDate = document.getElementById('pipeline-to-date')?.value;
+        if (fromDate) url += `&start_date=${fromDate}`;
+        if (toDate) url += `&end_date=${toDate}`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        // Populate Confusion Matrix
+        document.getElementById('diag-tp').innerText = data.confusion_matrix.tp.toLocaleString();
+        document.getElementById('diag-fp').innerText = data.confusion_matrix.fp.toLocaleString();
+        document.getElementById('diag-fn').innerText = data.confusion_matrix.fn.toLocaleString();
+        document.getElementById('diag-tn').innerText = data.confusion_matrix.tn.toLocaleString();
+        
+        // Populate Signal Quality KPIs
+        document.getElementById('diag-precision').innerText = `${data.metrics.precision}%`;
+        document.getElementById('diag-recall').innerText = `${data.metrics.recall}%`;
+        document.getElementById('diag-f1').innerText = `${data.metrics.f1_score}%`;
+        
+        // Populate Decile Chart
+        const chartContainer = document.getElementById('decile-chart-container');
+        chartContainer.innerHTML = '';
+        
+        const maxVolume = Math.max(...data.decile_analysis.map(d => d.volume)) || 1;
+        data.decile_analysis.forEach(d => {
+            const heightPct = (d.volume / maxVolume) * 100;
+            const barWrapper = document.createElement('div');
+            barWrapper.className = 'decile-bar-wrapper';
+            barWrapper.style.flex = '1';
+            barWrapper.innerHTML = `
+                <div class="decile-tooltip">
+                    <strong>Decile ${d.decile}</strong><br/>
+                    Volume: ${d.volume} reviews<br/>
+                    Avg Rating: ${d.average_rating} ★
+                </div>
+                <div class="decile-bar" style="height: ${heightPct}%;"></div>
+                <div style="font-size: 9px; opacity: 0.7; margin-top: 4px; font-weight: 700;">${d.average_rating} ★</div>
+            `;
+            chartContainer.appendChild(barWrapper);
+        });
+    } catch (err) {
+        console.error('Error loading diagnostic accuracy:', err);
+    }
+}
+
+// Stateful Pipeline Decision Handling
+async function showPipelineDecisionModal() {
+    try {
+        const res = await fetch('/api/pipeline-status');
+        const status = await res.json();
+        
+        if (status.status === 'awaiting_decision') {
+            document.getElementById('mismatch-in-range-count').innerText = status.in_range_count.toLocaleString();
+            document.getElementById('mismatch-total-count').innerText = status.total_count.toLocaleString();
+            
+            // Calculate requested limit dynamically from the inputs
+            const gp = parseInt(document.getElementById('limit-google-play')?.value) || 0;
+            const rd = parseInt(document.getElementById('limit-reddit')?.value) || 0;
+            const yt = parseInt(document.getElementById('limit-youtube')?.value) || 0;
+            const sc = parseInt(document.getElementById('limit-spotify-community')?.value) || 0;
+            const as = parseInt(document.getElementById('limit-app-store')?.value) || 0;
+            const totalLimit = gp + rd + yt + sc + as;
+            
+            document.getElementById('mismatch-requested-limit').innerText = totalLimit.toLocaleString();
+            
+            const modal = document.getElementById('pipeline-decision-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
+        }
+    } catch (err) {
+        console.error('Error loading pipeline status:', err);
+    }
+}
+
+function initDecisionButtons() {
+    const btnStrict = document.getElementById('btn-decision-strict');
+    const btnExpand = document.getElementById('btn-decision-expand');
+    
+    if (btnStrict) {
+        btnStrict.addEventListener('click', () => sendPipelineDecision('strict'));
+    }
+    if (btnExpand) {
+        btnExpand.addEventListener('click', () => sendPipelineDecision('expand'));
+    }
+}
+
+async function sendPipelineDecision(choice) {
+    try {
+        const modal = document.getElementById('pipeline-decision-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+        
+        appendTerminalLog(`Sending decision: ${choice.toUpperCase()}...`, 'INFO');
+        
+        const res = await fetch(`/api/pipeline-decision?choice=${choice}`, {
+            method: 'POST'
+        });
+        const data = await res.json();
+        
+        if (data.error) {
+            appendTerminalLog(`Error registering decision: ${data.error}`, 'WARNING');
+        } else {
+            appendTerminalLog(data.status, 'SUCCESS');
+        }
+    } catch (err) {
+        console.error('Error sending pipeline decision:', err);
+        appendTerminalLog(`Failed to send decision: ${err}`, 'WARNING');
+    }
+}
+
+// Loading Overlay Helpers for processing state
+function showTabLoading(tabId, message) {
+    const pane = document.getElementById(tabId);
+    if (!pane) return;
+    
+    let overlay = pane.querySelector('.tab-loading-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'tab-loading-overlay';
+        overlay.innerHTML = `
+            <div class="spinner"></div>
+            <div class="loading-message" style="font-size: 15px; font-weight: 600; color: var(--text-primary); text-align: center; max-width: 80%; line-height: 1.5;"></div>
+        `;
+        pane.appendChild(overlay);
+    }
+    
+    overlay.querySelector('.loading-message').innerText = message || "Processing analysis...";
+}
+
+function hideTabLoading(tabId) {
+    const pane = document.getElementById(tabId);
+    if (!pane) return;
+    const overlay = pane.querySelector('.tab-loading-overlay');
+    if (overlay) {
+        overlay.remove();
+    }
+}
+
+function showAllTabsLoading(message) {
+    tabPanes.forEach(pane => {
+        // Skip terminal/logs tab so user can still watch progress
+        if (pane.id === 'tab-terminal') return;
+        showTabLoading(pane.id, message);
+    });
+}
+
+function hideAllTabsLoading() {
+    tabPanes.forEach(pane => {
+        hideTabLoading(pane.id);
+    });
+}
+
+async function loadStrategicRoadmap() {
+    // 1. Render PM Prioritized Backlog and Inquiries from executive-overview endpoint
+    const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+    let url = `/api/executive-overview?only_latest=${onlyLatest}`;
+    if (state.activeSource) {
+        url += `&source=${state.activeSource}`;
+    }
+    const fromDate = document.getElementById('pipeline-from-date')?.value;
+    const toDate = document.getElementById('pipeline-to-date')?.value;
+    if (fromDate) url += `&start_date=${fromDate}`;
+    if (toDate) url += `&end_date=${toDate}`;
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        // Render Backlog Table
+        const backlogContainer = document.getElementById('strategic-pm-backlog');
+        if (backlogContainer) {
+            backlogContainer.innerHTML = '';
+            const backlog = data.pm_prioritized_backlog || [];
+            if (backlog.length === 0) {
+                backlogContainer.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 24px; opacity: 0.6; font-style: italic;">No prioritized backlog features compiled. Run the validation engine to generate.</td></tr>';
+            } else {
+                backlog.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                    
+                    const resolvedWorkarounds = (item.user_workarounds_resolved || []).map(w => `<span class="tag" style="background: rgba(241,196,15,0.08); border: 1px solid rgba(241,196,15,0.15); color: #f1c40f; font-size: 10.5px; padding: 2px 6px; border-radius: 4px; margin-right: 4px; display: inline-block;">${w}</span>`).join('');
+                    const actionItems = (item.pm_action_items || []).map(act => `• ${act}`).join('<br/>');
+                    
+                    let pColor = '#e74c3c';
+                    if (item.priority_level === 'Medium') pColor = '#f1c40f';
+                    if (item.priority_level === 'Low') pColor = '#3498db';
+                    
+                    tr.innerHTML = `
+                        <td style="padding: 12px; font-weight: 700; color: ${pColor};">${item.priority_level}</td>
+                        <td style="padding: 12px; font-weight: 600; color: var(--text-primary);">${item.feature_name}</td>
+                        <td style="padding: 12px; opacity: 0.8; line-height: 1.4;">${item.unmet_need}</td>
+                        <td style="padding: 12px; line-height: 1.4;">${resolvedWorkarounds || 'None'}</td>
+                        <td style="padding: 12px; font-size: 12px; line-height: 1.45; opacity: 0.9;">${actionItems}</td>
+                    `;
+                    backlogContainer.appendChild(tr);
+                });
+            }
+        }
+
+        // Render Deep-Dive Research Inquiries
+        const inquiriesContainer = document.getElementById('strategic-inquiries');
+        if (inquiriesContainer) {
+            inquiriesContainer.innerHTML = '';
+            const questions = data.deep_inquiry_questions || [];
+            if (questions.length === 0) {
+                inquiriesContainer.innerHTML = '<p style="color: var(--text-secondary); font-size: 13px; grid-column: 1 / -1; text-align: center; padding: 20px;">No strategic follow-up questions generated yet. Run validation to generate.</p>';
+            } else {
+                questions.forEach(q => {
+                    const card = document.createElement('div');
+                    card.className = 'card card-research';
+                    let pColor = '#e74c3c';
+                    if (q.priority === 'Medium') pColor = '#f1c40f';
+                    if (q.priority === 'Low') pColor = '#3498db';
+                    
+                    card.style.borderLeft = `3px solid ${pColor}`;
+                    card.innerHTML = `
+                        <div class="research-header">
+                            <span class="research-id" style="color: ${pColor}; font-weight: 700; border-color: ${pColor};">${q.priority.toUpperCase()} PRIORITY</span>
+                        </div>
+                        <h3>${q.question}</h3>
+                        <p style="margin-top: 8px;"><strong>Strategic Rationale:</strong> ${q.rationale}</p>
+                    `;
+                    inquiriesContainer.appendChild(card);
+                });
+            }
+        }
+    } catch (err) {
+        console.error("Error loading strategic roadmap API data:", err);
+    }
+
+    // 2. Render Jobs-to-be-Done (JTBD) Curation Matrix from state clusters
+    const jtbdMatrix = document.getElementById('strategic-jtbd-matrix');
+    if (jtbdMatrix) {
+        jtbdMatrix.innerHTML = '';
+        
+        let clusters = state.clusters || [];
+        if (clusters.length === 0) {
+            try {
+                let clustersUrl = `/api/clusters?only_latest=${onlyLatest}`;
+                if (state.activeSource) clustersUrl += `&source=${state.activeSource}`;
+                if (fromDate) clustersUrl += `&start_date=${fromDate}`;
+                if (toDate) clustersUrl += `&end_date=${toDate}`;
+                
+                const cRes = await fetch(clustersUrl);
+                const cData = await cRes.json();
+                clusters = cData.clusters || [];
+            } catch (cErr) {
+                console.error("Error fetching clusters on-the-fly for strategic matrix:", cErr);
+            }
+        }
+
+        const activeJtbdClusters = clusters.filter(c => c.jtbd && c.jtbd.situation);
+        if (activeJtbdClusters.length === 0) {
+            jtbdMatrix.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 24px; opacity: 0.6; font-style: italic;">No active clusters with JTBD desires found. Select larger filters or trigger naming.</td></tr>';
+        } else {
+            activeJtbdClusters.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                
+                const workaroundsStr = (c.workarounds || []).map(w => `<span class="tag" style="background: rgba(241,196,15,0.06); border: 1px solid rgba(241,196,15,0.12); color: #f1c40f; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-right: 4px; display: inline-block;">${w}</span>`).join('');
+                
+                tr.innerHTML = `
+                    <td style="padding: 10px; font-weight: 600; color: var(--spotify-green);">${c.cluster_name}</td>
+                    <td style="padding: 10px; opacity: 0.9; line-height: 1.4;">When ${c.jtbd.situation}</td>
+                    <td style="padding: 10px; opacity: 0.9; line-height: 1.4;">I want to ${c.jtbd.motivation}</td>
+                    <td style="padding: 10px; opacity: 0.9; line-height: 1.4;">so that ${c.jtbd.outcome}</td>
+                    <td style="padding: 10px; line-height: 1.4;">${workaroundsStr || 'None'}</td>
+                `;
+                jtbdMatrix.appendChild(tr);
+            });
+        }
+    }
+}
