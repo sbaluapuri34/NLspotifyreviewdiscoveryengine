@@ -319,8 +319,12 @@ async def stream_events(request: Request, mode: Optional[str] = "discovery", the
             while True:
                 if await request.is_disconnected():
                     break
-                event = await queue.get()
-                yield event
+                try:
+                    event = await asyncio.wait_for(queue.get(), timeout=15.0)
+                    yield event
+                except asyncio.TimeoutError:
+                    # Send a silent comment-based heartbeat to keep the proxy connection alive
+                    yield ": ping\n\n"
         except asyncio.CancelledError:
             pass
         finally:
@@ -328,7 +332,13 @@ async def stream_events(request: Request, mode: Optional[str] = "discovery", the
                 sse_queues.remove(q_entry)
             logger.info(f"SSE Client disconnected. Total clients: {len(sse_queues)}")
 
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
+    headers = {
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "X-Accel-Buffering": "no",
+        "Content-Type": "text/event-stream"
+    }
+    return StreamingResponse(event_generator(), media_type="text/event-stream", headers=headers)
 
 def get_target_run_id(cursor, only_latest: bool) -> Optional[str]:
     """Helper to determine the target run_id based on pipeline state and 'only_latest' filter."""
