@@ -23,10 +23,12 @@ def init_db(db_path: Optional[str] = None):
     db_file = Path(path)
     zip_file = Path(str(path) + ".zip")
     
-    # Auto-extract database zip file on startup if DB file is missing
-    if not db_file.exists() and zip_file.exists():
-        logger.info(f"Database file not found at {path}, but zipped database detected at {zip_file}. Extracting...")
+    # Auto-extract database zip file on startup if DB file is missing or empty (<100KB)
+    if (not db_file.exists() or db_file.stat().st_size < 100 * 1024) and zip_file.exists():
+        logger.info(f"Database file not found or is empty (<100KB) at {path}. Zipped database detected at {zip_file}. Extracting...")
         try:
+            if db_file.exists():
+                db_file.unlink() # Delete empty placeholder file to avoid collision
             with zipfile.ZipFile(zip_file, 'r') as zip_ref:
                 zip_ref.extractall(db_file.parent)
             logger.info("Successfully extracted database.")
