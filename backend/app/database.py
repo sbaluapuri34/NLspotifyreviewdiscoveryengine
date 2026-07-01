@@ -16,7 +16,23 @@ def get_db_connection(db_path: Optional[str] = None) -> sqlite3.Connection:
 
 def init_db(db_path: Optional[str] = None):
     """Initializes the SQLite database schema and creates indexes."""
+    import zipfile
+    from pathlib import Path
+    
     path = db_path or DB_PATH
+    db_file = Path(path)
+    zip_file = Path(str(path) + ".zip")
+    
+    # Auto-extract database zip file on startup if DB file is missing
+    if not db_file.exists() and zip_file.exists():
+        logger.info(f"Database file not found at {path}, but zipped database detected at {zip_file}. Extracting...")
+        try:
+            with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+                zip_ref.extractall(db_file.parent)
+            logger.info("Successfully extracted database.")
+        except Exception as unzip_err:
+            logger.error(f"Error unzipping database file: {unzip_err}")
+            
     logger.info(f"Initializing database at: {path}")
     conn = get_db_connection(path)
     try:

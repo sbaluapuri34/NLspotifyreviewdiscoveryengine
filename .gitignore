@@ -48,4 +48,5 @@ torchinductor_pc/
 !backend/scripts/decomposed_themes.json
 !backend/scripts/executive_insights.json
 !backend/scripts/research_question_answers.json
+!backend/spotify_research.db.zip
 
