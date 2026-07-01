@@ -1,0 +1,3762 @@
+{
+  "cluster_14": {
+    "cluster_name": "Smart Shuffle Issue",
+    "sub_issues": [
+      {
+        "name": "Shuffle to Different Playlists",
+        "associated_theme_id": "theme_1",
+        "description": "User is shuffled to songs from different playlists",
+        "frequency_percentage": 60.0
+      },
+      {
+        "name": "Lack of Control Over Shuffle",
+        "associated_theme_id": "theme_2",
+        "description": "User has no control over the shuffle feature",
+        "frequency_percentage": 40.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_1",
+        "name": "Playlist Management",
+        "description": "Users want to manage their playlists and listen to songs from the same playlist"
+      },
+      {
+        "theme_id": "theme_2",
+        "name": "Shuffle Feature",
+        "description": "Users want to use the shuffle feature without shuffling to songs from different playlists"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is listening to a specific playlist or album",
+      "motivation": "User wants to listen to songs from the same playlist or album",
+      "outcome": "User wants to avoid shuffling to songs from different playlists"
+    },
+    "workarounds": [
+      "Creating a new playlist with specific songs",
+      "Using a different music streaming service"
+    ]
+  },
+  "cluster_6": {
+    "cluster_name": "Music Discovery Issue",
+    "sub_issues": [
+      {
+        "name": "Poor Music Recommendations",
+        "associated_theme_id": "theme_3",
+        "description": "User receives poor music recommendations",
+        "frequency_percentage": 70.0
+      },
+      {
+        "name": "Lack of Control Over Recommendations",
+        "associated_theme_id": "theme_4",
+        "description": "User has no control over the algorithmic recommendations",
+        "frequency_percentage": 30.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_3",
+        "name": "Music Discovery",
+        "description": "Users want to discover new music"
+      },
+      {
+        "theme_id": "theme_4",
+        "name": "Algorithmic Recommendations",
+        "description": "Users want algorithmic recommendations that are accurate and helpful"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is looking for new music to listen to",
+      "motivation": "User wants to discover new music",
+      "outcome": "User wants to find new music that they will enjoy"
+    },
+    "workarounds": [
+      "Using a different music streaming service",
+      "Asking friends for music recommendations"
+    ]
+  },
+  "cluster_154": {
+    "cluster_name": "Playlist Management Issue",
+    "sub_issues": [
+      {
+        "name": "Songs Disappearing from Playlists",
+        "associated_theme_id": "theme_5",
+        "description": "User's songs disappear from their playlists",
+        "frequency_percentage": 50.0
+      },
+      {
+        "name": "Difficulty Adding Songs to Playlists",
+        "associated_theme_id": "theme_6",
+        "description": "User has difficulty adding songs to their playlists",
+        "frequency_percentage": 50.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_5",
+        "name": "Playlist Editing",
+        "description": "Users want to edit their playlists without issues"
+      },
+      {
+        "theme_id": "theme_6",
+        "name": "Playlist Management",
+        "description": "Users want to manage their playlists effectively"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is managing their playlists",
+      "motivation": "User wants to manage their playlists effectively",
+      "outcome": "User wants to add and remove songs from their playlists without issues"
+    },
+    "workarounds": [
+      "Creating a new playlist and adding songs manually",
+      "Using a different music streaming service"
+    ]
+  },
+  "cluster_172": {
+    "cluster_name": "Weekly Discovery Issue",
+    "sub_issues": [
+      {
+        "name": "Poor Weekly Discovery Recommendations",
+        "associated_theme_id": "theme_7",
+        "description": "User receives poor weekly discovery recommendations",
+        "frequency_percentage": 60.0
+      },
+      {
+        "name": "Lack of Control Over Weekly Discovery",
+        "associated_theme_id": "theme_8",
+        "description": "User has no control over the weekly discovery feature",
+        "frequency_percentage": 40.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_7",
+        "name": "Weekly Discovery",
+        "description": "Users want to discover new music using the weekly discovery feature"
+      },
+      {
+        "theme_id": "theme_8",
+        "name": "Algorithmic Recommendations",
+        "description": "Users want algorithmic recommendations that are accurate and helpful"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is using the weekly discovery feature",
+      "motivation": "User wants to discover new music",
+      "outcome": "User wants to find new music that they will enjoy"
+    },
+    "workarounds": [
+      "Using a different music streaming service",
+      "Asking friends for music recommendations"
+    ]
+  },
+  "cluster_4": {
+    "cluster_name": "AI DJ Issue",
+    "sub_issues": [
+      {
+        "name": "Poor AI DJ Recommendations",
+        "associated_theme_id": "theme_9",
+        "description": "User receives poor AI DJ recommendations",
+        "frequency_percentage": 70.0
+      },
+      {
+        "name": "Lack of Control Over AI DJ",
+        "associated_theme_id": "theme_10",
+        "description": "User has no control over the AI DJ feature",
+        "frequency_percentage": 30.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_9",
+        "name": "AI DJ",
+        "description": "Users want to use the AI DJ feature to discover new music"
+      },
+      {
+        "theme_id": "theme_10",
+        "name": "Algorithmic Recommendations",
+        "description": "Users want algorithmic recommendations that are accurate and helpful"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is using the AI DJ feature",
+      "motivation": "User wants to discover new music",
+      "outcome": "User wants to find new music that they will enjoy"
+    },
+    "workarounds": [
+      "Using a different music streaming service",
+      "Asking friends for music recommendations"
+    ]
+  },
+  "cluster_311": {
+    "cluster_name": "Free Version Limitations Issue",
+    "sub_issues": [
+      {
+        "name": "Limited Song Skipping",
+        "associated_theme_id": "theme_11",
+        "description": "User has limited song skipping capabilities",
+        "frequency_percentage": 50.0
+      },
+      {
+        "name": "Lack of Control Over Music Experience",
+        "associated_theme_id": "theme_12",
+        "description": "User has no control over their music listening experience",
+        "frequency_percentage": 50.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_11",
+        "name": "Free Version Limitations",
+        "description": "Users want to have more control over their music listening experience"
+      },
+      {
+        "theme_id": "theme_12",
+        "name": "Premium Version Features",
+        "description": "Users want to have access to premium version features"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is using the free version of the music streaming service",
+      "motivation": "User wants to listen to music without limitations",
+      "outcome": "User wants to have more control over their music listening experience"
+    },
+    "workarounds": [
+      "Upgrading to the premium version",
+      "Using a different music streaming service"
+    ]
+  },
+  "cluster_211": {
+    "cluster_name": "App Performance Issue",
+    "sub_issues": [
+      {
+        "name": "App Crashing",
+        "associated_theme_id": "theme_13",
+        "description": "User experiences app crashing",
+        "frequency_percentage": 60.0
+      },
+      {
+        "name": "Slow App Loading",
+        "associated_theme_id": "theme_14",
+        "description": "User experiences slow app loading",
+        "frequency_percentage": 40.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_13",
+        "name": "App Performance",
+        "description": "Users want to have a smooth and seamless music listening experience"
+      },
+      {
+        "theme_id": "theme_14",
+        "name": "App Stability",
+        "description": "Users want the app to be stable and not crash"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is using the music streaming app",
+      "motivation": "User wants to have a smooth and seamless music listening experience",
+      "outcome": "User wants to be able to use the app without issues"
+    },
+    "workarounds": [
+      "Closing and reopening the app",
+      "Using a different music streaming service"
+    ]
+  },
+  "cluster_167": {
+    "cluster_name": "Ad Experience Issue",
+    "sub_issues": [
+      {
+        "name": "Too Many Ads",
+        "associated_theme_id": "theme_15",
+        "description": "User experiences too many ads",
+        "frequency_percentage": 70.0
+      },
+      {
+        "name": "Lack of Control Over Ad Experience",
+        "associated_theme_id": "theme_16",
+        "description": "User has no control over their ad experience",
+        "frequency_percentage": 30.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_15",
+        "name": "Ad Experience",
+        "description": "Users want to have fewer ads and more control over their music listening experience"
+      },
+      {
+        "theme_id": "theme_16",
+        "name": "Premium Version Features",
+        "description": "Users want to have access to premium version features"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is listening to music on the free version of the music streaming service",
+      "motivation": "User wants to have a seamless music listening experience",
+      "outcome": "User wants to have fewer ads and more control over their music listening experience"
+    },
+    "workarounds": [
+      "Upgrading to the premium version",
+      "Using a different music streaming service"
+    ]
+  },
+  "cluster_158": {
+    "cluster_name": "Algorithmic Recommendations Issue",
+    "sub_issues": [
+      {
+        "name": "Poor Algorithmic Recommendations",
+        "associated_theme_id": "theme_17",
+        "description": "User receives poor algorithmic recommendations",
+        "frequency_percentage": 60.0
+      },
+      {
+        "name": "Lack of Control Over Algorithmic Recommendations",
+        "associated_theme_id": "theme_18",
+        "description": "User has no control over the algorithmic recommendations",
+        "frequency_percentage": 40.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_17",
+        "name": "Algorithmic Recommendations",
+        "description": "Users want algorithmic recommendations that are accurate and helpful"
+      },
+      {
+        "theme_id": "theme_18",
+        "name": "Music Discovery",
+        "description": "Users want to discover new music"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is using the music streaming service",
+      "motivation": "User wants to discover new music",
+      "outcome": "User wants to find new music that they will enjoy"
+    },
+    "workarounds": [
+      "Using a different music streaming service",
+      "Asking friends for music recommendations"
+    ]
+  },
+  "cluster_18": {
+    "cluster_name": "Music Streaming Experience Issue",
+    "sub_issues": [
+      {
+        "name": "App Crashing",
+        "associated_theme_id": "theme_19",
+        "description": "User experiences app crashing",
+        "frequency_percentage": 50.0
+      },
+      {
+        "name": "Slow App Loading",
+        "associated_theme_id": "theme_20",
+        "description": "User experiences slow app loading",
+        "frequency_percentage": 50.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_19",
+        "name": "Music Streaming Experience",
+        "description": "Users want to have a seamless music listening experience"
+      },
+      {
+        "theme_id": "theme_20",
+        "name": "App Performance",
+        "description": "Users want the app to perform well and not crash"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is using the music streaming service",
+      "motivation": "User wants to have a seamless music listening experience",
+      "outcome": "User wants to be able to use the service without issues"
+    },
+    "workarounds": [
+      "Closing and reopening the app",
+      "Using a different music streaming service"
+    ]
+  },
+  "cluster_139": {
+    "cluster_name": "Premium Version Features Issue",
+    "sub_issues": [
+      {
+        "name": "Limited Features in Free Version",
+        "associated_theme_id": "theme_21",
+        "description": "User experiences limited features in the free version",
+        "frequency_percentage": 70.0
+      },
+      {
+        "name": "Lack of Control Over Music Experience",
+        "associated_theme_id": "theme_22",
+        "description": "User has no control over their music listening experience",
+        "frequency_percentage": 30.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_21",
+        "name": "Premium Version Features",
+        "description": "Users want to have access to premium version features"
+      },
+      {
+        "theme_id": "theme_22",
+        "name": "Free Version Limitations",
+        "description": "Users want to have more control over their music listening experience"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is using the free version of the music streaming service",
+      "motivation": "User wants to have more control over their music listening experience",
+      "outcome": "User wants to have access to premium version features"
+    },
+    "workarounds": [
+      "Upgrading to the premium version",
+      "Using a different music streaming service"
+    ]
+  },
+  "cluster_439": {
+    "cluster_name": "Library Sorting Issue",
+    "sub_issues": [
+      {
+        "name": "Unable to Sort Music Library",
+        "associated_theme_id": "theme_23",
+        "description": "User is unable to sort their music library",
+        "frequency_percentage": 60.0
+      },
+      {
+        "name": "Difficulty Managing Music Library",
+        "associated_theme_id": "theme_24",
+        "description": "User experiences difficulty managing their music library",
+        "frequency_percentage": 40.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_23",
+        "name": "Library Sorting",
+        "description": "Users want to be able to sort their music library easily"
+      },
+      {
+        "theme_id": "theme_24",
+        "name": "Music Library Management",
+        "description": "Users want to have a organized music library"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is managing their music library",
+      "motivation": "User wants to have a organized music library",
+      "outcome": "User wants to be able to sort their music library easily"
+    },
+    "workarounds": [
+      "Using a different music streaming service",
+      "Manually sorting the music library"
+    ]
+  },
+  "cluster_151": {
+    "cluster_name": "Ad Experience Issue",
+    "sub_issues": [
+      {
+        "name": "Too Many Ads",
+        "associated_theme_id": "theme_25",
+        "description": "User experiences too many ads",
+        "frequency_percentage": 70.0
+      },
+      {
+        "name": "Lack of Control Over Ad Experience",
+        "associated_theme_id": "theme_26",
+        "description": "User has no control over their ad experience",
+        "frequency_percentage": 30.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_25",
+        "name": "Ad Experience",
+        "description": "Users want to have fewer ads and more control over their music listening experience"
+      },
+      {
+        "theme_id": "theme_26",
+        "name": "Premium Version Features",
+        "description": "Users want to have access to premium version features"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is listening to music on the free version of the music streaming service",
+      "motivation": "User wants to have a seamless music listening experience",
+      "outcome": "User wants to have fewer ads and more control over their music listening experience"
+    },
+    "workarounds": [
+      "Upgrading to the premium version",
+      "Using a different music streaming service"
+    ]
+  },
+  "cluster_146": {
+    "cluster_name": "Premium Version Features Issue",
+    "sub_issues": [
+      {
+        "name": "Limited Features in Free Version",
+        "associated_theme_id": "theme_27",
+        "description": "User experiences limited features in the free version",
+        "frequency_percentage": 60.0
+      },
+      {
+        "name": "Lack of Control Over Music Experience",
+        "associated_theme_id": "theme_28",
+        "description": "User has no control over their music listening experience",
+        "frequency_percentage": 40.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_27",
+        "name": "Premium Version Features",
+        "description": "Users want to have access to premium version features"
+      },
+      {
+        "theme_id": "theme_28",
+        "name": "Free Version Limitations",
+        "description": "Users want to have more control over their music listening experience"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is using the free version of the music streaming service",
+      "motivation": "User wants to have more control over their music listening experience",
+      "outcome": "User wants to have access to premium version features"
+    },
+    "workarounds": [
+      "Upgrading to the premium version",
+      "Using a different music streaming service"
+    ]
+  },
+  "cluster_116": {
+    "cluster_name": "Playlist Organization",
+    "sub_issues": [
+      {
+        "name": "Playlist Sorting",
+        "associated_theme_id": "playlist_management",
+        "description": "Users want to sort their playlists by various criteria",
+        "frequency_percentage": 0.4
+      },
+      {
+        "name": "Playlist Discovery",
+        "associated_theme_id": "playlist_management",
+        "description": "Users want to discover new playlists and music",
+        "frequency_percentage": 0.3
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_management",
+        "name": "Playlist Management",
+        "description": "Users want to manage their playlists effectively"
+      }
+    ],
+    "jtbd": {
+      "situation": "User has multiple playlists",
+      "motivation": "to organize and manage them efficiently",
+      "outcome": "easily accessible and well-structured playlists"
+    },
+    "workarounds": [
+      "Using third-party playlist management tools"
+    ]
+  },
+  "cluster_101": {
+    "cluster_name": "Music Discovery",
+    "sub_issues": [
+      {
+        "name": "Search Functionality",
+        "associated_theme_id": "music_discovery",
+        "description": "Users want to search for music by various criteria",
+        "frequency_percentage": 0.5
+      },
+      {
+        "name": "Personalized Recommendations",
+        "associated_theme_id": "music_discovery",
+        "description": "Users want personalized music recommendations",
+        "frequency_percentage": 0.2
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "Users want to discover new music and artists"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is looking for new music",
+      "motivation": "to discover music that matches their taste",
+      "outcome": "finding new music that they enjoy"
+    },
+    "workarounds": [
+      "Using online music blogs and forums"
+    ]
+  },
+  "cluster_606": {
+    "cluster_name": "Repeat and Shuffle",
+    "sub_issues": [
+      {
+        "name": "Repeat Functionality",
+        "associated_theme_id": "playback_control",
+        "description": "Users want to repeat songs or playlists",
+        "frequency_percentage": 0.6
+      },
+      {
+        "name": "Shuffle Functionality",
+        "associated_theme_id": "playback_control",
+        "description": "Users want to shuffle their music",
+        "frequency_percentage": 0.3
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playback_control",
+        "name": "Playback Control",
+        "description": "Users want to control the playback experience"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is listening to music",
+      "motivation": "to control the playback experience",
+      "outcome": "enjoying music without interruptions"
+    },
+    "workarounds": [
+      "Using third-party music players"
+    ]
+  },
+  "cluster_529": {
+    "cluster_name": "Playlist Folders",
+    "sub_issues": [
+      {
+        "name": "Folder Creation",
+        "associated_theme_id": "playlist_organization",
+        "description": "Users want to create folders for their playlists",
+        "frequency_percentage": 0.5
+      },
+      {
+        "name": "Folder Management",
+        "associated_theme_id": "playlist_organization",
+        "description": "Users want to manage their playlist folders",
+        "frequency_percentage": 0.4
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_organization",
+        "name": "Playlist Organization",
+        "description": "Users want to manage their playlists effectively"
+      }
+    ],
+    "jtbd": {
+      "situation": "User has multiple playlists",
+      "motivation": "to organize them efficiently",
+      "outcome": "easily accessible and well-structured playlists"
+    },
+    "workarounds": [
+      "Using third-party playlist management tools"
+    ]
+  },
+  "cluster_955": {
+    "cluster_name": "Playlist Creation",
+    "sub_issues": [
+      {
+        "name": "Playlist Templates",
+        "associated_theme_id": "playlist_creation",
+        "description": "Users want to use pre-made playlist templates",
+        "frequency_percentage": 0.3
+      },
+      {
+        "name": "Artist-based Playlists",
+        "associated_theme_id": "playlist_creation",
+        "description": "Users want to create playlists based on their favorite artists",
+        "frequency_percentage": 0.6
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_creation",
+        "name": "Playlist Creation",
+        "description": "Users want to create playlists that match their music taste"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to create a playlist",
+      "motivation": "to create a playlist that matches their taste",
+      "outcome": "creating a playlist that they enjoy"
+    },
+    "workarounds": [
+      "Using online playlist generators"
+    ]
+  },
+  "cluster_954": {
+    "cluster_name": "Hip-Hop Music",
+    "sub_issues": [
+      {
+        "name": "New Artist Discovery",
+        "associated_theme_id": "hiphop_music",
+        "description": "Users want to discover new hip-hop artists",
+        "frequency_percentage": 0.5
+      },
+      {
+        "name": "Playlist Updates",
+        "associated_theme_id": "hiphop_music",
+        "description": "Users want to stay updated with the latest hip-hop playlists",
+        "frequency_percentage": 0.4
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "hiphop_music",
+        "name": "Hip-Hop Music",
+        "description": "Users want to discover new hip-hop music"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is looking for hip-hop music",
+      "motivation": "to discover new hip-hop music",
+      "outcome": "finding new hip-hop music that they enjoy"
+    },
+    "workarounds": [
+      "Using online hip-hop music blogs"
+    ]
+  },
+  "cluster_953": {
+    "cluster_name": "Rap Caviar",
+    "sub_issues": [
+      {
+        "name": "Playlist Updates",
+        "associated_theme_id": "rap_caviar",
+        "description": "Users want to stay updated with the latest Rap Caviar playlists",
+        "frequency_percentage": 0.6
+      },
+      {
+        "name": "Artist Discovery",
+        "associated_theme_id": "rap_caviar",
+        "description": "Users want to discover new rap artists",
+        "frequency_percentage": 0.3
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "rap_caviar",
+        "name": "Rap Caviar",
+        "description": "Users want to discover new popular rap music"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is looking for popular rap music",
+      "motivation": "to discover new popular rap music",
+      "outcome": "finding new popular rap music that they enjoy"
+    },
+    "workarounds": [
+      "Using online rap music blogs"
+    ]
+  },
+  "cluster_952": {
+    "cluster_name": "Playlist Updates",
+    "sub_issues": [
+      {
+        "name": "Update Notifications",
+        "associated_theme_id": "playlist_updates",
+        "description": "Users want to receive notifications when a playlist is updated",
+        "frequency_percentage": 0.5
+      },
+      {
+        "name": "Update History",
+        "associated_theme_id": "playlist_updates",
+        "description": "Users want to view the update history of a playlist",
+        "frequency_percentage": 0.4
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_updates",
+        "name": "Playlist Updates",
+        "description": "Users want to stay updated with the latest music"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is subscribed to a playlist",
+      "motivation": "to stay updated with the latest music",
+      "outcome": "staying updated with the latest music"
+    },
+    "workarounds": [
+      "Using third-party playlist update trackers"
+    ]
+  },
+  "cluster_951": {
+    "cluster_name": "Shuffle and Repeat",
+    "sub_issues": [
+      {
+        "name": "Shuffle Functionality",
+        "associated_theme_id": "playback_control",
+        "description": "Users want to shuffle their music",
+        "frequency_percentage": 0.6
+      },
+      {
+        "name": "Repeat Functionality",
+        "associated_theme_id": "playback_control",
+        "description": "Users want to repeat songs or playlists",
+        "frequency_percentage": 0.3
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playback_control",
+        "name": "Playback Control",
+        "description": "Users want to control the playback experience"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is listening to music",
+      "motivation": "to control the playback experience",
+      "outcome": "enjoying music without interruptions"
+    },
+    "workarounds": [
+      "Using third-party music players"
+    ]
+  },
+  "cluster_950": {
+    "cluster_name": "Android App",
+    "sub_issues": [
+      {
+        "name": "App Performance",
+        "associated_theme_id": "android_app",
+        "description": "Users want the app to perform smoothly",
+        "frequency_percentage": 0.5
+      },
+      {
+        "name": "Feature Parity",
+        "associated_theme_id": "android_app",
+        "description": "Users want feature parity with the iOS app",
+        "frequency_percentage": 0.4
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "android_app",
+        "name": "Android App",
+        "description": "Users want to have a seamless music listening experience on Android"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is using the Android app",
+      "motivation": "to have a seamless music listening experience",
+      "outcome": "enjoying music without interruptions"
+    },
+    "workarounds": [
+      "Using third-party music players"
+    ]
+  },
+  "cluster_949": {
+    "cluster_name": "Playlist Availability",
+    "sub_issues": [
+      {
+        "name": "Playlist Search",
+        "associated_theme_id": "playlist_availability",
+        "description": "Users want to search for specific playlists",
+        "frequency_percentage": 0.6
+      },
+      {
+        "name": "Playlist Discovery",
+        "associated_theme_id": "playlist_availability",
+        "description": "Users want to discover new playlists",
+        "frequency_percentage": 0.3
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_availability",
+        "name": "Playlist Availability",
+        "description": "Users want to access specific playlists"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is looking for a specific playlist",
+      "motivation": "to access the playlist",
+      "outcome": "accessing the desired playlist"
+    },
+    "workarounds": [
+      "Using online playlist search engines"
+    ]
+  },
+  "cluster_948": {
+    "cluster_name": "Mute and Block",
+    "sub_issues": [
+      {
+        "name": "Mute Functionality",
+        "associated_theme_id": "playback_control",
+        "description": "Users want to mute specific songs or artists",
+        "frequency_percentage": 0.5
+      },
+      {
+        "name": "Block Functionality",
+        "associated_theme_id": "playback_control",
+        "description": "Users want to block specific songs or artists",
+        "frequency_percentage": 0.4
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playback_control",
+        "name": "Playback Control",
+        "description": "Users want to control the playback experience"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is listening to music",
+      "motivation": "to control the music playback experience",
+      "outcome": "enjoying music without unwanted songs or artists"
+    },
+    "workarounds": [
+      "Using third-party music players"
+    ]
+  },
+  "cluster_925": {
+    "cluster_name": "Smart Shuffle",
+    "sub_issues": [
+      {
+        "name": "Personalized Playlists",
+        "associated_theme_id": "smart_shuffle",
+        "description": "Users want personalized playlists based on their listening habits",
+        "frequency_percentage": 0.6
+      },
+      {
+        "name": "Context-aware Playback",
+        "associated_theme_id": "smart_shuffle",
+        "description": "Users want the playback experience to adapt to their context",
+        "frequency_percentage": 0.3
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "smart_shuffle",
+        "name": "Smart Shuffle",
+        "description": "Users want to have a personalized music experience"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is listening to music",
+      "motivation": "to have a personalized music experience",
+      "outcome": "enjoying music that is tailored to their taste"
+    },
+    "workarounds": [
+      "Using third-party music players"
+    ]
+  },
+  "cluster_922": {
+    "cluster_name": "Local Files",
+    "sub_issues": [
+      {
+        "name": "File Support",
+        "associated_theme_id": "local_files",
+        "description": "Users want support for various file formats",
+        "frequency_percentage": 0.5
+      },
+      {
+        "name": "Playlist Integration",
+        "associated_theme_id": "local_files",
+        "description": "Users want to integrate local files into their playlists",
+        "frequency_percentage": 0.4
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "local_files",
+        "name": "Local Files",
+        "description": "Users want to play their local music files seamlessly"
+      }
+    ],
+    "jtbd": {
+      "situation": "User has local music files",
+      "motivation": "to play them seamlessly",
+      "outcome": "playing local music files without interruptions"
+    },
+    "workarounds": [
+      "Using third-party music players"
+    ]
+  },
+  "cluster_907": {
+    "cluster_name": "Language Learning",
+    "sub_issues": [
+      {
+        "name": "Lyrics Translation",
+        "associated_theme_id": "language_learning",
+        "description": "Users want to see translated lyrics",
+        "frequency_percentage": 0.6
+      },
+      {
+        "name": "Language-based Playlists",
+        "associated_theme_id": "language_learning",
+        "description": "Users want playlists based on specific languages",
+        "frequency_percentage": 0.3
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "language_learning",
+        "name": "Language Learning",
+        "description": "Users want to use music to learn new languages"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to learn a new language",
+      "motivation": "to use music as a learning tool",
+      "outcome": "improving language skills through music"
+    },
+    "workarounds": [
+      "Using language learning apps"
+    ]
+  },
+  "cluster_906": {
+    "cluster_name": "Discover Weekly",
+    "sub_issues": [
+      {
+        "name": "Playlist Updates",
+        "associated_theme_id": "discover_weekly",
+        "description": "Users want to stay updated with the latest Discover Weekly playlists",
+        "frequency_percentage": 0.5
+      },
+      {
+        "name": "Music Discovery",
+        "associated_theme_id": "discover_weekly",
+        "description": "Users want to discover new music and artists",
+        "frequency_percentage": 0.4
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "discover_weekly",
+        "name": "Discover Weekly",
+        "description": "Users want to discover new music that matches their taste"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to discover new music",
+      "motivation": "to find music that matches their taste",
+      "outcome": "discovering new music that they enjoy"
+    },
+    "workarounds": [
+      "Using online music discovery platforms"
+    ]
+  },
+  "cluster_905": {
+    "cluster_name": "Genre Blocking",
+    "sub_issues": [
+      {
+        "name": "Genre Filtering",
+        "associated_theme_id": "genre_blocking",
+        "description": "Users want to filter out specific genres",
+        "frequency_percentage": 0.6
+      },
+      {
+        "name": "Playlist Customization",
+        "associated_theme_id": "genre_blocking",
+        "description": "Users want to customize their playlists to exclude specific genres",
+        "frequency_percentage": 0.3
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "genre_blocking",
+        "name": "Genre Blocking",
+        "description": "Users want to block specific genres"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is listening to music",
+      "motivation": "to avoid specific genres",
+      "outcome": "enjoying music without unwanted genres"
+    },
+    "workarounds": [
+      "Using third-party music players"
+    ]
+  },
+  "cluster_904": {
+    "cluster_name": "Lock Screen Controls",
+    "sub_issues": [
+      {
+        "name": "Playback Controls",
+        "associated_theme_id": "lock_screen_controls",
+        "description": "Users want playback controls on the lock screen",
+        "frequency_percentage": 0.5
+      },
+      {
+        "name": "Music Management",
+        "associated_theme_id": "lock_screen_controls",
+        "description": "Users want to manage their music from the lock screen",
+        "frequency_percentage": 0.4
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "lock_screen_controls",
+        "name": "Lock Screen Controls",
+        "description": "Users want to control music playback from the lock screen"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is listening to music on their lock screen",
+      "motivation": "to control the music playback experience",
+      "outcome": "controlling music playback from the lock screen"
+    },
+    "workarounds": [
+      "Using third-party music players"
+    ]
+  },
+  "cluster_975": {
+    "cluster_name": "Live Performance Publishing",
+    "sub_issues": [
+      {
+        "name": "Live Performance Publishing",
+        "associated_theme_id": "publishing",
+        "description": "Users want to publish live performances on Spotify",
+        "frequency_percentage": 50.0
+      },
+      {
+        "name": "DJ Sub Lease",
+        "associated_theme_id": "leasing",
+        "description": "Users want to lease DJ sub performances on Spotify",
+        "frequency_percentage": 30.0
+      },
+      {
+        "name": "Community Engagement",
+        "associated_theme_id": "publishing",
+        "description": "Users want to engage with the community through live performances",
+        "frequency_percentage": 20.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "publishing",
+        "name": "Music Publishing",
+        "description": "Users want to publish their music on Spotify"
+      },
+      {
+        "theme_id": "leasing",
+        "name": "Music Leasing",
+        "description": "Users want to lease their music on Spotify"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want to publish and lease live performances on Spotify",
+      "motivation": "To share their music and connect with the community",
+      "outcome": "Easily publish and lease live performances on the platform"
+    },
+    "workarounds": [
+      "Using third-party platforms to publish live performances"
+    ]
+  },
+  "cluster_875": {
+    "cluster_name": "Eighties Music Playlist",
+    "sub_issues": [
+      {
+        "name": "Eighties Playlist Creation",
+        "associated_theme_id": "eighties_music",
+        "description": "Users want to create playlists of eighties music",
+        "frequency_percentage": 60.0
+      },
+      {
+        "name": "Playlist Sharing",
+        "associated_theme_id": "playlist_creation",
+        "description": "Users want to share their playlists with others",
+        "frequency_percentage": 30.0
+      },
+      {
+        "name": "Music Discovery",
+        "associated_theme_id": "eighties_music",
+        "description": "Users want to discover new eighties music",
+        "frequency_percentage": 10.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "eighties_music",
+        "name": "Eighties Music",
+        "description": "Users want to create and share playlists of eighties music"
+      },
+      {
+        "theme_id": "playlist_creation",
+        "name": "Playlist Creation",
+        "description": "Users want to create playlists on Spotify"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want to create and share playlists of eighties music",
+      "motivation": "To enjoy and share their favorite music from the eighties",
+      "outcome": "Easily create and share playlists of eighties music"
+    },
+    "workarounds": [
+      "Using third-party playlist creation tools"
+    ]
+  },
+  "cluster_912": {
+    "cluster_name": "Public Spotify Jams",
+    "sub_issues": [
+      {
+        "name": "Public Jam Participation",
+        "associated_theme_id": "public_jams",
+        "description": "Users want to participate in public Spotify jams",
+        "frequency_percentage": 70.0
+      },
+      {
+        "name": "Music Collaboration Tools",
+        "associated_theme_id": "music_collaboration",
+        "description": "Users want to use music collaboration tools on Spotify",
+        "frequency_percentage": 20.0
+      },
+      {
+        "name": "Community Engagement",
+        "associated_theme_id": "public_jams",
+        "description": "Users want to engage with the community through public jams",
+        "frequency_percentage": 10.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "public_jams",
+        "name": "Public Jams",
+        "description": "Users want to participate in public Spotify jams"
+      },
+      {
+        "theme_id": "music_collaboration",
+        "name": "Music Collaboration",
+        "description": "Users want to collaborate with others on music"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want to participate in public Spotify jams",
+      "motivation": "To connect with others and enjoy music together",
+      "outcome": "Easily participate in public Spotify jams"
+    },
+    "workarounds": [
+      "Using third-party music collaboration tools"
+    ]
+  },
+  "cluster_1": {
+    "cluster_name": "Playlist Sharing",
+    "sub_issues": [
+      {
+        "name": "Playlist Sharing Tools",
+        "associated_theme_id": "playlist_sharing",
+        "description": "Users want to use playlist sharing tools on Spotify",
+        "frequency_percentage": 80.0
+      },
+      {
+        "name": "Music Discovery",
+        "associated_theme_id": "music_discovery",
+        "description": "Users want to discover new music through shared playlists",
+        "frequency_percentage": 15.0
+      },
+      {
+        "name": "Community Engagement",
+        "associated_theme_id": "playlist_sharing",
+        "description": "Users want to engage with the community through playlist sharing",
+        "frequency_percentage": 5.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_sharing",
+        "name": "Playlist Sharing",
+        "description": "Users want to share their playlists with others"
+      },
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "Users want to discover new music through shared playlists"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want to share their playlists with others",
+      "motivation": "To connect with others and share their music",
+      "outcome": "Easily share playlists with others"
+    },
+    "workarounds": [
+      "Using third-party playlist sharing tools"
+    ]
+  },
+  "cluster_94": {
+    "cluster_name": "Artist Discovery",
+    "sub_issues": [
+      {
+        "name": "Artist Discovery Tools",
+        "associated_theme_id": "artist_discovery",
+        "description": "Users want to use artist discovery tools on Spotify",
+        "frequency_percentage": 90.0
+      },
+      {
+        "name": "Music Recommendations",
+        "associated_theme_id": "music_recommendations",
+        "description": "Users want to receive personalized music recommendations",
+        "frequency_percentage": 5.0
+      },
+      {
+        "name": "Community Engagement",
+        "associated_theme_id": "artist_discovery",
+        "description": "Users want to engage with the community through artist discovery",
+        "frequency_percentage": 5.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "artist_discovery",
+        "name": "Artist Discovery",
+        "description": "Users want to discover new artists and music"
+      },
+      {
+        "theme_id": "music_recommendations",
+        "name": "Music Recommendations",
+        "description": "Users want to receive personalized music recommendations"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want to discover new artists and music",
+      "motivation": "To find new music and support emerging artists",
+      "outcome": "Easily discover new artists and music"
+    },
+    "workarounds": [
+      "Using third-party music discovery tools"
+    ]
+  },
+  "cluster_940": {
+    "cluster_name": "Price Increase Justification",
+    "sub_issues": [
+      {
+        "name": "Price Increase Transparency",
+        "associated_theme_id": "price_increase",
+        "description": "Users want transparent communication about price increases",
+        "frequency_percentage": 80.0
+      },
+      {
+        "name": "Value Perception",
+        "associated_theme_id": "value_perception",
+        "description": "Users want to feel that the service provides good value for the price",
+        "frequency_percentage": 15.0
+      },
+      {
+        "name": "Alternative Services",
+        "associated_theme_id": "price_increase",
+        "description": "Users consider alternative music streaming services due to price increases",
+        "frequency_percentage": 5.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "price_increase",
+        "name": "Price Increase",
+        "description": "Users want to understand the justification for price increases"
+      },
+      {
+        "theme_id": "value_perception",
+        "name": "Value Perception",
+        "description": "Users want to feel that the service provides good value for the price"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want to understand the justification for price increases",
+      "motivation": "To feel that the price increase is fair and reasonable",
+      "outcome": "Clearly understand the justification for price increases"
+    },
+    "workarounds": [
+      "Using third-party music streaming services"
+    ]
+  },
+  "cluster_939": {
+    "cluster_name": "Playlist Viewer Improvement",
+    "sub_issues": [
+      {
+        "name": "Playlist Viewer Redesign",
+        "associated_theme_id": "playlist_viewer",
+        "description": "Users want a redesigned playlist viewer with improved features",
+        "frequency_percentage": 85.0
+      },
+      {
+        "name": "User Interface Improvement",
+        "associated_theme_id": "user_interface",
+        "description": "Users want an improved user interface for playlist viewing",
+        "frequency_percentage": 10.0
+      },
+      {
+        "name": "Navigation and Discovery",
+        "associated_theme_id": "playlist_viewer",
+        "description": "Users want to easily navigate and discover new music within playlists",
+        "frequency_percentage": 5.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_viewer",
+        "name": "Playlist Viewer",
+        "description": "Users want to improve the playlist viewer experience"
+      },
+      {
+        "theme_id": "user_interface",
+        "name": "User Interface",
+        "description": "Users want an intuitive and user-friendly interface for playlist viewing"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want to improve the playlist viewer experience",
+      "motivation": "To easily navigate and enjoy their playlists",
+      "outcome": "Easily navigate and enjoy playlists with an improved viewer"
+    },
+    "workarounds": [
+      "Using third-party playlist viewer tools"
+    ]
+  },
+  "cluster_938": {
+    "cluster_name": "AI Music Transparency",
+    "sub_issues": [
+      {
+        "name": "AI-Generated Music Labeling",
+        "associated_theme_id": "ai_transparency",
+        "description": "Users want clear labeling of AI-generated music",
+        "frequency_percentage": 90.0
+      },
+      {
+        "name": "Music Recommendation Transparency",
+        "associated_theme_id": "music_recommendations",
+        "description": "Users want to understand how music recommendations are generated",
+        "frequency_percentage": 5.0
+      },
+      {
+        "name": "AI Ethics and Responsibility",
+        "associated_theme_id": "ai_transparency",
+        "description": "Users want Spotify to prioritize AI ethics and responsibility",
+        "frequency_percentage": 5.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "ai_transparency",
+        "name": "AI Transparency",
+        "description": "Users want transparency in AI-generated music"
+      },
+      {
+        "theme_id": "music_recommendations",
+        "name": "Music Recommendations",
+        "description": "Users want to understand how music recommendations are generated"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want transparency in AI-generated music",
+      "motivation": "To understand how AI-generated music is created and used",
+      "outcome": "Clearly understand the use of AI in music generation and recommendation"
+    },
+    "workarounds": [
+      "Using third-party music streaming services with transparent AI practices"
+    ]
+  },
+  "cluster_937": {
+    "cluster_name": "Fitness App Integration",
+    "sub_issues": [
+      {
+        "name": "Fitness App Connectivity",
+        "associated_theme_id": "fitness_app_integration",
+        "description": "Users want to connect their fitness apps to Spotify",
+        "frequency_percentage": 95.0
+      },
+      {
+        "name": "Personalized Fitness Playlists",
+        "associated_theme_id": "music_for_fitness",
+        "description": "Users want personalized playlists for their fitness activities",
+        "frequency_percentage": 3.0
+      },
+      {
+        "name": "Heart Rate Monitoring",
+        "associated_theme_id": "fitness_app_integration",
+        "description": "Users want to monitor their heart rate while listening to music on Spotify",
+        "frequency_percentage": 2.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "fitness_app_integration",
+        "name": "Fitness App Integration",
+        "description": "Users want to integrate fitness apps with Spotify"
+      },
+      {
+        "theme_id": "music_for_fitness",
+        "name": "Music for Fitness",
+        "description": "Users want music that enhances their fitness experience"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want to integrate fitness apps with Spotify",
+      "motivation": "To enhance their fitness experience with music and tracking",
+      "outcome": "Easily integrate fitness apps with Spotify for a seamless experience"
+    },
+    "workarounds": [
+      "Using third-party fitness app integration tools"
+    ]
+  },
+  "cluster_936": {
+    "cluster_name": "Conversational AI DJ",
+    "sub_issues": [
+      {
+        "name": "Conversational AI DJ Interface",
+        "associated_theme_id": "conversational_ai",
+        "description": "Users want an intuitive interface to interact with the conversational AI DJ",
+        "frequency_percentage": 92.0
+      },
+      {
+        "name": "Personalized Music Recommendations",
+        "associated_theme_id": "personalized_music",
+        "description": "Users want personalized music recommendations from the AI DJ",
+        "frequency_percentage": 4.0
+      },
+      {
+        "name": "AI DJ Personality and Tone",
+        "associated_theme_id": "conversational_ai",
+        "description": "Users want the AI DJ to have a personality and tone that resonates with them",
+        "frequency_percentage": 4.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "conversational_ai",
+        "name": "Conversational AI",
+        "description": "Users want a conversational AI experience for music"
+      },
+      {
+        "theme_id": "personalized_music",
+        "name": "Personalized Music",
+        "description": "Users want personalized music recommendations from the AI DJ"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want a conversational AI DJ experience",
+      "motivation": "To interact with a DJ that understands their music preferences",
+      "outcome": "Easily interact with a conversational AI DJ for personalized music"
+    },
+    "workarounds": [
+      "Using third-party conversational AI music services"
+    ]
+  },
+  "cluster_935": {
+    "cluster_name": "Artist and Genre Algorithm",
+    "sub_issues": [
+      {
+        "name": "Algorithm Improvement",
+        "associated_theme_id": "artist_and_genre_algorithm",
+        "description": "Users want an improved algorithm for artist and genre recommendations",
+        "frequency_percentage": 96.0
+      },
+      {
+        "name": "Music Discovery Features",
+        "associated_theme_id": "music_discovery",
+        "description": "Users want features that facilitate music discovery",
+        "frequency_percentage": 2.0
+      },
+      {
+        "name": "Artist and Genre Diversity",
+        "associated_theme_id": "artist_and_genre_algorithm",
+        "description": "Users want to discover a diverse range of artists and genres",
+        "frequency_percentage": 2.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "artist_and_genre_algorithm",
+        "name": "Artist and Genre Algorithm",
+        "description": "Users want an improved algorithm for artist and genre recommendations"
+      },
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "Users want to discover new music and artists"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want an improved artist and genre algorithm",
+      "motivation": "To discover new music and artists that fit their tastes",
+      "outcome": "Easily discover new music and artists with an improved algorithm"
+    },
+    "workarounds": [
+      "Using third-party music discovery tools"
+    ]
+  },
+  "cluster_896": {
+    "cluster_name": "Community-Driven Tags",
+    "sub_issues": [
+      {
+        "name": "Tagging System Implementation",
+        "associated_theme_id": "community_driven_tags",
+        "description": "Users want a tagging system that allows community-driven tags",
+        "frequency_percentage": 98.0
+      },
+      {
+        "name": "Tag Moderation and Management",
+        "associated_theme_id": "community_driven_tags",
+        "description": "Users want a system for moderating and managing community-driven tags",
+        "frequency_percentage": 1.0
+      },
+      {
+        "name": "Discovery Features",
+        "associated_theme_id": "music_discovery",
+        "description": "Users want features that facilitate music discovery through community-driven tags",
+        "frequency_percentage": 1.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "community_driven_tags",
+        "name": "Community-Driven Tags",
+        "description": "Users want community-driven tags for songs"
+      },
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "Users want to discover new music through community-driven tags"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want community-driven tags for songs",
+      "motivation": "To discover new music and connect with others through shared tags",
+      "outcome": "Easily discover and share music with community-driven tags"
+    },
+    "workarounds": [
+      "Using third-party music tagging tools"
+    ]
+  },
+  "cluster_934": {
+    "cluster_name": "Spotify Speaker Integration",
+    "sub_issues": [],
+    "sub_themes": [
+      {
+        "theme_id": "spotify_speaker_integration",
+        "name": "Spotify Speaker Integration",
+        "description": "Users want Spotify speaker integration"
+      }
+    ],
+    "jtbd": {
+      "situation": "Users want Spotify speaker integration",
+      "motivation": "To enjoy Spotify music with high-quality sound",
+      "outcome": "Easily integrate Spotify with speakers for high-quality sound"
+    },
+    "workarounds": [
+      "Using third-party speaker integration tools"
+    ]
+  },
+  "cluster_919": {
+    "cluster_name": "Release Radar Album Display",
+    "sub_issues": [
+      {
+        "name": "Album Display Issue",
+        "associated_theme_id": "discovery",
+        "description": "Release Radar not showing albums correctly",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "discovery",
+        "name": "Music Discovery",
+        "description": "Features that help users find new music"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to discover new music from liked artists",
+      "motivation": "Stay updated with latest releases",
+      "outcome": "Easily find new songs from favorite artists"
+    },
+    "workarounds": [
+      "Manually searching for new releases"
+    ]
+  },
+  "cluster_918": {
+    "cluster_name": "Incognito Mode for Listening",
+    "sub_issues": [
+      {
+        "name": "Influence on Recommendations",
+        "associated_theme_id": "privacy",
+        "description": "Short listening sessions affecting DJ suggestions and Daily Mix",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "privacy",
+        "name": "Listening Privacy",
+        "description": "Features that protect user listening privacy"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to listen to music without influencing recommendations",
+      "motivation": "Maintain privacy and control over recommendations",
+      "outcome": "Listen to music without affecting personalized suggestions"
+    },
+    "workarounds": [
+      "Creating a new account for private listening"
+    ]
+  },
+  "cluster_917": {
+    "cluster_name": "Country-Based Release Radar",
+    "sub_issues": [
+      {
+        "name": "Lack of Regional Filtering",
+        "associated_theme_id": "regional_discovery",
+        "description": "No option to filter Release Radar by country or region",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "regional_discovery",
+        "name": "Regional Music Discovery",
+        "description": "Features that help users discover music from specific regions"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to discover new music from specific regions",
+      "motivation": "Explore local music scenes",
+      "outcome": "Find new artists and songs from desired countries or regions"
+    },
+    "workarounds": [
+      "Using search filters to find regional music"
+    ]
+  },
+  "cluster_916": {
+    "cluster_name": "Release Radar Playlist Issues",
+    "sub_issues": [
+      {
+        "name": "Playlist Disappearance",
+        "associated_theme_id": "playlist_management",
+        "description": "Release Radar playlist disappearing or not updating",
+        "frequency_percentage": 0.6
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_management",
+        "name": "Playlist Management",
+        "description": "Features that help users manage and access their playlists"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to access their Release Radar playlist",
+      "motivation": "Enjoy weekly updated music recommendations",
+      "outcome": "Easily access and listen to Release Radar playlist"
+    },
+    "workarounds": [
+      "Re-creating the playlist manually"
+    ]
+  },
+  "cluster_915": {
+    "cluster_name": "Library Sorting Options",
+    "sub_issues": [
+      {
+        "name": "Lack of Sorting Options",
+        "associated_theme_id": "library_organization",
+        "description": "No option to sort saved albums by duration or other criteria",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "library_organization",
+        "name": "Music Library Organization",
+        "description": "Features that help users organize their music libraries"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to organize their music library",
+      "motivation": "Efficiently find and listen to saved music",
+      "outcome": "Easily sort and access saved albums and songs"
+    },
+    "workarounds": [
+      "Using external music library management tools"
+    ]
+  },
+  "cluster_914": {
+    "cluster_name": "Music Blog Engagement",
+    "sub_issues": [
+      {
+        "name": "Limited Blogging Features",
+        "associated_theme_id": "music_blogging",
+        "description": "Limited options for creating and engaging with music blog posts",
+        "frequency_percentage": 0.5
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_blogging",
+        "name": "Music Blogging",
+        "description": "Features that support music blogging and community engagement"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to engage with music-related content",
+      "motivation": "Discover new music and artists through blogs",
+      "outcome": "Enjoy and interact with music blog posts"
+    },
+    "workarounds": [
+      "Following music blogs on other platforms"
+    ]
+  },
+  "cluster_913": {
+    "cluster_name": "Artist Discovery",
+    "sub_issues": [
+      {
+        "name": "Limited Discovery Features",
+        "associated_theme_id": "artist_discovery",
+        "description": "Discovery features not effective in finding new artists and music",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "artist_discovery",
+        "name": "Artist and Music Discovery",
+        "description": "Features that help users discover new artists and music"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to find new artists and music",
+      "motivation": "Expand musical tastes and discover new favorites",
+      "outcome": "Easily find and listen to new artists and songs"
+    },
+    "workarounds": [
+      "Using online radio stations or music discovery platforms"
+    ]
+  },
+  "cluster_911": {
+    "cluster_name": "Random Music Selection",
+    "sub_issues": [
+      {
+        "name": "Lack of Randomization Options",
+        "associated_theme_id": "music_randomization",
+        "description": "No option for truly random song selection",
+        "frequency_percentage": 0.6
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_randomization",
+        "name": "Music Randomization",
+        "description": "Features that provide random music selection"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to listen to random music",
+      "motivation": "Discover new music and avoid repetition",
+      "outcome": "Enjoy a random selection of songs"
+    },
+    "workarounds": [
+      "Creating a random playlist manually"
+    ]
+  },
+  "cluster_910": {
+    "cluster_name": "Personalized Music Recommendations",
+    "sub_issues": [
+      {
+        "name": "Inaccurate Recommendations",
+        "associated_theme_id": "personalized_recommendations",
+        "description": "Music recommendations not accurately reflecting user tastes",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "personalized_recommendations",
+        "name": "Personalized Music Recommendations",
+        "description": "Features that provide personalized music suggestions"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants personalized music recommendations",
+      "motivation": "Enjoy music tailored to their tastes",
+      "outcome": "Receive accurate and enjoyable music recommendations"
+    },
+    "workarounds": [
+      "Using external music recommendation services"
+    ]
+  },
+  "cluster_909": {
+    "cluster_name": "Music for Sports and Fitness",
+    "sub_issues": [
+      {
+        "name": "Limited Fitness Music Options",
+        "associated_theme_id": "fitness_music",
+        "description": "Not enough music options tailored for sports and fitness",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "fitness_music",
+        "name": "Music for Sports and Fitness",
+        "description": "Features that provide music for workout and sports activities"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants music for sports and fitness activities",
+      "motivation": "Enhance workout experience with suitable music",
+      "outcome": "Find and listen to music that motivates and improves workouts"
+    },
+    "workarounds": [
+      "Using playlists from other music streaming services"
+    ]
+  },
+  "cluster_900": {
+    "cluster_name": "Not Interested Button for Recommendations",
+    "sub_issues": [
+      {
+        "name": "Lack of Explicit Feedback Option",
+        "associated_theme_id": "recommendation_feedback",
+        "description": "No 'Not Interested' button for recommended music",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "recommendation_feedback",
+        "name": "Music Recommendation Feedback",
+        "description": "Features that allow users to provide feedback on music recommendations"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to provide feedback on music recommendations",
+      "motivation": "Improve the accuracy of music recommendations",
+      "outcome": "Easily provide feedback on recommended music"
+    },
+    "workarounds": [
+      "Using the 'hide' or 'dismiss' options"
+    ]
+  },
+  "cluster_899": {
+    "cluster_name": "Dislike Button for Songs and Albums",
+    "sub_issues": [
+      {
+        "name": "Lack of Dislike Option",
+        "associated_theme_id": "music_feedback",
+        "description": "No option to explicitly dislike songs or albums",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_feedback",
+        "name": "Music Feedback",
+        "description": "Features that allow users to provide feedback on music"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to provide negative feedback on music",
+      "motivation": "Improve music recommendations by indicating dislike",
+      "outcome": "Easily indicate dislike for songs or albums"
+    },
+    "workarounds": [
+      "Using the 'hide' or 'dismiss' options"
+    ]
+  },
+  "cluster_898": {
+    "cluster_name": "Regional Music Prioritization",
+    "sub_issues": [
+      {
+        "name": "Lack of Regional Prioritization",
+        "associated_theme_id": "regional_music",
+        "description": "No option to prioritize music from specific regions",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "regional_music",
+        "name": "Regional Music",
+        "description": "Features that support discovery and prioritization of regional music"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to prioritize music from specific regions",
+      "motivation": "Explore and enjoy local music scenes",
+      "outcome": "Easily find and listen to music from desired regions"
+    },
+    "workarounds": [
+      "Using search filters to find regional music"
+    ]
+  },
+  "cluster_897": {
+    "cluster_name": "Recents Row on Desktop Home Page",
+    "sub_issues": [
+      {
+        "name": "Missing Recents Row",
+        "associated_theme_id": "recently_played",
+        "description": "No permanent Recents row on the desktop Home page",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "recently_played",
+        "name": "Recently Played Music",
+        "description": "Features that provide easy access to recently played music"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to access recently played music on desktop",
+      "motivation": "Easily find and listen to recently played songs",
+      "outcome": "Quickly access recent music from the desktop home page"
+    },
+    "workarounds": [
+      "Manually searching for recently played music"
+    ]
+  },
+  "cluster_725": {
+    "cluster_name": "Playlist Collaboration and Sharing",
+    "sub_issues": [
+      {
+        "name": "Limited Collaboration Features",
+        "associated_theme_id": "playlist_collaboration",
+        "description": "Not enough features to support collaborative playlist creation and sharing",
+        "frequency_percentage": 0.6
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_collaboration",
+        "name": "Playlist Collaboration",
+        "description": "Features that support collaborative playlist creation and sharing"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to collaborate on and share playlists",
+      "motivation": "Share music with others and discover new music through collaborations",
+      "outcome": "Easily collaborate on and share playlists with others"
+    },
+    "workarounds": [
+      "Using external playlist sharing platforms"
+    ]
+  },
+  "cluster_174": {
+    "cluster_name": "Smart Shuffle Control",
+    "sub_issues": [
+      {
+        "name": "Lack of Shuffle Control",
+        "associated_theme_id": "shuffle_control",
+        "description": "No option to disable or customize smart shuffle for non-premium users",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "shuffle_control",
+        "name": "Smart Shuffle Control",
+        "description": "Features that allow users to control and customize smart shuffle"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to control smart shuffle on their music playlists",
+      "motivation": "Improve listening experience by customizing shuffle behavior",
+      "outcome": "Easily control and customize smart shuffle for playlists"
+    },
+    "workarounds": [
+      "Using third-party music players with customizable shuffle"
+    ]
+  },
+  "cluster_689": {
+    "cluster_name": "Workout Music Playlists",
+    "sub_issues": [
+      {
+        "name": "Limited Fitness Playlists",
+        "associated_theme_id": "fitness_playlists",
+        "description": "Not enough music playlists tailored for workout and fitness",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "fitness_playlists",
+        "name": "Workout and Fitness Playlists",
+        "description": "Features that provide music playlists for workout and fitness activities"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants music playlists for workout and fitness activities",
+      "motivation": "Enhance workout experience with suitable music",
+      "outcome": "Find and listen to music that motivates and improves workouts"
+    },
+    "workarounds": [
+      "Using playlists from other music streaming services"
+    ]
+  },
+  "cluster_827": {
+    "cluster_name": "Large Music Libraries",
+    "sub_issues": [
+      {
+        "name": "Library Management Issues",
+        "associated_theme_id": "large_libraries",
+        "description": "Difficulty in managing and accessing large music libraries",
+        "frequency_percentage": 0.6
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "large_libraries",
+        "name": "Large Music Libraries",
+        "description": "Features that support the management of large music libraries"
+      }
+    ],
+    "jtbd": {
+      "situation": "User has a large music library",
+      "motivation": "Efficiently manage and access their music collection",
+      "outcome": "Easily manage and listen to their large music library"
+    },
+    "workarounds": [
+      "Using external music library management tools"
+    ]
+  },
+  "cluster_159": {
+    "cluster_name": "Free Version Limitations",
+    "sub_issues": [
+      {
+        "name": "Ad Interruptions",
+        "associated_theme_id": "free_version",
+        "description": "Frequent ad interruptions in the free version",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "free_version",
+        "name": "Free Version Limitations",
+        "description": "Features and limitations of the free version of the music streaming service"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is using the free version of the music streaming service",
+      "motivation": "Enjoy music without ads and with more features",
+      "outcome": "Have a satisfactory music listening experience without premium features"
+    },
+    "workarounds": [
+      "Upgrading to a premium subscription"
+    ]
+  },
+  "cluster_193": {
+    "cluster_name": "Positive Music Streaming Experience",
+    "sub_issues": [
+      {
+        "name": "Overall Satisfaction",
+        "associated_theme_id": "positive_experience",
+        "description": "Users are generally satisfied with the music streaming service",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "positive_experience",
+        "name": "Positive Music Streaming Experience",
+        "description": "Features that contribute to a positive music streaming experience"
+      }
+    ],
+    "jtbd": {
+      "situation": "User is looking for a music streaming service",
+      "motivation": "Find a service that meets their music listening needs",
+      "outcome": "Have a positive experience with the music streaming service"
+    },
+    "workarounds": [
+      "Trying out different music streaming services"
+    ]
+  },
+  "cluster_79": {
+    "cluster_name": "Music Taste and Discovery",
+    "sub_issues": [
+      {
+        "name": "Discovery Features",
+        "associated_theme_id": "music_discovery",
+        "description": "Features that help users discover new music and expand their musical tastes",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Taste and Discovery",
+        "description": "Features that support music discovery and expansion of musical tastes"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to discover new music and expand their musical tastes",
+      "motivation": "Find new music that they will enjoy",
+      "outcome": "Easily discover and listen to new music that matches their tastes"
+    },
+    "workarounds": [
+      "Using online radio stations or music discovery platforms"
+    ]
+  },
+  "cluster_270": {
+    "cluster_name": "High-Quality Music Streaming",
+    "sub_issues": [],
+    "sub_themes": [],
+    "jtbd": {
+      "situation": "User wants high-quality music streaming",
+      "motivation": "Enjoy music with the best possible sound quality",
+      "outcome": "Stream music with high sound quality"
+    },
+    "workarounds": []
+  },
+  "cluster_176": {
+    "cluster_name": "App Recommendation",
+    "sub_issues": [
+      {
+        "name": "User Satisfaction",
+        "associated_theme_id": "app_quality",
+        "description": "Users' overall satisfaction with the app",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "app_quality",
+        "name": "App Quality",
+        "description": "Users' perception of the app's overall quality"
+      }
+    ],
+    "jtbd": {
+      "situation": "When looking for a music streaming service",
+      "motivation": "To find a reliable and user-friendly app",
+      "outcome": "To enjoy music with a seamless experience"
+    },
+    "workarounds": []
+  },
+  "cluster_149": {
+    "cluster_name": "Premium Frustrations",
+    "sub_issues": [
+      {
+        "name": "Limited Features",
+        "associated_theme_id": "premium_features",
+        "description": "Users' frustration with limited features in the free version",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "premium_features",
+        "name": "Premium Features",
+        "description": "Users' desire for premium features without paying"
+      }
+    ],
+    "jtbd": {
+      "situation": "When using the free version of the app",
+      "motivation": "To access premium features without paying",
+      "outcome": "To enjoy music without limitations"
+    },
+    "workarounds": [
+      "Upgrading to premium"
+    ]
+  },
+  "cluster_302": {
+    "cluster_name": "Easy Music Search",
+    "sub_issues": [
+      {
+        "name": "Search Efficiency",
+        "associated_theme_id": "search_functionality",
+        "description": "Users' satisfaction with the app's search efficiency",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "search_functionality",
+        "name": "Search Functionality",
+        "description": "Users' experience with the app's search functionality"
+      }
+    ],
+    "jtbd": {
+      "situation": "When searching for music",
+      "motivation": "To find music quickly and easily",
+      "outcome": "To enjoy music with minimal effort"
+    },
+    "workarounds": []
+  },
+  "cluster_148": {
+    "cluster_name": "Price and Quality Issues",
+    "sub_issues": [
+      {
+        "name": "Price Increases",
+        "associated_theme_id": "price_value",
+        "description": "Users' frustration with price increases",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "price_value",
+        "name": "Price and Value",
+        "description": "Users' perception of the app's price and value"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing price increases",
+      "motivation": "To get value for money",
+      "outcome": "To enjoy music without excessive costs"
+    },
+    "workarounds": [
+      "Canceling subscription"
+    ]
+  },
+  "cluster_317": {
+    "cluster_name": "Free Version Limitations",
+    "sub_issues": [
+      {
+        "name": "Ad Interruptions",
+        "associated_theme_id": "free_version_limitations",
+        "description": "Users' frustration with ad interruptions",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "free_version_limitations",
+        "name": "Free Version Limitations",
+        "description": "Users' experience with the free version's limitations"
+      }
+    ],
+    "jtbd": {
+      "situation": "When using the free version",
+      "motivation": "To access music without ads",
+      "outcome": "To enjoy music without interruptions"
+    },
+    "workarounds": [
+      "Upgrading to premium"
+    ]
+  },
+  "cluster_341": {
+    "cluster_name": "Personalized Music",
+    "sub_issues": [
+      {
+        "name": "Music Discovery",
+        "associated_theme_id": "personalized_music",
+        "description": "Users' satisfaction with music discovery features",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "personalized_music",
+        "name": "Personalized Music",
+        "description": "Users' experience with personalized music features"
+      }
+    ],
+    "jtbd": {
+      "situation": "When looking for personalized music",
+      "motivation": "To discover new music",
+      "outcome": "To enjoy music tailored to their taste"
+    },
+    "workarounds": []
+  },
+  "cluster_443": {
+    "cluster_name": "Podcast Issues",
+    "sub_issues": [
+      {
+        "name": "Podcast Bugs",
+        "associated_theme_id": "podcast_functionality",
+        "description": "Users' frustration with podcast bugs",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "podcast_functionality",
+        "name": "Podcast Functionality",
+        "description": "Users' experience with the app's podcast features"
+      }
+    ],
+    "jtbd": {
+      "situation": "When listening to podcasts",
+      "motivation": "To enjoy podcasts without issues",
+      "outcome": "To have a seamless podcast listening experience"
+    },
+    "workarounds": [
+      "Using alternative podcast apps"
+    ]
+  },
+  "cluster_527": {
+    "cluster_name": "App Crashes",
+    "sub_issues": [
+      {
+        "name": "Crash Frequency",
+        "associated_theme_id": "app_stability",
+        "description": "Users' frustration with frequent crashes",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "app_stability",
+        "name": "App Stability",
+        "description": "Users' experience with the app's stability"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing app crashes",
+      "motivation": "To have a stable app experience",
+      "outcome": "To enjoy music without interruptions"
+    },
+    "workarounds": [
+      "Restarting the app"
+    ]
+  },
+  "cluster_186": {
+    "cluster_name": "Song Discovery",
+    "sub_issues": [
+      {
+        "name": "Song Variety",
+        "associated_theme_id": "song_discovery",
+        "description": "Users' satisfaction with song variety",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "song_discovery",
+        "name": "Song Discovery",
+        "description": "Users' experience with song discovery features"
+      }
+    ],
+    "jtbd": {
+      "situation": "When looking for new music",
+      "motivation": "To discover new songs",
+      "outcome": "To enjoy new music"
+    },
+    "workarounds": []
+  },
+  "cluster_171": {
+    "cluster_name": "Music Streaming",
+    "sub_issues": [
+      {
+        "name": "Streaming Quality",
+        "associated_theme_id": "music_streaming",
+        "description": "Users' satisfaction with streaming quality",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_streaming",
+        "name": "Music Streaming",
+        "description": "Users' experience with music streaming features"
+      }
+    ],
+    "jtbd": {
+      "situation": "When streaming music",
+      "motivation": "To enjoy music without interruptions",
+      "outcome": "To have a seamless music streaming experience"
+    },
+    "workarounds": []
+  },
+  "cluster_111": {
+    "cluster_name": "Playlist Management",
+    "sub_issues": [
+      {
+        "name": "Playlist Organization",
+        "associated_theme_id": "playlist_management",
+        "description": "Users' satisfaction with playlist organization",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_management",
+        "name": "Playlist Management",
+        "description": "Users' experience with playlist management features"
+      }
+    ],
+    "jtbd": {
+      "situation": "When managing playlists",
+      "motivation": "To organize music efficiently",
+      "outcome": "To have well-organized playlists"
+    },
+    "workarounds": []
+  },
+  "cluster_185": {
+    "cluster_name": "Widget Issues",
+    "sub_issues": [
+      {
+        "name": "Widget Bugs",
+        "associated_theme_id": "widget_functionality",
+        "description": "Users' frustration with widget bugs",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "widget_functionality",
+        "name": "Widget Functionality",
+        "description": "Users' experience with the widget's functionality"
+      }
+    ],
+    "jtbd": {
+      "situation": "When using the widget",
+      "motivation": "To have a functional widget",
+      "outcome": "To control music playback easily"
+    },
+    "workarounds": [
+      "Using alternative widgets"
+    ]
+  },
+  "cluster_240": {
+    "cluster_name": "Playlist Deletion",
+    "sub_issues": [
+      {
+        "name": "Deletion Difficulty",
+        "associated_theme_id": "playlist_deletion",
+        "description": "Users' frustration with difficult deletion processes",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_deletion",
+        "name": "Playlist Deletion",
+        "description": "Users' experience with playlist deletion features"
+      }
+    ],
+    "jtbd": {
+      "situation": "When deleting playlists",
+      "motivation": "To remove unwanted playlists",
+      "outcome": "To have a clutter-free playlist library"
+    },
+    "workarounds": [
+      "Manually deleting playlists"
+    ]
+  },
+  "cluster_245": {
+    "cluster_name": "Widget Problems",
+    "sub_issues": [
+      {
+        "name": "Widget Errors",
+        "associated_theme_id": "widget_problems",
+        "description": "Users' frustration with widget errors",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "widget_problems",
+        "name": "Widget Problems",
+        "description": "Users' experience with widget-related issues"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing widget issues",
+      "motivation": "To have a functional widget",
+      "outcome": "To control music playback easily"
+    },
+    "workarounds": [
+      "Using alternative widgets"
+    ]
+  },
+  "cluster_255": {
+    "cluster_name": "UI Changes",
+    "sub_issues": [
+      {
+        "name": "UI Confusion",
+        "associated_theme_id": "ui_changes",
+        "description": "Users' frustration with confusing UI changes",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "ui_changes",
+        "name": "UI Changes",
+        "description": "Users' experience with UI changes"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing UI changes",
+      "motivation": "To have a user-friendly interface",
+      "outcome": "To navigate the app easily"
+    },
+    "workarounds": [
+      "Getting used to the new UI"
+    ]
+  },
+  "cluster_181": {
+    "cluster_name": "App Recommendation",
+    "sub_issues": [
+      {
+        "name": "User Satisfaction",
+        "associated_theme_id": "app_quality",
+        "description": "Users' overall satisfaction with the app",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "app_quality",
+        "name": "App Quality",
+        "description": "Users' perception of the app's overall quality"
+      }
+    ],
+    "jtbd": {
+      "situation": "When looking for a music streaming service",
+      "motivation": "To find a reliable and user-friendly app",
+      "outcome": "To enjoy music with a seamless experience"
+    },
+    "workarounds": []
+  },
+  "cluster_559": {
+    "cluster_name": "App Crashes",
+    "sub_issues": [
+      {
+        "name": "Crash Frequency",
+        "associated_theme_id": "app_stability",
+        "description": "Users' frustration with frequent crashes",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "app_stability",
+        "name": "App Stability",
+        "description": "Users' experience with the app's stability"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing app crashes",
+      "motivation": "To have a stable app experience",
+      "outcome": "To enjoy music without interruptions"
+    },
+    "workarounds": [
+      "Restarting the app"
+    ]
+  },
+  "cluster_227": {
+    "cluster_name": "Algorithm Quality",
+    "sub_issues": [
+      {
+        "name": "Algorithm Accuracy",
+        "associated_theme_id": "algorithm_quality",
+        "description": "Users' satisfaction with the algorithm's accuracy",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "algorithm_quality",
+        "name": "Algorithm Quality",
+        "description": "Users' experience with the algorithm's quality"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing algorithm-related issues",
+      "motivation": "To have a high-quality algorithm",
+      "outcome": "To enjoy music tailored to their taste"
+    },
+    "workarounds": []
+  },
+  "cluster_294": {
+    "cluster_name": "Ad Issues",
+    "sub_issues": [
+      {
+        "name": "Ad Frequency",
+        "associated_theme_id": "ad_issues",
+        "description": "Users' frustration with frequent ads",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "ad_issues",
+        "name": "Ad Issues",
+        "description": "Users' experience with ad-related issues"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing ad-related issues",
+      "motivation": "To have a seamless music experience",
+      "outcome": "To enjoy music without ad interruptions"
+    },
+    "workarounds": [
+      "Upgrading to premium"
+    ]
+  },
+  "cluster_239": {
+    "cluster_name": "Shuffle Issues",
+    "sub_issues": [
+      {
+        "name": "Shuffle Accuracy",
+        "associated_theme_id": "shuffle_issues",
+        "description": "Users' frustration with inaccurate shuffling",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "shuffle_issues",
+        "name": "Shuffle Issues",
+        "description": "Users' experience with shuffle-related issues"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing shuffle-related issues",
+      "motivation": "To have a functional shuffle feature",
+      "outcome": "To enjoy music in a randomized order"
+    },
+    "workarounds": [
+      "Using alternative music players"
+    ]
+  },
+  "cluster_419": {
+    "cluster_name": "UI Performance",
+    "sub_issues": [
+      {
+        "name": "UI Lag",
+        "associated_theme_id": "ui_performance",
+        "description": "Users' frustration with UI lag",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "ui_performance",
+        "name": "UI Performance",
+        "description": "Users' experience with the app's UI performance"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing UI performance issues",
+      "motivation": "To have a responsive UI",
+      "outcome": "To navigate the app quickly"
+    },
+    "workarounds": [
+      "Closing and reopening the app"
+    ]
+  },
+  "cluster_241": {
+    "cluster_name": "Widget Size Issues",
+    "sub_issues": [
+      {
+        "name": "Widget Size Frustration",
+        "associated_theme_id": "widget_size",
+        "description": "Users' frustration with widget size issues",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "widget_size",
+        "name": "Widget Size",
+        "description": "Users' experience with widget size issues"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing widget size issues",
+      "motivation": "To have a functional widget",
+      "outcome": "To control music playback easily"
+    },
+    "workarounds": [
+      "Using alternative widgets"
+    ]
+  },
+  "cluster_212": {
+    "cluster_name": "Smart Shuffle Issues",
+    "sub_issues": [
+      {
+        "name": "Smart Shuffle Accuracy",
+        "associated_theme_id": "smart_shuffle",
+        "description": "Users' frustration with inaccurate Smart Shuffling",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "smart_shuffle",
+        "name": "Smart Shuffle",
+        "description": "Users' experience with Smart Shuffle-related issues"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing Smart Shuffle issues",
+      "motivation": "To have a functional Smart Shuffle feature",
+      "outcome": "To enjoy music in a randomized order"
+    },
+    "workarounds": [
+      "Using alternative music players"
+    ]
+  },
+  "cluster_316": {
+    "cluster_name": "Autoplay Issues",
+    "sub_issues": [
+      {
+        "name": "Autoplay Frustration",
+        "associated_theme_id": "autoplay",
+        "description": "Users' frustration with autoplay issues",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "autoplay",
+        "name": "Autoplay",
+        "description": "Users' experience with autoplay-related issues"
+      }
+    ],
+    "jtbd": {
+      "situation": "When experiencing autoplay issues",
+      "motivation": "To have control over music playback",
+      "outcome": "To enjoy music without unwanted playback"
+    },
+    "workarounds": [
+      "Disabling autoplay"
+    ]
+  },
+  "cluster_220": {
+    "cluster_name": "Offline Mode Issues",
+    "sub_issues": [
+      {
+        "name": "Offline Mode Not Working",
+        "associated_theme_id": "theme_1",
+        "description": "users are unable to use Spotify offline due to connectivity issues",
+        "frequency_percentage": 60.0
+      },
+      {
+        "name": "App Freezing or Crashing",
+        "associated_theme_id": "theme_2",
+        "description": "the app freezes or crashes when trying to access offline mode",
+        "frequency_percentage": 30.0
+      },
+      {
+        "name": "Settings Not Saving",
+        "associated_theme_id": "theme_2",
+        "description": "changes to settings are not being saved, causing offline mode issues",
+        "frequency_percentage": 10.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_1",
+        "name": "Network Connectivity",
+        "description": "issues related to internet connection and data usage"
+      },
+      {
+        "theme_id": "theme_2",
+        "name": "App Performance",
+        "description": "problems with the app's functionality and responsiveness"
+      }
+    ],
+    "jtbd": {
+      "situation": "when I'm not connected to the internet",
+      "motivation": "to access my music without interruptions",
+      "outcome": "seamless music playback offline"
+    },
+    "workarounds": [
+      "manually allowing Spotify to use phone data"
+    ]
+  },
+  "cluster_180": {
+    "cluster_name": "Poor Music Recommendations",
+    "sub_issues": [
+      {
+        "name": "Irrelevant Recommendations",
+        "associated_theme_id": "theme_3",
+        "description": "users are receiving music recommendations that do not fit their tastes",
+        "frequency_percentage": 70.0
+      },
+      {
+        "name": "Lack of Discovery",
+        "associated_theme_id": "theme_3",
+        "description": "users are not discovering new music through the app's recommendations",
+        "frequency_percentage": 20.0
+      },
+      {
+        "name": "Frustrating User Experience",
+        "associated_theme_id": "theme_4",
+        "description": "users are experiencing frustration with the app due to poor recommendations",
+        "frequency_percentage": 10.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_3",
+        "name": "Recommendation Quality",
+        "description": "issues with the accuracy and relevance of music recommendations"
+      },
+      {
+        "theme_id": "theme_4",
+        "name": "User Experience",
+        "description": "problems with the overall user experience and satisfaction with the app"
+      }
+    ],
+    "jtbd": {
+      "situation": "when I'm looking for new music to listen to",
+      "motivation": "to discover music that fits my tastes",
+      "outcome": "relevant and enjoyable music recommendations"
+    },
+    "workarounds": [
+      "creating custom playlists",
+      "using other music discovery platforms"
+    ]
+  },
+  "cluster_50": {
+    "cluster_name": "AI Playlist Access",
+    "sub_issues": [
+      {
+        "name": "Difficulty Finding AI Playlists",
+        "associated_theme_id": "theme_5",
+        "description": "users are having trouble finding and accessing AI-generated playlists",
+        "frequency_percentage": 80.0
+      },
+      {
+        "name": "Lack of App Guidance",
+        "associated_theme_id": "theme_6",
+        "description": "users are not receiving sufficient guidance from the app on how to access AI playlists",
+        "frequency_percentage": 15.0
+      },
+      {
+        "name": "Confusing Playlist Names",
+        "associated_theme_id": "theme_5",
+        "description": "users are finding it hard to identify AI-generated playlists due to unclear names",
+        "frequency_percentage": 5.0
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_5",
+        "name": "Playlist Discovery",
+        "description": "issues with finding and accessing AI-generated playlists"
+      },
+      {
+        "theme_id": "theme_6",
+        "name": "App Guidance",
+        "description": "problems with the app's guidance and support for accessing AI playlists"
+      }
+    ],
+    "jtbd": {
+      "situation": "when I want to access AI-generated playlists",
+      "motivation": "to easily discover new music through AI-curated playlists",
+      "outcome": "simple and seamless access to AI playlists"
+    },
+    "workarounds": [
+      "searching for AI playlists online",
+      "asking for help from friends or support"
+    ]
+  },
+  "cluster_110": {
+    "cluster_name": "Separate Song Likes",
+    "sub_issues": [
+      {
+        "name": "Lack of Control Over Liked Songs",
+        "associated_theme_id": "music_discovery",
+        "description": "users want to separate liked songs from recommendations",
+        "frequency_percentage": 0.8
+      },
+      {
+        "name": "Inaccurate Recommendations",
+        "associated_theme_id": "music_discovery",
+        "description": "users experience inaccurate music recommendations",
+        "frequency_percentage": 0.2
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "features related to finding new music"
+      }
+    ],
+    "jtbd": {
+      "situation": "When using Spotify's recommendation features",
+      "motivation": "to have more control over liked songs and recommendations",
+      "outcome": "to improve the overall music discovery experience"
+    },
+    "workarounds": [
+      "manually creating separate playlists for liked songs"
+    ]
+  },
+  "cluster_635": {
+    "cluster_name": "Podcast Autoplay Control",
+    "sub_issues": [
+      {
+        "name": "Lack of Autoplay Control for Podcasts",
+        "associated_theme_id": "podcast_control",
+        "description": "users want to stop unwanted podcast playback",
+        "frequency_percentage": 0.9
+      },
+      {
+        "name": "Inconsistent Podcast Playback",
+        "associated_theme_id": "podcast_control",
+        "description": "users experience inconsistent podcast playback",
+        "frequency_percentage": 0.1
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "podcast_control",
+        "name": "Podcast Control",
+        "description": "features related to controlling podcast playback"
+      }
+    ],
+    "jtbd": {
+      "situation": "When listening to podcasts on Spotify",
+      "motivation": "to have more control over podcast playback",
+      "outcome": "to improve the overall podcast listening experience"
+    },
+    "workarounds": [
+      "manually stopping unwanted podcast playback"
+    ]
+  },
+  "cluster_206": {
+    "cluster_name": "Playlist Song Disappearance",
+    "sub_issues": [
+      {
+        "name": "Songs Disappearing from Playlists",
+        "associated_theme_id": "playlist_management",
+        "description": "users experience songs disappearing from playlists",
+        "frequency_percentage": 0.7
+      },
+      {
+        "name": "Inconsistent Playlist Behavior",
+        "associated_theme_id": "playlist_management",
+        "description": "users experience inconsistent playlist behavior",
+        "frequency_percentage": 0.3
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_management",
+        "name": "Playlist Management",
+        "description": "features related to managing playlists"
+      }
+    ],
+    "jtbd": {
+      "situation": "When accessing playlists on Spotify",
+      "motivation": "to have reliable access to playlist songs",
+      "outcome": "to improve the overall music listening experience"
+    },
+    "workarounds": [
+      "re-adding missing songs to playlists"
+    ]
+  },
+  "cluster_499": {
+    "cluster_name": "Automatic Mixing",
+    "sub_issues": [
+      {
+        "name": "Lack of Automatic Mixing",
+        "associated_theme_id": "music_playback",
+        "description": "users want automatic mixing of songs",
+        "frequency_percentage": 0.6
+      },
+      {
+        "name": "Inconsistent Music Playback",
+        "associated_theme_id": "music_playback",
+        "description": "users experience inconsistent music playback",
+        "frequency_percentage": 0.4
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_playback",
+        "name": "Music Playback",
+        "description": "features related to music playback"
+      }
+    ],
+    "jtbd": {
+      "situation": "When listening to music on Spotify",
+      "motivation": "to have a seamless music listening experience",
+      "outcome": "to improve the overall music listening experience"
+    },
+    "workarounds": [
+      "manually creating playlists with mixed songs"
+    ]
+  },
+  "cluster_27": {
+    "cluster_name": "Smart Shuffle Issues",
+    "sub_issues": [
+      {
+        "name": "Smart Shuffle Not Working as Expected",
+        "associated_theme_id": "music_playback",
+        "description": "users experience issues with Smart Shuffle",
+        "frequency_percentage": 0.8
+      },
+      {
+        "name": "Inconsistent Smart Shuffle Behavior",
+        "associated_theme_id": "music_playback",
+        "description": "users experience inconsistent Smart Shuffle behavior",
+        "frequency_percentage": 0.2
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_playback",
+        "name": "Music Playback",
+        "description": "features related to music playback"
+      }
+    ],
+    "jtbd": {
+      "situation": "When using Spotify's Smart Shuffle feature",
+      "motivation": "to have a reliable and enjoyable music listening experience",
+      "outcome": "to improve the overall music listening experience"
+    },
+    "workarounds": [
+      "manually shuffling playlists"
+    ]
+  },
+  "cluster_537": {
+    "cluster_name": "Expand Radio and Mix Playlists",
+    "sub_issues": [
+      {
+        "name": "Limited Radio and Mix Playlists",
+        "associated_theme_id": "music_discovery",
+        "description": "users want to expand Radio and Mix playlists",
+        "frequency_percentage": 0.9
+      },
+      {
+        "name": "Inconsistent Music Recommendations",
+        "associated_theme_id": "music_discovery",
+        "description": "users experience inconsistent music recommendations",
+        "frequency_percentage": 0.1
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "features related to finding new music"
+      }
+    ],
+    "jtbd": {
+      "situation": "When using Spotify's Radio and Mix playlists",
+      "motivation": "to have more control over music discovery",
+      "outcome": "to improve the overall music discovery experience"
+    },
+    "workarounds": [
+      "manually creating playlists with similar songs"
+    ]
+  },
+  "cluster_140": {
+    "cluster_name": "Music Recommendation",
+    "sub_issues": [
+      {
+        "name": "Accurate Music Recommendations",
+        "associated_theme_id": "music_discovery",
+        "description": "users want accurate music recommendations",
+        "frequency_percentage": 0.8
+      },
+      {
+        "name": "Discovering New Music",
+        "associated_theme_id": "music_discovery",
+        "description": "users want to discover new music",
+        "frequency_percentage": 0.2
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "features related to finding new music"
+      }
+    ],
+    "jtbd": {
+      "situation": "When using Spotify's music recommendation features",
+      "motivation": "to discover new music",
+      "outcome": "to improve the overall music listening experience"
+    },
+    "workarounds": [
+      "manually searching for new music"
+    ]
+  },
+  "cluster_458": {
+    "cluster_name": "Liked Songs Disappearing",
+    "sub_issues": [
+      {
+        "name": "Liked Songs Disappearing",
+        "associated_theme_id": "music_management",
+        "description": "users experience liked songs disappearing",
+        "frequency_percentage": 0.7
+      },
+      {
+        "name": "Inconsistent Liked Songs Behavior",
+        "associated_theme_id": "music_management",
+        "description": "users experience inconsistent liked songs behavior",
+        "frequency_percentage": 0.3
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_management",
+        "name": "Music Management",
+        "description": "features related to managing music libraries"
+      }
+    ],
+    "jtbd": {
+      "situation": "When accessing liked songs on Spotify",
+      "motivation": "to have reliable access to liked songs",
+      "outcome": "to improve the overall music listening experience"
+    },
+    "workarounds": [
+      "re-adding missing liked songs"
+    ]
+  },
+  "cluster_150": {
+    "cluster_name": "Playlist Creation",
+    "sub_issues": [
+      {
+        "name": "Easy Playlist Creation",
+        "associated_theme_id": "playlist_management",
+        "description": "users want easy playlist creation",
+        "frequency_percentage": 0.9
+      },
+      {
+        "name": "Customizable Playlists",
+        "associated_theme_id": "playlist_management",
+        "description": "users want customizable playlists",
+        "frequency_percentage": 0.1
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_management",
+        "name": "Playlist Management",
+        "description": "features related to managing playlists"
+      }
+    ],
+    "jtbd": {
+      "situation": "When creating playlists on Spotify",
+      "motivation": "to have a personalized music listening experience",
+      "outcome": "to improve the overall music listening experience"
+    },
+    "workarounds": [
+      "manually creating playlists"
+    ]
+  },
+  "cluster_307": {
+    "cluster_name": "Fades and Transitions",
+    "sub_issues": [
+      {
+        "name": "Smooth Transitions Between Songs",
+        "associated_theme_id": "music_playback",
+        "description": "users want smooth transitions between songs",
+        "frequency_percentage": 0.8
+      },
+      {
+        "name": "Customizable Fades and Transitions",
+        "associated_theme_id": "music_playback",
+        "description": "users want customizable fades and transitions",
+        "frequency_percentage": 0.2
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_playback",
+        "name": "Music Playback",
+        "description": "features related to music playback"
+      }
+    ],
+    "jtbd": {
+      "situation": "When listening to music on Spotify",
+      "motivation": "to have a seamless music listening experience",
+      "outcome": "to improve the overall music listening experience"
+    },
+    "workarounds": [
+      "manually adjusting music playback"
+    ]
+  },
+  "cluster_536": {
+    "cluster_name": "Shuffle Mode Issues",
+    "sub_issues": [
+      {
+        "name": "Shuffle Mode Not Working as Expected",
+        "associated_theme_id": "music_playback",
+        "description": "users experience issues with shuffle mode",
+        "frequency_percentage": 0.9
+      },
+      {
+        "name": "Inconsistent Shuffle Mode Behavior",
+        "associated_theme_id": "music_playback",
+        "description": "users experience inconsistent shuffle mode behavior",
+        "frequency_percentage": 0.1
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_playback",
+        "name": "Music Playback",
+        "description": "features related to music playback"
+      }
+    ],
+    "jtbd": {
+      "situation": "When using Spotify's shuffle mode",
+      "motivation": "to have a reliable and enjoyable music listening experience",
+      "outcome": "to improve the overall music listening experience"
+    },
+    "workarounds": [
+      "manually shuffling playlists"
+    ]
+  },
+  "cluster_903": {
+    "cluster_name": "Scrollable Music Discovery Feed",
+    "sub_issues": [
+      {
+        "name": "Interactive Music Discovery Feed",
+        "associated_theme_id": "music_discovery",
+        "description": "users want an interactive music discovery feed",
+        "frequency_percentage": 0.8
+      },
+      {
+        "name": "Personalized Music Recommendations",
+        "associated_theme_id": "music_discovery",
+        "description": "users want personalized music recommendations",
+        "frequency_percentage": 0.2
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "features related to finding new music"
+      }
+    ],
+    "jtbd": {
+      "situation": "When discovering new music on Spotify",
+      "motivation": "to have an engaging and interactive music discovery experience",
+      "outcome": "to improve the overall music discovery experience"
+    },
+    "workarounds": [
+      "manually searching for new music"
+    ]
+  },
+  "cluster_902": {
+    "cluster_name": "Regional Music Focus",
+    "sub_issues": [
+      {
+        "name": "Regional Music Recommendations",
+        "associated_theme_id": "music_discovery",
+        "description": "users want regional music recommendations",
+        "frequency_percentage": 0.9
+      },
+      {
+        "name": "Customizable Music Recommendations",
+        "associated_theme_id": "music_discovery",
+        "description": "users want customizable music recommendations",
+        "frequency_percentage": 0.1
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "features related to finding new music"
+      }
+    ],
+    "jtbd": {
+      "situation": "When discovering new music on Spotify",
+      "motivation": "to have a personalized and relevant music listening experience",
+      "outcome": "to improve the overall music listening experience"
+    },
+    "workarounds": [
+      "manually searching for regional music"
+    ]
+  },
+  "cluster_901": {
+    "cluster_name": "Discover Weekly Archive",
+    "sub_issues": [
+      {
+        "name": "Accessible Discover Weekly Archive",
+        "associated_theme_id": "music_discovery",
+        "description": "users want an accessible Discover Weekly archive",
+        "frequency_percentage": 0.8
+      },
+      {
+        "name": "Customizable Discover Weekly Playlists",
+        "associated_theme_id": "music_discovery",
+        "description": "users want customizable Discover Weekly playlists",
+        "frequency_percentage": 0.2
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "features related to finding new music"
+      }
+    ],
+    "jtbd": {
+      "situation": "When accessing Discover Weekly playlists on Spotify",
+      "motivation": "to have a reliable and accessible music discovery experience",
+      "outcome": "to improve the overall music discovery experience"
+    },
+    "workarounds": [
+      "manually saving Discover Weekly playlists"
+    ]
+  },
+  "cluster_908": {
+    "cluster_name": "Kids Profile",
+    "sub_issues": [
+      {
+        "name": "Dedicated Kids Profile",
+        "associated_theme_id": "family_music",
+        "description": "users want a dedicated kids profile",
+        "frequency_percentage": 0.9
+      },
+      {
+        "name": "Customizable Kids Playlists",
+        "associated_theme_id": "family_music",
+        "description": "users want customizable kids playlists",
+        "frequency_percentage": 0.1
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "family_music",
+        "name": "Family Music",
+        "description": "features related to family music listening"
+      }
+    ],
+    "jtbd": {
+      "situation": "When using Spotify with family members",
+      "motivation": "to have a safe and enjoyable music listening experience for kids",
+      "outcome": "to improve the overall family music listening experience"
+    },
+    "workarounds": [
+      "manually creating separate playlists for kids"
+    ]
+  },
+  "cluster_64": {
+    "cluster_name": "Song Recommendations",
+    "sub_issues": [
+      {
+        "name": "Personalized Song Recommendations",
+        "associated_theme_id": "music_discovery",
+        "description": "users want personalized song recommendations",
+        "frequency_percentage": 0.8
+      },
+      {
+        "name": "Community-Driven Song Recommendations",
+        "associated_theme_id": "music_discovery",
+        "description": "users want community-driven song recommendations",
+        "frequency_percentage": 0.2
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "features related to finding new music"
+      }
+    ],
+    "jtbd": {
+      "situation": "When looking for new music on Spotify",
+      "motivation": "to discover new and relevant music",
+      "outcome": "to improve the overall music listening experience"
+    },
+    "workarounds": [
+      "manually searching for new music"
+    ]
+  },
+  "cluster_353": {
+    "cluster_name": "Playlist Editing",
+    "sub_issues": [
+      {
+        "name": "Intuitive Playlist Editing",
+        "associated_theme_id": "playlist_management",
+        "description": "users want intuitive playlist editing",
+        "frequency_percentage": 0.9
+      },
+      {
+        "name": "Customizable Playlist Editing",
+        "associated_theme_id": "playlist_management",
+        "description": "users want customizable playlist editing",
+        "frequency_percentage": 0.1
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "playlist_management",
+        "name": "Playlist Management",
+        "description": "features related to managing playlists"
+      }
+    ],
+    "jtbd": {
+      "situation": "When editing playlists on Spotify",
+      "motivation": "to have a seamless and intuitive playlist editing experience",
+      "outcome": "to improve the overall playlist management experience"
+    },
+    "workarounds": [
+      "manually editing playlists using workarounds"
+    ]
+  },
+  "cluster_976": {
+    "cluster_name": "Search Bar Mic",
+    "sub_issues": [
+      {
+        "name": "Convenient Search Bar Mic",
+        "associated_theme_id": "music_search",
+        "description": "users want a convenient search bar mic",
+        "frequency_percentage": 0.8
+      },
+      {
+        "name": "Accurate Voice Search",
+        "associated_theme_id": "music_search",
+        "description": "users want accurate voice search",
+        "frequency_percentage": 0.2
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_search",
+        "name": "Music Search",
+        "description": "features related to searching for music"
+      }
+    ],
+    "jtbd": {
+      "situation": "When searching for music on Spotify",
+      "motivation": "to have a convenient and efficient music search experience",
+      "outcome": "to improve the overall music search experience"
+    },
+    "workarounds": [
+      "manually typing search queries"
+    ]
+  },
+  "cluster_926": {
+    "cluster_name": "Custom Shuffle Queue",
+    "sub_issues": [
+      {
+        "name": "Lack of Subfolders",
+        "associated_theme_id": "organization",
+        "description": "Users want to create subfolders within playlists",
+        "frequency_percentage": 0.6
+      },
+      {
+        "name": "Limited Shuffle Options",
+        "associated_theme_id": "customization",
+        "description": "Users want more customizable shuffle options",
+        "frequency_percentage": 0.4
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "organization",
+        "name": "Playlist Organization",
+        "description": "Users want to organize their playlists for easier access"
+      },
+      {
+        "theme_id": "customization",
+        "name": "Customization Options",
+        "description": "Users want more control over their music playback experience"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to organize playlists",
+      "motivation": "To have more control over music playback",
+      "outcome": "Easily accessible and customizable playlists"
+    },
+    "workarounds": [
+      "Creating multiple playlists"
+    ]
+  },
+  "cluster_924": {
+    "cluster_name": "Play Track from Beginning",
+    "sub_issues": [
+      {
+        "name": "Lack of Play from Start Option",
+        "associated_theme_id": "track_control",
+        "description": "Users want a button to play tracks from the beginning",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "track_control",
+        "name": "Track Control",
+        "description": "Users want more control over track playback"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to play a track from the start",
+      "motivation": "To enjoy the full song without missing the beginning",
+      "outcome": "Easily play tracks from the beginning"
+    },
+    "workarounds": [
+      "Manually seeking to the start of the track"
+    ]
+  },
+  "cluster_923": {
+    "cluster_name": "Explicit Content Control",
+    "sub_issues": [
+      {
+        "name": "Lack of Explicit Content Slider",
+        "associated_theme_id": "content_control",
+        "description": "Users want a slider to control explicit content access",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "content_control",
+        "name": "Content Control",
+        "description": "Users want to control access to explicit content"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to control explicit content",
+      "motivation": "To restrict access to explicit content for certain users",
+      "outcome": "Easily control explicit content access"
+    },
+    "workarounds": [
+      "Using parental controls on other devices"
+    ]
+  },
+  "cluster_921": {
+    "cluster_name": "Release Radar Improvement",
+    "sub_issues": [
+      {
+        "name": "Lack of New Entry Information",
+        "associated_theme_id": "music_discovery",
+        "description": "Users want more information about new entries in Release Radar",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_discovery",
+        "name": "Music Discovery",
+        "description": "Users want to discover new music through Release Radar"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to discover new music",
+      "motivation": "To find new music that matches their tastes",
+      "outcome": "Easily discover new music through Release Radar"
+    },
+    "workarounds": [
+      "Using other music discovery features"
+    ]
+  },
+  "cluster_920": {
+    "cluster_name": "Release Radar Date Issue",
+    "sub_issues": [
+      {
+        "name": "Blank Date Added Column",
+        "associated_theme_id": "music_organization",
+        "description": "Users want to see the date added column in Release Radar",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "music_organization",
+        "name": "Music Organization",
+        "description": "Users want to organize their music by release date"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to know when music was added",
+      "motivation": "To keep track of new music additions",
+      "outcome": "Easily see when music was added to Release Radar"
+    },
+    "workarounds": [
+      "Manually checking the release date"
+    ]
+  },
+  "cluster_144": {
+    "cluster_name": "Premium Feature Frustration",
+    "sub_issues": [
+      {
+        "name": "Basic Features Behind Paywall",
+        "associated_theme_id": "monetization",
+        "description": "Users want basic features to be available without premium",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "monetization",
+        "name": "Monetization Model",
+        "description": "Users are frustrated with the premium feature model"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to use basic features",
+      "motivation": "To enjoy music without premium ads",
+      "outcome": "Easily use basic features without premium ads"
+    },
+    "workarounds": [
+      "Using other music streaming services"
+    ]
+  },
+  "cluster_247": {
+    "cluster_name": "New Widget Issues",
+    "sub_issues": [
+      {
+        "name": "New Widget is Unusable",
+        "associated_theme_id": "widget_design",
+        "description": "Users want the old widget back or a better new widget",
+        "frequency_percentage": 0.9
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "widget_design",
+        "name": "Widget Design",
+        "description": "Users are unhappy with the new widget design"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to use the music widget",
+      "motivation": "To easily access music controls",
+      "outcome": "Easily use the music widget"
+    },
+    "workarounds": [
+      "Using the old widget on other devices"
+    ]
+  },
+  "cluster_205": {
+    "cluster_name": "App Performance Issues",
+    "sub_issues": [
+      {
+        "name": "App is Very Slow",
+        "associated_theme_id": "app_performance",
+        "description": "Users want the app to load and respond quickly",
+        "frequency_percentage": 0.8
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "app_performance",
+        "name": "App Performance",
+        "description": "Users are experiencing performance issues with the app"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to use the app smoothly",
+      "motivation": "To enjoy music without interruptions",
+      "outcome": "Easily use the app without performance issues"
+    },
+    "workarounds": [
+      "Closing and reopening the app"
+    ]
+  },
+  "cluster_332": {
+    "cluster_name": "Login and Account Issues",
+    "sub_issues": [
+      {
+        "name": "Error Logging into Account",
+        "associated_theme_id": "account_access",
+        "description": "Users want to be able to log in to their accounts without errors",
+        "frequency_percentage": 0.7
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "account_access",
+        "name": "Account Access",
+        "description": "Users are having trouble accessing their accounts"
+      }
+    ],
+    "jtbd": {
+      "situation": "User wants to access their account",
+      "motivation": "To listen to music without interruptions",
+      "outcome": "Easily access their account and listen to music"
+    },
+    "workarounds": [
+      "Trying different login methods"
+    ]
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "RQ2": {
+    "rq_id": "RQ2",
+    "title": "Algorithmic Repetition & Looping in Automated Mixes",
+    "executive_summary": "Users experience significant repetition in automated mixes like Smart Shuffle and Daily Mixes, with many reporting the same songs being played repeatedly, leading to a poor user experience. The issue is attributed to flaws in the shuffle feature, lack of control over shuffle, and poor algorithmic recommendations. New evidence suggests that users appreciate features like Smart Shuffle but desire more control and better performance.",
+    "jtbd_summary": {
+      "situation": "Users want to enjoy music through automated mixes without repetition",
+      "motivation": "Discover new music and have a seamless listening experience",
+      "outcome": "A diverse and engaging playlist that meets their musical preferences"
+    },
+    "observed_workarounds": [
+      "Manually changing songs or playlists to avoid repetition"
+    ],
+    "key_findings": [
+      {
+        "finding": "Users experience significant repetition in automated mixes",
+        "supporting_evidence": "Historical synthesis and user reports",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Users desire more control over shuffle and better algorithmic recommendations",
+        "supporting_evidence": "Cluster_1 themes and key quotes",
+        "impact_rating": "Medium"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve algorithmic recommendations for automated mixes",
+        "unmet_need": "Diverse and engaging playlists",
+        "proposed_feature": "Enhanced shuffle algorithm with user controls"
+      },
+      {
+        "opportunity": "Provide more user control over automated mixes",
+        "unmet_need": "Customization and personalization",
+        "proposed_feature": "User-adjustable settings for shuffle and repetition"
+      }
+    ],
+    "confidence_score": 0.7
+  },
+  "RQ3": {
+    "rq_id": "RQ3",
+    "title": "Recommendation Algorithm Sentiment",
+    "executive_summary": "Users exhibit mixed sentiments towards Spotify's recommendation algorithms, with key areas of dissatisfaction including poor music recommendations, lack of control over recommendations, and perceived biases, while appreciating music discovery features and finding new music aligned with their tastes.",
+    "jtbd_summary": {
+      "situation": "Users seeking personalized music experiences",
+      "motivation": "Desire for music discovery and alignment with personal taste",
+      "outcome": "Accurate and diverse music recommendations that enhance user experience"
+    },
+    "observed_workarounds": [
+      "Using smart shuffle recommendation loop DJ as a workaround for poor recommendations"
+    ],
+    "key_findings": [
+      {
+        "finding": "Poor music recommendations and lack of control are significant pain points",
+        "supporting_evidence": "Cluster analysis and user quotes highlighting dissatisfaction with recommendation algorithms",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Users appreciate music discovery features and finding new music aligned with their tastes",
+        "supporting_evidence": "Historical synthesis and user quotes expressing satisfaction with music discovery",
+        "impact_rating": "Medium"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Enhance recommendation algorithm to reduce bias and increase diversity",
+        "unmet_need": "Users' desire for accurate and diverse music recommendations",
+        "proposed_feature": "Incorporating user feedback and preferences into the recommendation algorithm"
+      },
+      {
+        "opportunity": "Provide users with more control over recommendations",
+        "unmet_need": "Users' desire for control over their music experience",
+        "proposed_feature": "Introducing features for users to customize and refine their recommendations"
+      }
+    ],
+    "confidence_score": 0.8
+  },
+  "RQ5": {
+    "rq_id": "RQ5",
+    "title": "Feature-Specific Performance of Discovery Features",
+    "executive_summary": "Spotify users express dissatisfaction with the performance of specific discovery features, including issues with podcast feature offline speed control and smart shuffle recommendation, highlighting opportunities for improvement to enhance the overall user experience.",
+    "jtbd_summary": {
+      "situation": "Users are seeking to discover new music and podcasts through features like Discover Weekly, Release Radar, Smart Shuffle, and AI DJ",
+      "motivation": "To enjoy a seamless and personalized music streaming experience",
+      "outcome": "To have a satisfying experience with discovery features that meet their expectations for music and podcast recommendations"
+    },
+    "observed_workarounds": [
+      "Using smart shuffle recommendation loop dj as a workaround for poor podcast feature offline speed control"
+    ],
+    "key_findings": [
+      {
+        "finding": "Users are dissatisfied with the performance of specific discovery features, including podcast feature offline speed control and smart shuffle recommendation",
+        "supporting_evidence": "Cluster analysis and key quotes from users, such as 'Podcast feature offline speed control is bad...' and 'Loved the smart shuffle recommendation loop dj...'",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Users experience issues with unexpected song transitions, duplicate songs, and playlist management in discovery features",
+        "supporting_evidence": "Historical synthesis of user feedback",
+        "impact_rating": "Medium"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve podcast feature offline speed control",
+        "unmet_need": "Seamless and fast podcast streaming experience offline",
+        "proposed_feature": "Optimized podcast caching and buffering for offline listening"
+      },
+      {
+        "opportunity": "Enhance smart shuffle recommendation",
+        "unmet_need": "Personalized and diverse music recommendations",
+        "proposed_feature": "Advanced machine learning algorithms for smart shuffle recommendation"
+      }
+    ],
+    "confidence_score": 0.8
+  },
+  "RQ6": {
+    "rq_id": "RQ6",
+    "title": "Physical Listening Contexts Impact on Spotify Discovery Features",
+    "executive_summary": "The physical environments in which users listen to Spotify significantly impact the usability and effectiveness of its discovery features. Users seek seamless music experiences tailored to their activities, but current issues like app crashes, slow loading, and poor offline feature performance hinder this. Opportunities exist to enhance workout and fitness playlists, and improve overall user experience in various physical contexts such as car, smart home, gym, and commuting.",
+    "jtbd_summary": {
+      "situation": "Users are in various physical environments such as driving, working out, or commuting, and want to listen to music or podcasts that fit their current activity and mood.",
+      "motivation": "To have a seamless and enjoyable music experience that complements their current activity without interruptions or hassle.",
+      "outcome": "To be able to easily discover and listen to music or podcasts that match their current context, leading to increased satisfaction and engagement with the Spotify platform."
+    },
+    "observed_workarounds": [
+      "Using smart shuffle recommendation loop DJ as a workaround for poor offline feature performance",
+      "Seeking alternative music platforms for better workout and fitness playlists"
+    ],
+    "key_findings": [
+      {
+        "finding": "Poor offline feature performance, such as speed control, hinders the user experience in physical environments with limited internet connectivity.",
+        "supporting_evidence": "Podcast feature offline speed control is bad...",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Users appreciate features like smart shuffle recommendation loop DJ that provide a seamless music experience in various physical contexts.",
+        "supporting_evidence": "Loved the smart shuffle recommendation loop dj...",
+        "impact_rating": "Medium"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Enhance offline feature performance for seamless music experience in physical environments with limited internet connectivity.",
+        "unmet_need": "Reliable and fast music streaming in areas with poor internet connectivity.",
+        "proposed_feature": "Improved offline caching and buffering for smoother music playback"
+      },
+      {
+        "opportunity": "Develop more personalized and activity-based playlists for workout and fitness contexts.",
+        "unmet_need": "Music playlists that match the intensity and mood of the user's workout or fitness activity.",
+        "proposed_feature": "AI-driven playlist generation based on user's workout type, intensity, and music preferences"
+      }
+    ],
+    "confidence_score": 0.8
+  }
+}

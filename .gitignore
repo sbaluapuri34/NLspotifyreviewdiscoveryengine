@@ -41,3 +41,11 @@ scratch/
 tmp/
 *.log
 torchinductor_pc/
+
+# Whitelist local cached JSONs to pre-populate production
+!backend/scripts/cluster_metadata_cache.json
+!backend/scripts/compiled_evidence_packages.json
+!backend/scripts/decomposed_themes.json
+!backend/scripts/executive_insights.json
+!backend/scripts/research_question_answers.json
+
