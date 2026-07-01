@@ -12,4 +12,8 @@ python-dotenv>=1.0.0
 pytest>=7.3.0
 pytest-asyncio>=0.21.0
 numpy>=1.24.0
-
+requests>=2.31.0
+sentence-transformers>=2.2.0
+torch>=2.0.0
+scikit-learn>=1.2.0
+app-store-scraper>=0.3.5
