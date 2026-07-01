@@ -370,7 +370,9 @@ class RedditScraper(BaseScraper):
                         
                         run_input = {
                             "startUrls": [f"https://www.reddit.com/r/{sub}" for sub in subs],
+                            "urls": [f"https://www.reddit.com/r/{sub}" for sub in subs],
                             "maxItems": current_batch_limit,
+                            "limit": current_batch_limit,
                             "scrollTimeout": 5, # Optimized timeout
                             "includeComments": True,
                             "maxComments": 5 # Optimized comment depth
