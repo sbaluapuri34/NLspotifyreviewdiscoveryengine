@@ -17,4 +17,3 @@ requests>=2.31.0
 torch
 sentence-transformers
 scikit-learn>=1.2.0
-app-store-scraper>=0.3.5
