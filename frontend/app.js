@@ -416,7 +416,7 @@ function updateLiveCounts(data) {
     let totalFetched = 0;
     let totalAnalysed = 0;
     
-    const sourceKeys = ["google_play", "reddit", "youtube", "spotify_community"];
+    const sourceKeys = ["google_play", "reddit", "spotify_community", "youtube"];
     sourceKeys.forEach(src => {
         totalFetched += (data.fetched[src] || 0);
         totalAnalysed += (data.analysed[src] || 0);
@@ -569,7 +569,7 @@ async function loadSourceCounts() {
         container.appendChild(allCard);
         
         // 2. Create cards for individual sources
-        const sourceKeys = ["google_play", "reddit", "youtube", "spotify_community"];
+        const sourceKeys = ["google_play", "reddit", "spotify_community", "youtube"];
         sourceKeys.forEach(src => {
             const counts = sources[src] || { fetched: 0, analysed: 0, pending: 0 };
             const meta = sourceMeta[src] || { name: src, icon: "🔗" };

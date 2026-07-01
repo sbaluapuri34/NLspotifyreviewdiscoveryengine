@@ -264,6 +264,7 @@ h1, h2, h3, h4 {
 /* Interactive Header Badges */
 .top-metrics-badges {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     align-items: center;
 }
