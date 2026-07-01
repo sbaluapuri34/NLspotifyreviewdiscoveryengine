@@ -147,6 +147,9 @@ def run_level_0_bridge(theme_slug: str, theme_config: Dict[str, Any], replica_db
 
 app = FastAPI(title="Spotify Product Research Engine API", version="1.0.0")
 
+# Run database schema initialization and zip extraction on startup
+init_db()
+
 @app.post("/api/exploration/bootstrap")
 async def bootstrap_theme(request: Request):
     """
