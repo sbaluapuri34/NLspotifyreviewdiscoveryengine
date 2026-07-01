@@ -22,7 +22,10 @@ def init_db(db_path: Optional[str] = None):
     path = db_path or DB_PATH
     db_file = Path(path)
     zip_file = Path(str(path) + ".zip")
-    
+    if not zip_file.exists():
+        # Fallback to backend code root directory (where zip is committed in Git)
+        zip_file = Path(__file__).resolve().parent.parent / "spotify_research.db.zip"
+        
     # Auto-extract database zip file on startup if DB file is missing or empty (<100KB)
     if (not db_file.exists() or db_file.stat().st_size < 100 * 1024) and zip_file.exists():
         logger.info(f"Database file not found or is empty (<100KB) at {path}. Zipped database detected at {zip_file}. Extracting...")
