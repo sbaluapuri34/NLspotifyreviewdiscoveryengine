@@ -67,11 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initDecisionButtons();
     updateIntegrityBadge();
     
-    // Load pipeline secret from localStorage if it exists
-    const secretInput = document.getElementById('pipeline-secret-input');
-    if (secretInput) {
-        secretInput.value = localStorage.getItem('pipeline_secret') || '';
-    }
+
     
     // Check if pipeline is already running in background
     try {
@@ -1354,20 +1350,8 @@ function initPipelineButton() {
             if (fromDate) url += `&from_date=${fromDate}`;
             if (toDate) url += `&to_date=${toDate}`;
             
-            // Retrieve and save secret key
-            const secretVal = document.getElementById('pipeline-secret-input')?.value.trim() || '';
-            localStorage.setItem('pipeline_secret', secretVal);
-
-            const headers = {};
-            if (secretVal) {
-                headers['X-Pipeline-Secret'] = secretVal;
-            }
-
             appendTerminalLog('Triggering pipeline run...', 'INFO');
-            const response = await fetch(url, { 
-                method: 'POST',
-                headers: headers
-            });
+            const response = await fetch(url, { method: 'POST' });
             const data = await response.json();
             
             if (data.error) {
