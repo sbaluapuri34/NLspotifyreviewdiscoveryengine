@@ -2237,6 +2237,7 @@ async def get_data_integrity(theme_slug: Optional[str] = None):
 @app.post("/api/exploration/{theme_slug}/run-pipeline")
 async def run_pipeline(
     background_tasks: BackgroundTasks,
+    request: Request,
     theme_slug: Optional[str] = None,
     limit_google_play: int = 100,
     limit_reddit: int = 100,
@@ -2248,6 +2249,12 @@ async def run_pipeline(
     disable_keywords: bool = False
 ):
     """Triggers the unified ingestion and analysis pipeline with individual source limits."""
+    # Authenticate trigger source in production environments
+    trigger_secret = os.environ.get("PIPELINE_TRIGGER_SECRET")
+    if trigger_secret:
+        header_secret = request.headers.get("X-Pipeline-Secret")
+        if header_secret != trigger_secret:
+            return JSONResponse({"error": "Unauthorized. Invalid pipeline trigger secret."}, status_code=401)
     if theme_slug:
         # Validate that theme is bootstrapped
         theme_config = get_theme_config(theme_slug)
