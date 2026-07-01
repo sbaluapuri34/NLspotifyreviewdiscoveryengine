@@ -1375,6 +1375,23 @@ function initPipelineButton() {
             runPipelineBtn.innerText = '⚡ Scrape & Analyze';
         }
     });
+    
+    // Bind stop button listener
+    const cancelPipelineBtn = document.getElementById('btn-cancel-pipeline');
+    if (cancelPipelineBtn) {
+        cancelPipelineBtn.addEventListener('click', async () => {
+            if (confirm("Are you sure you want to stop the running pipeline?")) {
+                appendTerminalLog("Requesting pipeline cancellation...", "WARNING");
+                try {
+                    const response = await fetch('/api/cancel-pipeline', { method: 'POST' });
+                    const data = await response.json();
+                    appendTerminalLog(data.status, "SUCCESS");
+                } catch (err) {
+                    appendTerminalLog("Failed to cancel pipeline: " + err.message, "ERROR");
+                }
+            }
+        });
+    }
 }
 
 // Helper to format logs
@@ -1711,12 +1728,24 @@ function showAllTabsLoading(message) {
         if (pane.id === 'tab-terminal') return;
         showTabLoading(pane.id, message);
     });
+    
+    // Show stop button, hide run button
+    const cancelBtn = document.getElementById('btn-cancel-pipeline');
+    const runBtn = document.getElementById('btn-run-pipeline');
+    if (cancelBtn) cancelBtn.classList.remove('hidden');
+    if (runBtn) runBtn.classList.add('hidden');
 }
 
 function hideAllTabsLoading() {
     tabPanes.forEach(pane => {
         hideTabLoading(pane.id);
     });
+    
+    // Hide stop button, show run button
+    const cancelBtn = document.getElementById('btn-cancel-pipeline');
+    const runBtn = document.getElementById('btn-run-pipeline');
+    if (cancelBtn) cancelBtn.classList.add('hidden');
+    if (runBtn) runBtn.classList.remove('hidden');
 }
 
 async function loadStrategicRoadmap() {

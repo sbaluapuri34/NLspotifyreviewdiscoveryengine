@@ -212,7 +212,11 @@ pipeline_state = {
     "in_range_count": 0,
     "total_count": 0,
     "decision_event": asyncio.Event(),
-    "decision_choice": None # 'strict' or 'expand'
+    "decision_choice": None, # 'strict' or 'expand'
+    "theme_slug": None,
+    "run_id": None,
+    "active_task": None,
+    "active_proc": None
 }
 
 
@@ -1227,6 +1231,7 @@ async def run_pipeline_task(
     env = os.environ.copy()
     
     try:
+        pipeline_state["active_task"] = asyncio.current_task()
         # Generate a unique run_id for this pipeline execution
         run_id = f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         pipeline_state["run_id"] = run_id
@@ -1306,6 +1311,7 @@ async def run_pipeline_task(
             stderr=asyncio.subprocess.STDOUT,
             env=env
         )
+        pipeline_state["active_proc"] = proc
         
         while True:
             line = await proc.stdout.readline()
@@ -1317,6 +1323,7 @@ async def run_pipeline_task(
                 await broadcast_log(text, level, progress=15)
                 
         await proc.wait()
+        pipeline_state["active_proc"] = None
         
         # Check if we are awaiting a user decision on date-range mismatch
         status_path = Path(project_root) / "backend" / "scripts" / "pipeline_status.json"
@@ -1558,8 +1565,38 @@ async def run_pipeline_task(
         except Exception:
             pass
             
-        await broadcast_log("PIPELINE EXECUTION COMPLETED! Refreshing dashboard data...", "SUCCESS", progress=100)
-        
+    except asyncio.CancelledError:
+        logger.warning(f"Pipeline task cancelled by user request: run_id={run_id}")
+        # 1. Kill active scraping/processing subprocess if running
+        proc = pipeline_state.get("active_proc")
+        if proc:
+            try:
+                proc.kill()
+                logger.info("Successfully killed active subprocess.")
+            except Exception as kill_err:
+                logger.error(f"Error killing subprocess: {kill_err}")
+            pipeline_state["active_proc"] = None
+            
+        # 2. Update pipeline run status in database to cancelled
+        try:
+            conn = sqlite3.connect(target_db_path)
+            conn.execute(
+                "UPDATE pipeline_runs SET status = 'cancelled', completed_at = ? WHERE run_id = ?",
+                (datetime.now().isoformat(), run_id)
+            )
+            conn.commit()
+            conn.close()
+        except Exception as db_err:
+            logger.error(f"Error updating run status to cancelled: {db_err}")
+            
+        # Cancel the polling task
+        try:
+            polling_task.cancel()
+        except Exception:
+            pass
+            
+        await broadcast_log("Pipeline run cancelled by user.", "WARNING")
+        raise
     except Exception as e:
         logger.error(f"Error executing pipeline: {e}")
         await broadcast_log(f"CRITICAL ERROR: {str(e)}", "WARNING")
@@ -1582,6 +1619,9 @@ async def run_pipeline_task(
     finally:
         pipeline_state["status"] = "idle"
         pipeline_state["theme_slug"] = None
+        pipeline_state["run_id"] = None
+        pipeline_state["active_task"] = None
+        pipeline_state["active_proc"] = None
         # Clean up temporary configuration file
         if theme_config_file_path and theme_config_file_path.exists():
             try:
@@ -2317,3 +2357,39 @@ async def post_pipeline_decision(choice: str):
     pipeline_state["decision_choice"] = choice
     pipeline_state["decision_event"].set()
     return JSONResponse({"status": f"Decision '{choice}' registered. Resuming pipeline..."})
+
+@app.post("/api/cancel-pipeline")
+async def cancel_pipeline(request: Request):
+    """Cancels the currently running pipeline execution immediately."""
+    # Authenticate trigger source in production environments
+    trigger_secret = os.environ.get("PIPELINE_TRIGGER_SECRET")
+    if trigger_secret:
+        header_secret = request.headers.get("X-Pipeline-Secret")
+        if header_secret != trigger_secret:
+            # Bypass passcode requirement if request originates from Vercel web app or localhost
+            headers_to_check = [
+                request.headers.get("referer", ""),
+                request.headers.get("origin", ""),
+                request.headers.get("x-forwarded-host", ""),
+                request.headers.get("host", "")
+            ]
+            
+            is_trusted = False
+            for h in headers_to_check:
+                if not h:
+                    continue
+                h_lower = h.lower()
+                if "localhost" in h_lower or "127.0.0.1" in h_lower or "vercel.app" in h_lower:
+                    is_trusted = True
+                    break
+                
+            if not is_trusted:
+                return JSONResponse({"error": "Unauthorized. Invalid pipeline trigger secret."}, status_code=401)
+                
+    task = pipeline_state.get("active_task")
+    if not task:
+        return JSONResponse({"status": "No pipeline is currently running."})
+        
+    logger.warning("User triggered pipeline cancellation. Terminating active task...")
+    task.cancel()
+    return JSONResponse({"status": "Pipeline cancellation triggered successfully."})
