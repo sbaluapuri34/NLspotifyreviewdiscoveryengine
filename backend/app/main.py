@@ -2255,14 +2255,21 @@ async def run_pipeline(
         header_secret = request.headers.get("X-Pipeline-Secret")
         if header_secret != trigger_secret:
             # Bypass passcode requirement if request originates from Vercel web app or localhost
-            referer = request.headers.get("referer", "")
-            origin = request.headers.get("origin", "")
+            headers_to_check = [
+                request.headers.get("referer", ""),
+                request.headers.get("origin", ""),
+                request.headers.get("x-forwarded-host", ""),
+                request.headers.get("host", "")
+            ]
             
             is_trusted = False
-            if "localhost" in referer or "127.0.0.1" in referer or "localhost" in origin or "127.0.0.1" in origin:
-                is_trusted = True
-            elif "vercel.app" in referer or "vercel.app" in origin:
-                is_trusted = True
+            for h in headers_to_check:
+                if not h:
+                    continue
+                h_lower = h.lower()
+                if "localhost" in h_lower or "127.0.0.1" in h_lower or "vercel.app" in h_lower:
+                    is_trusted = True
+                    break
                 
             if not is_trusted:
                 return JSONResponse({"error": "Unauthorized. Invalid pipeline trigger secret."}, status_code=401)
