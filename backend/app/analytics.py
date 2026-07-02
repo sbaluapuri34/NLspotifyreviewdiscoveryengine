@@ -83,7 +83,14 @@ class ClusterTfidfExtractor:
             "discover", "weekly", "radar", "mix", "dj", "ads", "premium", "song", "songs", "music"
         }
 
-    def extract_themes(self, cluster_reviews: List[str], all_clusters_reviews: List[List[str]], top_k: int = 10) -> List[Tuple[str, float]]:
+    def extract_themes(
+        self, 
+        cluster_reviews: List[str], 
+        all_clusters_reviews: List[List[str]], 
+        top_k: int = 10,
+        precomputed_df: Optional[Dict[str, int]] = None,
+        precomputed_avg_words: Optional[float] = None
+    ) -> List[Tuple[str, float]]:
         """
         Calculates c-TF-IDF weights for terms in a target cluster.
         Returns the top_k terms with their weights.
@@ -104,17 +111,19 @@ class ClusterTfidfExtractor:
             return []
 
         # Count document (cluster) frequencies across all clusters
-        cluster_df = Counter()
-        for c_revs in all_clusters_reviews:
-            unique_words = set()
-            for r in c_revs:
-                unique_words.update(tokenize(r))
-            for w in unique_words:
-                if w not in self.stop_words:
-                    cluster_df[w] += 1
-
-        num_clusters = len(all_clusters_reviews)
-        avg_words_per_cluster = np.mean([sum(len(tokenize(r)) for r in c_revs) for c_revs in all_clusters_reviews]) or 1.0
+        if precomputed_df is not None:
+            cluster_df = precomputed_df
+            avg_words_per_cluster = precomputed_avg_words or 1.0
+        else:
+            cluster_df = Counter()
+            for c_revs in all_clusters_reviews:
+                unique_words = set()
+                for r in c_revs:
+                    unique_words.update(tokenize(r))
+                for w in unique_words:
+                    if w not in self.stop_words:
+                        cluster_df[w] += 1
+            avg_words_per_cluster = np.mean([sum(len(tokenize(r)) for r in c_revs) for c_revs in all_clusters_reviews]) or 1.0
 
         # Calculate c-TF-IDF
         themes = []
@@ -219,7 +228,9 @@ class EvidencePackageCompiler:
         all_clusters_reviews: List[List[str]],
         projector: SemanticAnchorProjector,
         tfidf_extractor: ClusterTfidfExtractor,
-        total_reviews_in_db: int
+        total_reviews_in_db: int,
+        precomputed_df: Optional[Dict[str, int]] = None,
+        precomputed_avg_words: Optional[float] = None
     ) -> Dict[str, Any]:
         """Compiles the complete Level 2 Evidence Package for a cluster."""
         size = len(reviews)
@@ -277,7 +288,12 @@ class EvidencePackageCompiler:
 
         # 5. Extract Themes (c-TF-IDF)
         cluster_texts = [r["cleaned_text"] or r["translated_text"] or r["raw_text"] for r in reviews]
-        themes = tfidf_extractor.extract_themes(cluster_texts, all_clusters_reviews)
+        themes = tfidf_extractor.extract_themes(
+            cluster_texts, 
+            all_clusters_reviews, 
+            precomputed_df=precomputed_df, 
+            precomputed_avg_words=precomputed_avg_words
+        )
 
         # 6. Select Medoid and Outliers
         centroid = np.array(cluster_data["centroid"], dtype=np.float32)
@@ -422,6 +438,30 @@ class DynamicFilterEngine:
         for cid, revs in cluster_groups.items():
             all_clusters_texts.append([r["cleaned_text"] or r["translated_text"] or r["raw_text"] for r in revs])
 
+        # Precompute c-TF-IDF document frequencies for massive speedup
+        from collections import Counter
+        import re
+        def tokenize(text):
+            return re.findall(r'\b[a-z]{3,15}\b', text.lower())
+            
+        precomputed_df = Counter()
+        stop_words = self.tfidf_extractor.stop_words
+        words_counts = []
+        
+        for c_revs in all_clusters_texts:
+            unique_words = set()
+            total_words = 0
+            for r in c_revs:
+                tokens = tokenize(r)
+                unique_words.update(tokens)
+                total_words += len(tokens)
+            words_counts.append(total_words)
+            for w in unique_words:
+                if w not in stop_words:
+                    precomputed_df[w] += 1
+                    
+        precomputed_avg_words = float(np.mean(words_counts)) if words_counts else 1.0
+
         # 6. Compile Evidence Packages
         packages = []
         for cid, revs in cluster_groups.items():
@@ -439,7 +479,9 @@ class DynamicFilterEngine:
                 all_clusters_reviews=all_clusters_texts,
                 projector=self.projector,
                 tfidf_extractor=self.tfidf_extractor,
-                total_reviews_in_db=total_reviews
+                total_reviews_in_db=total_reviews,
+                precomputed_df=precomputed_df,
+                precomputed_avg_words=precomputed_avg_words
             )
             if pkg:
                 packages.append(pkg)
