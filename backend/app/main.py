@@ -867,11 +867,21 @@ async def get_clusters(
             in_range_total = cursor.fetchone()[0]
 
         # Get pipeline analyzed total (discovery reviews) and total db reviews
-        cursor.execute("SELECT COUNT(*) FROM reviews WHERE cluster_id IS NOT NULL AND cluster_id NOT LIKE 'unrelated_%'")
-        discovery_total = cursor.fetchone()[0]
+        if target_run_id:
+            cursor.execute(
+                "SELECT COUNT(*) FROM reviews WHERE cluster_id IS NOT NULL AND cluster_id NOT LIKE 'unrelated_%' AND last_run_id = ?",
+                (target_run_id,)
+            )
+            discovery_total = cursor.fetchone()[0]
 
-        cursor.execute("SELECT COUNT(*) FROM reviews")
-        total_db_reviews = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM reviews WHERE last_run_id = ?", (target_run_id,))
+            total_db_reviews = cursor.fetchone()[0]
+        else:
+            cursor.execute("SELECT COUNT(*) FROM reviews WHERE cluster_id IS NOT NULL AND cluster_id NOT LIKE 'unrelated_%'")
+            discovery_total = cursor.fetchone()[0]
+
+            cursor.execute("SELECT COUNT(*) FROM reviews")
+            total_db_reviews = cursor.fetchone()[0]
 
         if ingestion_stats is None:
             ingestion_stats = {"fetched": 0, "saved": 0, "filtered": 0, "associated_existing": 0}
