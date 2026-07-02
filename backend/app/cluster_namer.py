@@ -10,7 +10,7 @@ class BatchClusterNamer:
     def __init__(self, api_keys: Optional[List[str]] = None):
         self.api_keys = api_keys or GROQ_API_KEYS or [k.strip() for k in os.environ.get("GROQ_API_KEYS", "").split(",") if k.strip()]
         self.current_key_idx = 0
-        self.model_name = "llama-3.3-70b-versatile"
+        self.model_name = "llama-3.1-8b-instant"
 
     def _rotate_key(self):
         if len(self.api_keys) > 1:

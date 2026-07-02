@@ -1237,7 +1237,8 @@ async def run_pipeline_task(
     limit_app_store: int = 50,
     from_date: Optional[str] = None,
     to_date: Optional[str] = None,
-    disable_keywords: bool = False
+    disable_keywords: bool = False,
+    run_id: Optional[str] = None
 ):
     target_db_path = get_db_path(theme_slug)
     theme_config_file_path = None
@@ -1246,8 +1247,9 @@ async def run_pipeline_task(
     try:
         loop = asyncio.get_running_loop()
         pipeline_state["active_task"] = asyncio.current_task()
-        # Generate a unique run_id for this pipeline execution
-        run_id = f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        # Generate a unique run_id if not provided by trigger route
+        if not run_id:
+            run_id = f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         pipeline_state["run_id"] = run_id
         pipeline_state["theme_slug"] = theme_slug
         
@@ -2334,6 +2336,7 @@ async def run_pipeline(
         if not theme_config:
             return JSONResponse({"error": f"Theme '{theme_slug}' is not bootstrapped. Run bootstrap first."}, status_code=400)
             
+    run_id = f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     background_tasks.add_task(
         run_pipeline_task,
         theme_slug,
@@ -2344,10 +2347,19 @@ async def run_pipeline(
         limit_app_store,
         from_date,
         to_date,
-        disable_keywords
+        disable_keywords,
+        run_id
     )
     pipeline_state["status"] = "running"
-    return {"status": "Incremental Pipeline started. Monitoring progress in Live Logs."}
+    pipeline_state["run_id"] = run_id
+    pipeline_state["theme_slug"] = theme_slug
+    return JSONResponse(
+        status_code=202,
+        content={
+            "status": "Incremental Pipeline started. Monitoring progress in Live Logs.",
+            "task_id": run_id
+        }
+    )
 
 @app.get("/api/pipeline-status")
 async def get_pipeline_status():
@@ -2356,7 +2368,21 @@ async def get_pipeline_status():
         "status": pipeline_state["status"],
         "in_range_count": pipeline_state["in_range_count"],
         "total_count": pipeline_state["total_count"],
-        "theme_slug": pipeline_state.get("theme_slug")
+        "theme_slug": pipeline_state.get("theme_slug"),
+        "task_id": pipeline_state.get("run_id")
+    })
+
+@app.get("/api/task-status/{task_id}")
+async def get_task_status(task_id: str):
+    """Returns status details for a specific pipeline task."""
+    is_active = (pipeline_state.get("run_id") == task_id)
+    status = pipeline_state["status"] if is_active else "completed"
+    return JSONResponse({
+        "task_id": task_id,
+        "status": status,
+        "is_active": is_active,
+        "in_range_count": pipeline_state["in_range_count"] if is_active else 0,
+        "total_count": pipeline_state["total_count"] if is_active else 0
     })
 
 @app.post("/api/pipeline-decision")

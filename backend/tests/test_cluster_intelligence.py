@@ -6,7 +6,7 @@ from backend.app.cluster_intelligence import ClusterIntelligenceEngine
 def test_engine_initialization():
     engine = ClusterIntelligenceEngine(api_keys=["key1", "key2"])
     assert engine.api_keys == ["key1", "key2"]
-    assert engine.model_name == "llama-3.3-70b-versatile"
+    assert engine.model_name == "llama-3.1-8b-instant"
 
 def test_decompose_cluster_no_keys():
     engine = ClusterIntelligenceEngine(api_keys=[])

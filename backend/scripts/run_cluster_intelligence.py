@@ -127,7 +127,7 @@ async def main(db_path: Optional[str] = None, theme_config_path: Optional[str] =
     # Limit active API calls to the number of available keys
     sem = asyncio.Semaphore(len(engine.api_keys)) if engine.api_keys else None
 
-    async def process_cluster(idx: int, pkg: dict):
+    async def process_cluster(idx: int, pkg: dict, delay: float = 0.0):
         cid = pkg["cluster_id"]
         themes = [t[0] for t in pkg.get("themes", [])]
         
@@ -155,6 +155,11 @@ async def main(db_path: Optional[str] = None, theme_config_path: Optional[str] =
             except Exception as ce:
                 logger.warning(f"Failed to parse cache value for {cid}: {ce}")
 
+        # Proactive Rate-Limiting Delay for cache misses
+        if delay > 0.0:
+            logger.info(f"ClusterIntelligenceEngine: Cache miss for {cid}. Applying proactive rate-limit delay of {delay:.1f}s...")
+            await asyncio.sleep(delay)
+
         # Instantiate a separate engine for this task to offset starting key index
         engine_instance = ClusterIntelligenceEngine(api_keys=engine.api_keys)
         engine_instance.current_key_idx = idx % len(engine.api_keys)
@@ -178,8 +183,18 @@ async def main(db_path: Optional[str] = None, theme_config_path: Optional[str] =
             
         return pkg, result, False
 
+    # Check cache state beforehand to assign progressive delays for LLM calls
+    uncached_idx = 0
     for idx, pkg in enumerate(target_clusters):
-        tasks.append(process_cluster(idx, pkg))
+        pkg_hash = compute_package_hash(pkg)
+        cache_key = f"cluster_intel_hash_{pkg_hash}"
+        cached_str = get_cached_val(cache_key, db_path)
+        if cached_str:
+            tasks.append(process_cluster(idx, pkg, delay=0.0))
+        else:
+            delay = uncached_idx * 1.5  # 1.5s delay between parallel dispatches
+            uncached_idx += 1
+            tasks.append(process_cluster(idx, pkg, delay=delay))
 
     if tasks:
         logger.info(f"Dispatching {len(tasks)} cluster intelligence decomposition tasks concurrently...")

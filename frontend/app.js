@@ -1357,14 +1357,7 @@ function initPipelineButton() {
             if (data.error) {
                 throw new Error(data.error);
             }
-            appendTerminalLog(data.status, 'SUCCESS');
-            
-            if (!isThemeMode) {
-                // Automatically reload dashboard data to show the new scraping stats in the banner
-                appendTerminalLog('Reloading dashboard with fresh analysis...', 'INFO');
-                reloadDashboard();
-                appendTerminalLog('Dashboard reload complete!', 'SUCCESS');
-            }
+            appendTerminalLog(`${data.status} (Task ID: ${data.task_id || 'unknown'})`, 'SUCCESS');
             
         } catch (e) {
             appendTerminalLog('Error starting pipeline: ' + e.message, 'WARNING');

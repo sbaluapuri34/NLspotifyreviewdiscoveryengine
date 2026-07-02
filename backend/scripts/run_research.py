@@ -162,7 +162,7 @@ async def main(db_path: Optional[str] = None, theme_config_path: Optional[str] =
     # Limit active API calls to the number of available keys
     sem = asyncio.Semaphore(len(engine.api_keys)) if engine.api_keys else None
 
-    async def run_rq_task(idx: int, rq_id: str, pkgs: list):
+    async def run_rq_task(idx: int, rq_id: str, pkgs: list, delay: float = 0.0):
         if not pkgs:
             logger.warning(f"No relevant clusters for {rq_id}. Skipping synthesis.")
             return None
@@ -182,6 +182,11 @@ async def main(db_path: Optional[str] = None, theme_config_path: Optional[str] =
                 return rq_id, cached_result, True
             except Exception as ce:
                 logger.warning(f"Failed to parse cache value for {rq_id}: {ce}")
+
+        # Proactive Rate-Limiting Delay for cache misses
+        if delay > 0.0:
+            logger.info(f"ResearchEngine: Cache miss for {rq_id}. Applying proactive rate-limit delay of {delay:.1f}s...")
+            await asyncio.sleep(delay)
 
         # Instantiate a ResearchEngine for this task with a unique key index offset
         engine_instance = ResearchEngine(api_keys=engine.api_keys, research_questions=custom_rqs)
@@ -206,9 +211,21 @@ async def main(db_path: Optional[str] = None, theme_config_path: Optional[str] =
 
         return rq_id, answer_data, False
 
+    # Check cache state beforehand to assign progressive delays for LLM calls
+    uncached_idx = 0
     for idx, (rq_id, pkgs) in enumerate(routed_clusters.items()):
         if pkgs:
-            tasks.append(run_rq_task(idx, rq_id, pkgs))
+            prev_summary = prev_answers.get(rq_id)
+            rq_info = active_rqs[rq_id]
+            rq_hash = compute_rq_hash(rq_id, rq_info.get("question", ""), pkgs, prev_summary)
+            cache_key = f"rq_answer_hash_{rq_hash}"
+            cached_str = get_cached_val(cache_key, target_db_path)
+            if cached_str:
+                tasks.append(run_rq_task(idx, rq_id, pkgs, delay=0.0))
+            else:
+                delay = uncached_idx * 10.0  # 10s delay between parallel dispatches
+                uncached_idx += 1
+                tasks.append(run_rq_task(idx, rq_id, pkgs, delay=delay))
 
     if tasks:
         logger.info(f"Dispatching {len(tasks)} Research Question synthesis tasks concurrently...")
