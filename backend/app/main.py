@@ -1608,6 +1608,9 @@ async def run_pipeline_task(
             event = f"data: {json.dumps(final_payload)}\n\n"
             mode = "exploration" if theme_slug else "discovery"
             await send_to_sse(event, mode, theme_slug)
+            
+            # Broadcast final completion event so frontend hides loader and updates charts
+            await broadcast_log("PIPELINE EXECUTION COMPLETED! Refreshing dashboard data...", "SUCCESS", progress=100)
                 
         except Exception as run_complete_err:
             logger.error(f"Error completing pipeline run record: {run_complete_err}")
