@@ -94,6 +94,12 @@ def init_db(db_path: Optional[str] = None):
             logger.info("Migration: Added detected_language column to reviews table.")
         except sqlite3.OperationalError:
             pass
+
+        try:
+            conn.execute("UPDATE reviews SET detected_language = 'en' WHERE detected_language IS NULL;")
+            logger.info("Migration: Backfilled detected_language = 'en' for existing reviews.")
+        except Exception as e:
+            logger.warning(f"Failed to backfill detected_language: {e}")
         
         # Pipeline runs table for persisting per-run statistics
         conn.execute("""
