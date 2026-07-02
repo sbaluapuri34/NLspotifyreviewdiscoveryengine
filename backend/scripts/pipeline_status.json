@@ -1,6 +1,5 @@
 {
-  "status": "AWAITING_DECISION",
-  "in_range_count": 66,
-  "total_count": 120,
-  "requested_limit": 2010
+  "status": "COMPLETED",
+  "in_range_count": 0,
+  "total_count": 0
 }

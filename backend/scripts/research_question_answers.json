@@ -1,155 +1,292 @@
 {
-  "RQ2": {
-    "rq_id": "RQ2",
-    "title": "Algorithmic Repetition & Looping in Automated Mixes",
-    "executive_summary": "Users experience significant repetition in automated mixes like Smart Shuffle and Daily Mixes, with many reporting the same songs being played repeatedly, leading to a poor user experience. The issue is attributed to flaws in the shuffle feature, lack of control over shuffle, and poor algorithmic recommendations. New evidence suggests that users appreciate features like Smart Shuffle but desire more control and better performance.",
+  "RQ1": {
+    "rq_id": "RQ1",
+    "title": "Music Discovery Friction",
+    "executive_summary": "Users face significant barriers when trying to find and discover new music on Spotify, primarily due to ineffective music recommendations, lack of personalization and control, and technical issues with the app.",
     "jtbd_summary": {
-      "situation": "Users want to enjoy music through automated mixes without repetition",
-      "motivation": "Discover new music and have a seamless listening experience",
-      "outcome": "A diverse and engaging playlist that meets their musical preferences"
+      "situation": "Users are looking for new music and artists on Spotify",
+      "motivation": "To enjoy a personalized music experience with relevant recommendations",
+      "outcome": "To discover new songs and artists without interruption, and have control over their music experience"
     },
     "observed_workarounds": [
-      "Manually changing songs or playlists to avoid repetition"
+      "Using other music streaming services",
+      "Creating playlists manually",
+      "Searching for music on other platforms",
+      "Uninstalling and reinstalling the app",
+      "Manually updating playlists",
+      "Using YouTube music instead",
+      "Manually searching for new music outside of Spotify recommendations",
+      "Using Smart Shuffle, AI DJ, and Daily Mix features",
+      "Redownloading the app to check for feature updates",
+      "Using third-party language learning apps in conjunction with Spotify"
     ],
     "key_findings": [
       {
-        "finding": "Users experience significant repetition in automated mixes",
-        "supporting_evidence": "Historical synthesis and user reports",
+        "finding": "Ineffective music recommendations",
+        "supporting_evidence": "Cluster 6: 40% of users experience inaccurate recommendations, Cluster 158: 30% of users experience repetitive song recommendations",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Lack of personalization and control",
+        "supporting_evidence": "Cluster 6: 30% of users experience feature overload, Cluster 499: 60% of users lack mixing control in auto-generated playlists",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Technical issues with the app",
+        "supporting_evidence": "Cluster 172: 25% of users experience app crashing and freezing, Cluster 158: 20% of users experience app usability issues",
+        "impact_rating": "Medium"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve music recommendation algorithm",
+        "unmet_need": "Users want relevant and personalized music recommendations",
+        "proposed_feature": "Enhanced algorithm-driven playlists with user-controlled preferences"
+      },
+      {
+        "opportunity": "Enhance user control and personalization",
+        "unmet_need": "Users want control over their music experience and personalized playlists",
+        "proposed_feature": "Features to allow users to customize and control their playlists, such as mixing and discovery settings"
+      },
+      {
+        "opportunity": "Address technical issues and improve app performance",
+        "unmet_need": "Users want a seamless and interruption-free music experience",
+        "proposed_feature": "Regular app updates and maintenance to resolve technical issues and improve overall app performance"
+      }
+    ],
+    "confidence_score": 0.85
+  },
+  "RQ2": {
+    "rq_id": "RQ2",
+    "title": "Algorithmic Repetition & Looping in Automated Mixes",
+    "executive_summary": "Users experience significant repetition in automated mixes like Smart Shuffle and Daily Mixes, with many reporting the same songs being played repeatedly, leading to a poor user experience. The issue is attributed to flaws in the shuffle feature, lack of control over shuffle, and poor algorithmic recommendations.",
+    "jtbd_summary": {
+      "situation": "When listening to music on Spotify and wanting a randomized playlist",
+      "motivation": "To have a diverse and randomized playlist without repetition",
+      "outcome": "To enjoy music without the frustration of hearing the same songs repeatedly"
+    },
+    "observed_workarounds": [
+      "de-selecting shuffle, letting it play a few songs in order, then re-enabling shuffle",
+      "uninstalling and reinstalling the app to resolve glitches",
+      "creating manual playlists",
+      "using other music streaming services",
+      "creating multiple playlists to avoid repetition",
+      "manually adding or removing songs from playlists",
+      "removing songs that cause the app to crash from the playlist"
+    ],
+    "key_findings": [
+      {
+        "finding": "Users experience repetition in automated mixes due to flaws in the shuffle feature",
+        "supporting_evidence": "Cluster 14: 40% of users report shuffle plays the same songs, Cluster 27: 40% of users report lack of true randomization",
         "impact_rating": "High"
       },
       {
         "finding": "Users desire more control over shuffle and better algorithmic recommendations",
-        "supporting_evidence": "Cluster_1 themes and key quotes",
-        "impact_rating": "Medium"
-      }
-    ],
-    "actionable_opportunities": [
-      {
-        "opportunity": "Improve algorithmic recommendations for automated mixes",
-        "unmet_need": "Diverse and engaging playlists",
-        "proposed_feature": "Enhanced shuffle algorithm with user controls"
-      },
-      {
-        "opportunity": "Provide more user control over automated mixes",
-        "unmet_need": "Customization and personalization",
-        "proposed_feature": "User-adjustable settings for shuffle and repetition"
-      }
-    ],
-    "confidence_score": 0.7
-  },
-  "RQ3": {
-    "rq_id": "RQ3",
-    "title": "Recommendation Algorithm Sentiment",
-    "executive_summary": "Users exhibit mixed sentiments towards Spotify's recommendation algorithms, with key areas of dissatisfaction including poor music recommendations, lack of control over recommendations, and perceived biases, while appreciating music discovery features and finding new music aligned with their tastes.",
-    "jtbd_summary": {
-      "situation": "Users seeking personalized music experiences",
-      "motivation": "Desire for music discovery and alignment with personal taste",
-      "outcome": "Accurate and diverse music recommendations that enhance user experience"
-    },
-    "observed_workarounds": [
-      "Using smart shuffle recommendation loop DJ as a workaround for poor recommendations"
-    ],
-    "key_findings": [
-      {
-        "finding": "Poor music recommendations and lack of control are significant pain points",
-        "supporting_evidence": "Cluster analysis and user quotes highlighting dissatisfaction with recommendation algorithms",
+        "supporting_evidence": "Cluster 14: users want a diverse and randomized playlist without repetition, Cluster 27: users want a truly randomized and diverse playlist",
         "impact_rating": "High"
       },
       {
-        "finding": "Users appreciate music discovery features and finding new music aligned with their tastes",
-        "supporting_evidence": "Historical synthesis and user quotes expressing satisfaction with music discovery",
+        "finding": "App crashes and glitches contribute to poor user experience",
+        "supporting_evidence": "Cluster 536: 40% of users report app crashes in shuffle mode",
         "impact_rating": "Medium"
       }
     ],
     "actionable_opportunities": [
       {
-        "opportunity": "Enhance recommendation algorithm to reduce bias and increase diversity",
-        "unmet_need": "Users' desire for accurate and diverse music recommendations",
-        "proposed_feature": "Incorporating user feedback and preferences into the recommendation algorithm"
+        "opportunity": "Improve shuffle algorithm to reduce repetition",
+        "unmet_need": "Users want a diverse and randomized playlist without repetition",
+        "proposed_feature": "Enhanced shuffle feature with true randomization"
+      },
+      {
+        "opportunity": "Provide users with more control over shuffle",
+        "unmet_need": "Users desire more control over shuffle",
+        "proposed_feature": "Customizable shuffle settings"
+      },
+      {
+        "opportunity": "Enhance algorithmic recommendations to improve playlist diversity",
+        "unmet_need": "Users want better algorithmic recommendations",
+        "proposed_feature": "Advanced music recommendation engine"
+      }
+    ],
+    "confidence_score": 0.85
+  },
+  "RQ3": {
+    "rq_id": "RQ3",
+    "title": "Spotify Recommendation Algorithm Sentiment Analysis",
+    "executive_summary": "Users exhibit mixed sentiments towards Spotify's recommendation algorithms, with key areas of dissatisfaction including poor music recommendations, lack of control over recommendations, and perceived biases, while appreciating music discovery features and finding new music aligned with their tastes.",
+    "jtbd_summary": {
+      "situation": "When looking for new music or artists on Spotify",
+      "motivation": "to discover music that fits their tastes and preferences",
+      "outcome": "to enjoy a personalized music experience"
+    },
+    "observed_workarounds": [
+      "Using other music streaming services",
+      "Creating playlists manually",
+      "Searching for music on other platforms",
+      "Manually searching for music",
+      "Creating custom playlists",
+      "Using a 'Vibe' or 'Keep in Rotation' button as a workaround for separate song likes"
+    ],
+    "key_findings": [
+      {
+        "finding": "Inaccurate music recommendations are a major source of dissatisfaction",
+        "supporting_evidence": "Cluster 6: 40% of users reported inaccurate recommendations, Cluster 935: 40% of users reported inaccurate artist recommendations",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Users desire more control over recommendations",
+        "supporting_evidence": "Cluster 933: users want separate song likes and more control over recommendations",
+        "impact_rating": "Medium"
+      },
+      {
+        "finding": "Perceived biases in recommendations, such as mainstream bias, contribute to dissatisfaction",
+        "supporting_evidence": "Cluster 6: users reported a lack of personalization and inaccurate recommendations",
+        "impact_rating": "Medium"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve recommendation algorithm accuracy",
+        "unmet_need": "Users desire accurate and personalized music recommendations",
+        "proposed_feature": "Enhanced algorithm that incorporates user feedback and listening habits"
       },
       {
         "opportunity": "Provide users with more control over recommendations",
-        "unmet_need": "Users' desire for control over their music experience",
-        "proposed_feature": "Introducing features for users to customize and refine their recommendations"
+        "unmet_need": "Users want to customize their music discovery experience",
+        "proposed_feature": "Introduction of features like separate song likes and user-controlled recommendation filters"
       }
     ],
-    "confidence_score": 0.8
+    "confidence_score": 0.85
+  },
+  "RQ4": {
+    "rq_id": "RQ4",
+    "title": "User Discovery Methods & Behaviors",
+    "executive_summary": "Users employ various approaches to discover new music on Spotify, including manual search, custom playlists, and features like Discover Weekly and AI DJ. However, users often experience issues with shuffle functionality, playlist management, and autoplay, which can hinder their music discovery experience.",
+    "jtbd_summary": {
+      "situation": "When listening to music on Spotify and wanting to experience a varied playlist",
+      "motivation": "To have a diverse and randomized playlist without repetition",
+      "outcome": "To enjoy music without the frustration of hearing the same songs repeatedly and discover new songs and artists"
+    },
+    "observed_workarounds": [
+      "de-selecting shuffle, letting it play a few songs in order, then re-enabling shuffle",
+      "uninstalling and reinstalling the app to resolve glitches",
+      "hiding songs in playlists after listening to them",
+      "creating own playlists to avoid unwanted songs",
+      "manually updating playlists",
+      "switching to a different app",
+      "redownloading the app to check for feature updates"
+    ],
+    "key_findings": [
+      {
+        "finding": "Users experience issues with shuffle functionality, including repetition of songs",
+        "supporting_evidence": "Cluster 14: 40% of users report shuffle plays the same songs, 30% report shuffle fails to randomize",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Users desire more control over playlist management and autoplay",
+        "supporting_evidence": "Cluster 154: 30% of users report unwanted songs in playlists, Cluster 635: 40% of users report lack of autoplay override",
+        "impact_rating": "High"
+      },
+      {
+        "finding": "Users want personalized and seamless music experiences",
+        "supporting_evidence": "Cluster 154: JTBD core desire is to have a personalized and seamless music experience",
+        "impact_rating": "Medium"
+      }
+    ],
+    "actionable_opportunities": [
+      {
+        "opportunity": "Improve shuffle functionality to reduce song repetition",
+        "unmet_need": "Users want a diverse and randomized playlist without repetition",
+        "proposed_feature": "Enhanced shuffle algorithm with user-controlled parameters"
+      },
+      {
+        "opportunity": "Enhance playlist management and autoplay control",
+        "unmet_need": "Users desire more control over playlist management and autoplay",
+        "proposed_feature": "Advanced playlist editing and autoplay override options"
+      },
+      {
+        "opportunity": "Develop more accurate algorithmic recommendations",
+        "unmet_need": "Users want personalized and seamless music experiences",
+        "proposed_feature": "AI-powered music recommendation engine with user feedback mechanisms"
+      }
+    ],
+    "confidence_score": 0.85
   },
   "RQ5": {
     "rq_id": "RQ5",
     "title": "Feature-Specific Performance of Discovery Features",
-    "executive_summary": "Spotify users express dissatisfaction with the performance of specific discovery features, including issues with podcast feature offline speed control and smart shuffle recommendation, highlighting opportunities for improvement to enhance the overall user experience.",
+    "executive_summary": "Spotify users express dissatisfaction with the performance of specific discovery features, including issues with shuffle, Discover Weekly, and smart shuffle, highlighting opportunities for improvement to enhance the overall user experience.",
     "jtbd_summary": {
-      "situation": "Users are seeking to discover new music and podcasts through features like Discover Weekly, Release Radar, Smart Shuffle, and AI DJ",
-      "motivation": "To enjoy a seamless and personalized music streaming experience",
-      "outcome": "To have a satisfying experience with discovery features that meet their expectations for music and podcast recommendations"
+      "situation": "When listening to music on Spotify and wanting to experience a varied playlist or discover new music",
+      "motivation": "To have a personalized, seamless, and enjoyable music experience without interruptions or frustrations",
+      "outcome": "To enjoy a diverse and randomized playlist without repetition, discover new songs and artists, and have control over the mixing of songs in playlists"
     },
     "observed_workarounds": [
-      "Using smart shuffle recommendation loop dj as a workaround for poor podcast feature offline speed control"
+      "de-selecting shuffle, letting it play a few songs in order, then re-enabling shuffle",
+      "uninstalling and reinstalling the app to resolve glitches",
+      "hiding songs in playlists after listening to them",
+      "creating own playlists to avoid unwanted songs",
+      "manually updating playlists",
+      "creating manual playlists",
+      "using other music streaming services",
+      "removing songs that cause the app to crash from the playlist",
+      "redownloading the app to check for feature updates"
     ],
     "key_findings": [
       {
-        "finding": "Users are dissatisfied with the performance of specific discovery features, including podcast feature offline speed control and smart shuffle recommendation",
-        "supporting_evidence": "Cluster analysis and key quotes from users, such as 'Podcast feature offline speed control is bad...' and 'Loved the smart shuffle recommendation loop dj...'",
+        "finding": "Users experience issues with shuffle, including repetition and lack of true randomization",
+        "supporting_evidence": "Cluster 14, Cluster 27, Cluster 536",
         "impact_rating": "High"
       },
       {
-        "finding": "Users experience issues with unexpected song transitions, duplicate songs, and playlist management in discovery features",
-        "supporting_evidence": "Historical synthesis of user feedback",
+        "finding": "Discover Weekly playlist issues, including old playlists and app crashing",
+        "supporting_evidence": "Cluster 172",
+        "impact_rating": "Medium"
+      },
+      {
+        "finding": "Users desire more control over the mixing of songs in automatically generated playlists",
+        "supporting_evidence": "Cluster 499",
+        "impact_rating": "Medium"
+      },
+      {
+        "finding": "Smart shuffle issues, including perceived flaws and unmet user expectations",
+        "supporting_evidence": "Cluster 14, Cluster 27",
         "impact_rating": "Medium"
       }
     ],
     "actionable_opportunities": [
       {
-        "opportunity": "Improve podcast feature offline speed control",
-        "unmet_need": "Seamless and fast podcast streaming experience offline",
-        "proposed_feature": "Optimized podcast caching and buffering for offline listening"
+        "opportunity": "Improve shuffle algorithm to provide true randomization and reduce repetition",
+        "unmet_need": "Users want a diverse and randomized playlist without repetition",
+        "proposed_feature": "Enhanced shuffle algorithm with user-controlled randomization options"
       },
       {
-        "opportunity": "Enhance smart shuffle recommendation",
-        "unmet_need": "Personalized and diverse music recommendations",
-        "proposed_feature": "Advanced machine learning algorithms for smart shuffle recommendation"
+        "opportunity": "Enhance Discover Weekly playlist to provide updated and new music recommendations",
+        "unmet_need": "Users want to discover new songs and artists without interruption",
+        "proposed_feature": "Improved Discover Weekly playlist algorithm with more frequent updates and user-controlled preferences"
+      },
+      {
+        "opportunity": "Provide more control over the mixing of songs in automatically generated playlists",
+        "unmet_need": "Users want control over the mixing of songs in playlists",
+        "proposed_feature": "User-controlled mixing options for automatically generated playlists"
       }
     ],
-    "confidence_score": 0.8
+    "confidence_score": 0.85
   },
   "RQ6": {
     "rq_id": "RQ6",
-    "title": "Physical Listening Contexts Impact on Spotify Discovery Features",
-    "executive_summary": "The physical environments in which users listen to Spotify significantly impact the usability and effectiveness of its discovery features. Users seek seamless music experiences tailored to their activities, but current issues like app crashes, slow loading, and poor offline feature performance hinder this. Opportunities exist to enhance workout and fitness playlists, and improve overall user experience in various physical contexts such as car, smart home, gym, and commuting.",
-    "jtbd_summary": {
-      "situation": "Users are in various physical environments such as driving, working out, or commuting, and want to listen to music or podcasts that fit their current activity and mood.",
-      "motivation": "To have a seamless and enjoyable music experience that complements their current activity without interruptions or hassle.",
-      "outcome": "To be able to easily discover and listen to music or podcasts that match their current context, leading to increased satisfaction and engagement with the Spotify platform."
-    },
-    "observed_workarounds": [
-      "Using smart shuffle recommendation loop DJ as a workaround for poor offline feature performance",
-      "Seeking alternative music platforms for better workout and fitness playlists"
-    ],
-    "key_findings": [
-      {
-        "finding": "Poor offline feature performance, such as speed control, hinders the user experience in physical environments with limited internet connectivity.",
-        "supporting_evidence": "Podcast feature offline speed control is bad...",
-        "impact_rating": "High"
-      },
-      {
-        "finding": "Users appreciate features like smart shuffle recommendation loop DJ that provide a seamless music experience in various physical contexts.",
-        "supporting_evidence": "Loved the smart shuffle recommendation loop dj...",
-        "impact_rating": "Medium"
-      }
-    ],
-    "actionable_opportunities": [
-      {
-        "opportunity": "Enhance offline feature performance for seamless music experience in physical environments with limited internet connectivity.",
-        "unmet_need": "Reliable and fast music streaming in areas with poor internet connectivity.",
-        "proposed_feature": "Improved offline caching and buffering for smoother music playback"
-      },
-      {
-        "opportunity": "Develop more personalized and activity-based playlists for workout and fitness contexts.",
-        "unmet_need": "Music playlists that match the intensity and mood of the user's workout or fitness activity.",
-        "proposed_feature": "AI-driven playlist generation based on user's workout type, intensity, and music preferences"
-      }
-    ],
-    "confidence_score": 0.8
+    "title": "Physical Listening Contexts",
+    "executive_summary": "Failed to synthesize answer.",
+    "key_findings": [],
+    "actionable_opportunities": [],
+    "confidence_score": 0.0
+  },
+  "RQ7": {
+    "rq_id": "RQ7",
+    "title": "Monetization & Feature Access",
+    "executive_summary": "Failed to synthesize answer.",
+    "key_findings": [],
+    "actionable_opportunities": [],
+    "confidence_score": 0.0
   }
 }

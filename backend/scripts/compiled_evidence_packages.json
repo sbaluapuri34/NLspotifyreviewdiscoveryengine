@@ -8,8 +8,8 @@
     "csss": 0.1771694648578152,
     "opportunity_score": 2.5672507990813522,
     "source_distribution": {
-      "app_store": 43,
       "reddit": 493,
+      "app_store": 43,
       "youtube": 271,
       "google_play": 4824,
       "spotify_community": 44
@@ -158,8 +158,8 @@
     "csss": 0.11881453591750306,
     "opportunity_score": 2.1108180474524123,
     "source_distribution": {
-      "app_store": 24,
       "reddit": 160,
+      "app_store": 24,
       "youtube": 45,
       "google_play": 2768,
       "spotify_community": 29
@@ -306,8 +306,8 @@
     "csss": 0.09615824934357897,
     "opportunity_score": 0.39379205705028697,
     "source_distribution": {
-      "app_store": 1,
       "reddit": 26,
+      "app_store": 1,
       "youtube": 5,
       "google_play": 574,
       "spotify_community": 9
@@ -478,10 +478,10 @@
     "csss": 0.5185100406214257,
     "opportunity_score": 0.39244420900154536,
     "source_distribution": {
-      "youtube": 2,
-      "reddit": 8,
       "google_play": 67,
-      "spotify_community": 30
+      "reddit": 8,
+      "spotify_community": 30,
+      "youtube": 2
     },
     "location_distribution": {},
     "tag_distribution": {
@@ -680,10 +680,10 @@
     "csss": 0.6312791100027269,
     "opportunity_score": 0.20574906057781187,
     "source_distribution": {
-      "youtube": 20,
-      "reddit": 5,
       "google_play": 26,
-      "spotify_community": 4
+      "reddit": 5,
+      "spotify_community": 4,
+      "youtube": 20
     },
     "location_distribution": {},
     "tag_distribution": {
@@ -882,8 +882,8 @@
     "csss": 0.5783376954495906,
     "opportunity_score": 0.19787572517998334,
     "source_distribution": {
-      "reddit": 4,
       "google_play": 32,
+      "reddit": 4,
       "spotify_community": 12
     },
     "location_distribution": {},
@@ -1287,10 +1287,10 @@
     "csss": 0.7015634055695726,
     "opportunity_score": 0.11311363940152866,
     "source_distribution": {
-      "youtube": 6,
-      "reddit": 4,
       "google_play": 11,
-      "spotify_community": 16
+      "reddit": 4,
+      "spotify_community": 16,
+      "youtube": 6
     },
     "location_distribution": {},
     "tag_distribution": {
@@ -1857,8 +1857,8 @@
     "csss": 0.09218903918239432,
     "opportunity_score": 0.06273889411793711,
     "source_distribution": {
-      "app_store": 1,
-      "google_play": 66
+      "google_play": 66,
+      "app_store": 1
     },
     "location_distribution": {},
     "tag_distribution": {
@@ -2233,10 +2233,10 @@
     "csss": 0.17387060651623976,
     "opportunity_score": 0.05780080079623263,
     "source_distribution": {
-      "youtube": 5,
       "google_play": 185,
+      "reddit": 5,
       "spotify_community": 2,
-      "reddit": 5
+      "youtube": 5
     },
     "location_distribution": {},
     "tag_distribution": {
@@ -2435,8 +2435,8 @@
     "csss": 0.12100636086806582,
     "opportunity_score": 0.05387702475010054,
     "source_distribution": {
-      "app_store": 1,
-      "google_play": 46
+      "google_play": 46,
+      "app_store": 1
     },
     "location_distribution": {},
     "tag_distribution": {
@@ -2999,8 +2999,8 @@
     "csss": 0.17437168705690465,
     "opportunity_score": 0.04776821784229328,
     "source_distribution": {
-      "app_store": 1,
-      "google_play": 28
+      "google_play": 28,
+      "app_store": 1
     },
     "location_distribution": {},
     "tag_distribution": {
@@ -3199,8 +3199,8 @@
     "csss": 0.7386580352928864,
     "opportunity_score": 0.04646590725259635,
     "source_distribution": {
-      "reddit": 12,
       "google_play": 5,
+      "reddit": 12,
       "spotify_community": 14
     },
     "location_distribution": {},
@@ -4047,8 +4047,8 @@
     "csss": 0.4352507932425826,
     "opportunity_score": 0.020187884658746873,
     "source_distribution": {
-      "youtube": 1,
-      "google_play": 7
+      "google_play": 7,
+      "youtube": 1
     },
     "location_distribution": {},
     "tag_distribution": {
@@ -4394,8 +4394,8 @@
     "csss": 0.042856619795790536,
     "opportunity_score": 0.016551124103912244,
     "source_distribution": {
-      "app_store": 1,
-      "google_play": 164
+      "google_play": 164,
+      "app_store": 1
     },
     "location_distribution": {},
     "tag_distribution": {
@@ -4589,8 +4589,8 @@
     "csss": 0.8717132806777954,
     "opportunity_score": 0.014151189621392784,
     "source_distribution": {
-      "youtube": 1,
-      "google_play": 1
+      "google_play": 1,
+      "youtube": 1
     },
     "location_distribution": {},
     "tag_distribution": {
@@ -4995,8 +4995,8 @@
     "csss": 0.3925318273728632,
     "opportunity_score": 0.01210731285727987,
     "source_distribution": {
-      "reddit": 1,
       "google_play": 30,
+      "reddit": 1,
       "spotify_community": 6
     },
     "location_distribution": {},
@@ -15217,10 +15217,61 @@
       }
     ],
     "anomalies": [],
-    "sub_issues": [],
-    "sub_themes": [],
-    "jtbd": {},
-    "workarounds": []
+    "sub_issues": [
+      {
+        "name": "Lack of Separate Song Likes",
+        "associated_theme_id": "theme_recommendation_control",
+        "description": "Users want to be able to separate their song likes from recommendations",
+        "frequency_percentage": 40.0,
+        "representative_quotes": [
+          "Feature Request: Separate Song Likes from Recommen..."
+        ]
+      },
+      {
+        "name": "Inadequate Recommendation Algorithm",
+        "associated_theme_id": "theme_song_collection",
+        "description": "Users want the recommendation algorithm to learn from their separate song likes",
+        "frequency_percentage": 30.0,
+        "representative_quotes": [
+          "2. Teaches the recommendation algorithm."
+        ]
+      },
+      {
+        "name": "Insufficient User Interface Actions",
+        "associated_theme_id": "theme_user_interface",
+        "description": "Users want separate actions for liking and recommending songs",
+        "frequency_percentage": 30.0,
+        "representative_quotes": [
+          "I think these should be separate actions."
+        ]
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_recommendation_control",
+        "name": "Recommendation Control Context",
+        "description": "Users want to have more control over the songs that are recommended to them"
+      },
+      {
+        "theme_id": "theme_song_collection",
+        "name": "Song Collection Management",
+        "description": "Users want to manage their song collections and likes separately from recommendations"
+      },
+      {
+        "theme_id": "theme_user_interface",
+        "name": "User Interface Actions",
+        "description": "Users want to have separate actions for liking and recommending songs"
+      }
+    ],
+    "jtbd": {
+      "situation": "When I am interacting with Spotify's recommendation features",
+      "motivation": "I want to have more control over the songs that are recommended to me",
+      "outcome": "so that I can discover new music that aligns with my preferences"
+    },
+    "workarounds": [
+      "Using a 'Vibe' or 'Keep in Rotation' button as a workaround for separate song likes"
+    ],
+    "cluster_name": "Separate Song Likes"
   },
   {
     "cluster_id": "cluster_932",
@@ -15339,10 +15390,62 @@
       }
     ],
     "anomalies": [],
-    "sub_issues": [],
-    "sub_themes": [],
-    "jtbd": {},
-    "workarounds": []
+    "sub_issues": [
+      {
+        "name": "Inaccurate Mood Detection",
+        "associated_theme_id": "theme_algorithm_accuracy",
+        "description": "The algorithm fails to accurately detect the user's desired mood or music preferences",
+        "frequency_percentage": 40.0,
+        "representative_quotes": [
+          "when it comes to music that makes people calm, the algorithm considers them to be of t..."
+        ]
+      },
+      {
+        "name": "Lack of Personalization",
+        "associated_theme_id": "theme_mood_playback",
+        "description": "Users feel that the music recommendations do not adequately match their personal taste or mood",
+        "frequency_percentage": 30.0,
+        "representative_quotes": [
+          "However, when it comes to music that makes people calm, the algorithm considers them to be of t..."
+        ]
+      },
+      {
+        "name": "Insufficient Music Variety",
+        "associated_theme_id": "theme_music_discovery",
+        "description": "Users find that the music recommendations lack variety and do not introduce them to new artists or genres",
+        "frequency_percentage": 30.0,
+        "representative_quotes": [
+          "Better mood filtering: Distinguish Positive Low-En..."
+        ]
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_mood_playback",
+        "name": "Mood Based Playback Context",
+        "description": "Users seeking music that matches their current emotional state or activity"
+      },
+      {
+        "theme_id": "theme_algorithm_accuracy",
+        "name": "Algorithm Accuracy Context",
+        "description": "Users expecting the music recommendation algorithm to accurately understand their music preferences"
+      },
+      {
+        "theme_id": "theme_music_discovery",
+        "name": "Music Discovery Context",
+        "description": "Users looking to discover new music that fits their mood or preferences"
+      }
+    ],
+    "jtbd": {
+      "situation": "When I am looking for music to match my current mood or activity",
+      "motivation": "I want to have a personalized music experience that aligns with my emotional state",
+      "outcome": "so that I can enjoy music that enhances my mood and reduces stress"
+    },
+    "workarounds": [
+      "Manually creating playlists for different moods",
+      "Using third-party music filtering apps"
+    ],
+    "cluster_name": "Mood Based Music Filtering"
   },
   {
     "cluster_id": "cluster_931",
@@ -15470,10 +15573,61 @@
       }
     ],
     "anomalies": [],
-    "sub_issues": [],
-    "sub_themes": [],
-    "jtbd": {},
-    "workarounds": []
+    "sub_issues": [
+      {
+        "name": "Uncontrollable Auto-play",
+        "associated_theme_id": "theme_autoplay",
+        "description": "Users cannot stop the auto-play of the next song in their local playlists",
+        "frequency_percentage": 60.0,
+        "representative_quotes": [
+          "I cannot stop auto play of next song in playlist"
+        ]
+      },
+      {
+        "name": "Lack of Local File Control",
+        "associated_theme_id": "theme_local_playback",
+        "description": "Users experience difficulties in controlling the playback of their local files on Spotify",
+        "frequency_percentage": 20.0,
+        "representative_quotes": [
+          "I have a playlist of local files on my device"
+        ]
+      },
+      {
+        "name": "Device Compatibility Issues",
+        "associated_theme_id": "theme_device_control",
+        "description": "Users face problems with Spotify's functionality on their Samsung Galaxy devices",
+        "frequency_percentage": 20.0,
+        "representative_quotes": [
+          "Device  samsung galaxy S23 ultra"
+        ]
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_local_playback",
+        "name": "Local File Playback Context",
+        "description": "Issues related to playing local files on Spotify"
+      },
+      {
+        "theme_id": "theme_device_control",
+        "name": "Device Control Context",
+        "description": "Problems with controlling Spotify playback on Samsung Galaxy devices"
+      },
+      {
+        "theme_id": "theme_autoplay",
+        "name": "Auto-play Control Context",
+        "description": "Difficulty in managing auto-play features for local playlists"
+      }
+    ],
+    "jtbd": {
+      "situation": "When I am listening to my local playlists on Spotify using my Samsung Galaxy device",
+      "motivation": "I want to have control over the playback of my local files without interruptions or auto-play",
+      "outcome": "so that I can enjoy my music without constant adjustments"
+    },
+    "workarounds": [
+      "manually stopping the playback after each song"
+    ],
+    "cluster_name": "Local Playlist Control"
   },
   {
     "cluster_id": "cluster_930",
@@ -15599,10 +15753,62 @@
       }
     ],
     "anomalies": [],
-    "sub_issues": [],
-    "sub_themes": [],
-    "jtbd": {},
-    "workarounds": []
+    "sub_issues": [
+      {
+        "name": "Lack of Specific Autoplay Option",
+        "associated_theme_id": "theme_autoplay",
+        "description": "Users want a specific autoplay option for podcasts",
+        "frequency_percentage": 40.0,
+        "representative_quotes": [
+          "I like autoplay for music. It loops in new and familiar songs after I just play one song.",
+          "Specific Autoplay Option for Podcasts"
+        ]
+      },
+      {
+        "name": "Unwanted Autogenerated Lineup",
+        "associated_theme_id": "theme_lineup",
+        "description": "Users do not want an autogenerated lineup of podcasts",
+        "frequency_percentage": 30.0,
+        "representative_quotes": [
+          "Podcasts are not songs. I (and many others according to Reddit) don’t want to an autogenerated lineup of r..."
+        ]
+      },
+      {
+        "name": "Distinction Between Music and Podcasts",
+        "associated_theme_id": "theme_podcast",
+        "description": "Users want Spotify to distinguish between music and podcasts for autoplay",
+        "frequency_percentage": 30.0,
+        "representative_quotes": [
+          "Podcasts are not songs."
+        ]
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_autoplay",
+        "name": "Autoplay Context",
+        "description": "User preferences for autoplay feature"
+      },
+      {
+        "theme_id": "theme_podcast",
+        "name": "Podcast Playback",
+        "description": "Issues related to podcast playback and lineup"
+      },
+      {
+        "theme_id": "theme_lineup",
+        "name": "Autogenerated Lineup",
+        "description": "Problems with autogenerated lineup of podcasts"
+      }
+    ],
+    "jtbd": {
+      "situation": "When I am listening to podcasts on Spotify",
+      "motivation": "I want to have control over the autoplay feature for podcasts",
+      "outcome": "so that I can enjoy a seamless listening experience without unwanted content"
+    },
+    "workarounds": [
+      "Using Reddit for feedback and support"
+    ],
+    "cluster_name": "Autoplay for Podcasts"
   },
   {
     "cluster_id": "cluster_929",
@@ -15728,10 +15934,62 @@
       }
     ],
     "anomalies": [],
-    "sub_issues": [],
-    "sub_themes": [],
-    "jtbd": {},
-    "workarounds": []
+    "sub_issues": [
+      {
+        "name": "Difficulty Finding Independent Artists",
+        "associated_theme_id": "theme_discovery",
+        "description": "Users struggle to find new music from independent artists on Spotify",
+        "frequency_percentage": 40.0,
+        "representative_quotes": [
+          "If you’re an independent artist and would like your music heard by the Spotify Community, we’d love to hear from you"
+        ]
+      },
+      {
+        "name": "Lack of Community Engagement",
+        "associated_theme_id": "theme_community",
+        "description": "Users feel that the Spotify community is not engaging with independent artists",
+        "frequency_percentage": 30.0,
+        "representative_quotes": [
+          "Welcome to Artists Wanted Edition 19"
+        ]
+      },
+      {
+        "name": "Limited Artist Visibility",
+        "associated_theme_id": "theme_artist_support",
+        "description": "Independent artists have limited visibility on Spotify, making it hard for users to discover them",
+        "frequency_percentage": 30.0,
+        "representative_quotes": [
+          "If you want to..."
+        ]
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_discovery",
+        "name": "Music Discovery Context",
+        "description": "The process of finding new music from independent artists"
+      },
+      {
+        "theme_id": "theme_community",
+        "name": "Community Engagement Context",
+        "description": "Interacting with the Spotify community to discover new music"
+      },
+      {
+        "theme_id": "theme_artist_support",
+        "name": "Independent Artist Support Context",
+        "description": "Supporting independent artists by listening to and sharing their music"
+      }
+    ],
+    "jtbd": {
+      "situation": "When I am looking for new music from independent artists",
+      "motivation": "I want to discover and support emerging talent",
+      "outcome": "so that I can enjoy fresh and unique music"
+    },
+    "workarounds": [
+      "Searching for independent artist playlists",
+      "Following music blogs and websites"
+    ],
+    "cluster_name": "Independent Artist Discovery"
   },
   {
     "cluster_id": "cluster_928",
@@ -15852,10 +16110,63 @@
       }
     ],
     "anomalies": [],
-    "sub_issues": [],
-    "sub_themes": [],
-    "jtbd": {},
-    "workarounds": []
+    "sub_issues": [
+      {
+        "name": "Lack of Deep Autoplay Feature",
+        "associated_theme_id": "theme_autoplay",
+        "description": "Users want a feature that expands the autoplay experience to include new songs and artists",
+        "frequency_percentage": 40.0,
+        "representative_quotes": [
+          "lets say expands the plane a bit for autoplay",
+          "Play songs you've never listened to"
+        ]
+      },
+      {
+        "name": "Insufficient Music Discovery",
+        "associated_theme_id": "theme_discovery",
+        "description": "Users are not satisfied with the current music discovery features and want more",
+        "frequency_percentage": 30.0,
+        "representative_quotes": [
+          "Play artists you have low numbers of plays from"
+        ]
+      },
+      {
+        "name": "Inadequate Personalization",
+        "associated_theme_id": "theme_personalization",
+        "description": "Users want more personalized music recommendations based on their listening history",
+        "frequency_percentage": 30.0,
+        "representative_quotes": [
+          "Favour artists with lower numbers of plays"
+        ]
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_autoplay",
+        "name": "Autoplay Context",
+        "description": "The context in which users are interacting with the autoplay feature"
+      },
+      {
+        "theme_id": "theme_discovery",
+        "name": "Music Discovery Context",
+        "description": "The context in which users are trying to discover new music and artists"
+      },
+      {
+        "theme_id": "theme_personalization",
+        "name": "Personalization Context",
+        "description": "The context in which users are expecting personalized music recommendations"
+      }
+    ],
+    "jtbd": {
+      "situation": "When I am listening to music on Spotify and want to discover new songs and artists",
+      "motivation": "I want to have a personalized and diverse music experience that introduces me to new content",
+      "outcome": "so that I can enjoy a fresh and engaging music experience without manual effort"
+    },
+    "workarounds": [
+      "Creating custom playlists with lesser-known artists",
+      "Manually searching for new music"
+    ],
+    "cluster_name": "Autoplay Exploration"
   },
   {
     "cluster_id": "cluster_927",
@@ -15979,10 +16290,62 @@
       }
     ],
     "anomalies": [],
-    "sub_issues": [],
-    "sub_themes": [],
-    "jtbd": {},
-    "workarounds": []
+    "sub_issues": [
+      {
+        "name": "Random Sounds on Autoplay",
+        "associated_theme_id": "theme_autoplay",
+        "description": "Users experience random sounds when using the Spotify Web Player on Safari due to automated background scripts",
+        "frequency_percentage": 60.0,
+        "representative_quotes": [
+          "Safari / Spotify Web Player Bug: random sounds aut..."
+        ]
+      },
+      {
+        "name": "Safari Blocks Autoplay",
+        "associated_theme_id": "theme_restrictions",
+        "description": "Safari's restrictions on autoplay cause issues with the Spotify Web Player",
+        "frequency_percentage": 20.0,
+        "representative_quotes": [
+          "Safari normally blocks autoplay and restricts background t..."
+        ]
+      },
+      {
+        "name": "Background Script Issues",
+        "associated_theme_id": "theme_autoplay",
+        "description": "Background scripts cause problems with the Spotify Web Player on Safari",
+        "frequency_percentage": 20.0,
+        "representative_quotes": [
+          "...eems like an automated background script is trying to force media playback tokens through Safari's Web Audio API."
+        ]
+      }
+    ],
+    "sub_themes": [
+      {
+        "theme_id": "theme_safari",
+        "name": "Safari Browser Context",
+        "description": "Issues related to using the Spotify Web Player on Safari"
+      },
+      {
+        "theme_id": "theme_autoplay",
+        "name": "Autoplay and Background Scripts",
+        "description": "Problems with automated playback and background scripts"
+      },
+      {
+        "theme_id": "theme_restrictions",
+        "name": "Browser Restrictions and Blocks",
+        "description": "Issues with Safari's restrictions on autoplay and background scripts"
+      }
+    ],
+    "jtbd": {
+      "situation": "When I am using the Spotify Web Player on Safari",
+      "motivation": "I want to have control over media playback and avoid random sounds",
+      "outcome": "so that I can enjoy my music without interruptions or technical issues"
+    },
+    "workarounds": [
+      "Using a different browser",
+      "Disabling background scripts"
+    ],
+    "cluster_name": "Safari Web Player Autoplay Issue"
   },
   {
     "cluster_id": "cluster_926",
