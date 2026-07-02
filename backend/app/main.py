@@ -240,6 +240,26 @@ def get_safe_end_date(date_str: Optional[str]) -> Optional[str]:
     except Exception:
         return date_str
 
+def apply_metadata_filters(query: str, params: list, country: Optional[str], lang: Optional[str], prefix: str = "r") -> Tuple[str, list]:
+    """
+    Applies country and language filters specifically for Google Play Reviews,
+    while leaving other sources clean (or excluding them if Google Play only is requested).
+    """
+    if country == "all":
+        country = None
+    if lang == "all":
+        lang = None
+        
+    if country:
+        query += f" AND ({prefix}.source != 'google_play' OR ({prefix}.source = 'google_play' AND {prefix}.country = ?))"
+        params.append(country)
+        
+    if lang:
+        query += f" AND ({prefix}.source != 'google_play' OR ({prefix}.source = 'google_play' AND {prefix}.detected_language = ?))"
+        params.append(lang)
+        
+    return query, params
+
 def write_run_log(run_id: str, message: str):
     try:
         log_dir = Path(project_root) / "backend" / "logs"
@@ -412,7 +432,9 @@ async def get_source_counts(
     theme_slug: Optional[str] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-    only_latest: bool = False
+    only_latest: bool = False,
+    country: Optional[str] = None,
+    lang: Optional[str] = None
 ):
     """Returns the total and source-level fetched, analysed, and pending counts."""
     try:
@@ -421,7 +443,7 @@ async def get_source_counts(
         
         # Determine target run_id if only_latest
         target_run_id = get_target_run_id(cursor, only_latest)
-
+ 
         # Fetch counts
         query = """
             SELECT 
@@ -447,6 +469,7 @@ async def get_source_counts(
                 query += " AND published_at <= ?"
                 params.append(get_safe_end_date(end_date))
                 
+        query, params = apply_metadata_filters(query, params, country, lang, prefix="reviews")
         query += " GROUP BY source"
         cursor.execute(query, params)
         rows = cursor.fetchall()
@@ -505,7 +528,9 @@ async def get_clusters(
     source: Optional[str] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-    only_latest: bool = False
+    only_latest: bool = False,
+    country: Optional[str] = None,
+    lang: Optional[str] = None
 ):
     """
     Returns discovery clusters matching the active source and date filters.
@@ -542,6 +567,8 @@ async def get_clusters(
             if end_date:
                 query += " AND r.published_at <= ?"
                 params.append(get_safe_end_date(end_date))
+            
+            query, params = apply_metadata_filters(query, params, country, lang, prefix="r")
             
         cursor.execute(query, params)
         rows = cursor.fetchall()
@@ -885,7 +912,9 @@ async def get_operational_friction(
     source: Optional[str] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-    only_latest: bool = False
+    only_latest: bool = False,
+    country: Optional[str] = None,
+    lang: Optional[str] = None
 ):
     """
     Returns the volume, percentage, and top 5 representative reviews for the
@@ -896,54 +925,58 @@ async def get_operational_friction(
         cursor = conn.cursor()
         
         # Determine total reviews in active slice (to calculate local percentage)
-        total_query = "SELECT COUNT(*) FROM reviews WHERE 1=1"
+        total_query = "SELECT COUNT(*) FROM reviews r WHERE 1=1"
         total_params = []
         target_run_id = get_target_run_id(cursor, only_latest)
         if only_latest:
             if target_run_id:
-                total_query += " AND last_run_id = ?"
+                total_query += " AND r.last_run_id = ?"
                 total_params.append(target_run_id)
             else:
                 total_query += " AND 1=0"
         else:
-            total_query += " AND analysed = 1"
+            total_query += " AND r.analysed = 1"
             if source:
-                total_query += " AND source = ?"
+                total_query += " AND r.source = ?"
                 total_params.append(source)
             if start_date:
-                total_query += " AND published_at >= ?"
+                total_query += " AND r.published_at >= ?"
                 total_params.append(start_date)
             if end_date:
-                total_query += " AND published_at <= ?"
+                total_query += " AND r.published_at <= ?"
                 total_params.append(get_safe_end_date(end_date))
+                
+            total_query, total_params = apply_metadata_filters(total_query, total_params, country, lang, prefix="r")
             
         cursor.execute(total_query, total_params)
         total_active_reviews = cursor.fetchone()[0] or 1
         
         # Query operational reviews
         query = """
-            SELECT id, cluster_id, rating, source, published_at, translated_text, raw_text
-            FROM reviews
-            WHERE cluster_id IN ('unrelated_general', 'unrelated_ads', 'unrelated_bugs', 'unrelated_widgets')
+            SELECT r.id, r.cluster_id, r.rating, r.source, r.published_at, r.translated_text, r.raw_text
+            FROM reviews r
+            WHERE r.cluster_id IN ('unrelated_general', 'unrelated_ads', 'unrelated_bugs', 'unrelated_widgets')
         """
         params = []
         if only_latest:
             if target_run_id:
-                query += " AND last_run_id = ?"
+                query += " AND r.last_run_id = ?"
                 params.append(target_run_id)
             else:
                 query += " AND 1=0"
         else:
-            query += " AND analysed = 1"
+            query += " AND r.analysed = 1"
             if source:
-                query += " AND source = ?"
+                query += " AND r.source = ?"
                 params.append(source)
             if start_date:
-                query += " AND published_at >= ?"
+                query += " AND r.published_at >= ?"
                 params.append(start_date)
             if end_date:
-                query += " AND published_at <= ?"
+                query += " AND r.published_at <= ?"
                 params.append(get_safe_end_date(end_date))
+                
+            query, params = apply_metadata_filters(query, params, country, lang, prefix="r")
             
         cursor.execute(query, params)
         rows = cursor.fetchall()
@@ -1238,7 +1271,9 @@ async def run_pipeline_task(
     from_date: Optional[str] = None,
     to_date: Optional[str] = None,
     disable_keywords: bool = False,
-    run_id: Optional[str] = None
+    run_id: Optional[str] = None,
+    country: Optional[str] = None,
+    lang: Optional[str] = None
 ):
     target_db_path = get_db_path(theme_slug)
     theme_config_file_path = None
@@ -1317,6 +1352,8 @@ async def run_pipeline_task(
         env["LIMIT_SPOTIFY_COMMUNITY"] = str(limit_spotify_community)
         env["LIMIT_APP_STORE"] = str(limit_app_store)
         env["DISABLE_KEYWORDS"] = "true" if disable_keywords else "false"
+        if country: env["PLAY_STORE_COUNTRY"] = country
+        if lang: env["PLAY_STORE_LANG"] = lang
         
         if from_date: env["FROM_DATE"] = from_date
         if to_date: env["TO_DATE"] = to_date
@@ -1653,7 +1690,9 @@ async def get_executive_overview(
     source: Optional[str] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-    only_latest: bool = False
+    only_latest: bool = False,
+    country: Optional[str] = None,
+    lang: Optional[str] = None
 ):
     """Returns high-level KPI and Share of Voice metrics for both discovery and operational issues."""
     try:
@@ -1681,6 +1720,11 @@ async def get_executive_overview(
             if end_date:
                 clauses.append("r.published_at <= ?")
                 params.append(get_safe_end_date(end_date))
+                
+            mock_query, params = apply_metadata_filters("", params, country, lang, prefix="r")
+            if mock_query:
+                clauses.append(mock_query.replace(" AND ", "", 1))
+                
             where_clause = " WHERE " + " AND ".join(clauses)
                 
         # 1. Total and Confirmed Relevant (Discovery) Counts
@@ -1861,7 +1905,9 @@ async def get_deep_theme_analysis(
     source: Optional[str] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-    only_latest: bool = False
+    only_latest: bool = False,
+    country: Optional[str] = None,
+    lang: Optional[str] = None
 ):
     """Returns raw and weighted counts for the 5 refined sub-themes and their co-occurrence matrix."""
     try:
@@ -1889,6 +1935,8 @@ async def get_deep_theme_analysis(
             if end_date:
                 where_clause += " AND r.published_at <= ?"
                 params.append(get_safe_end_date(end_date))
+                
+            where_clause, params = apply_metadata_filters(where_clause, params, country, lang, prefix="r")
                 
         # 1. Fetch themes and calculate raw/weighted counts
         cursor.execute("SELECT theme_id, name, description, category FROM decomposed_themes")
@@ -1965,7 +2013,9 @@ async def get_diagnostic_accuracy(
     source: Optional[str] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-    only_latest: bool = False
+    only_latest: bool = False,
+    country: Optional[str] = None,
+    lang: Optional[str] = None
 ):
     """Returns confusion matrix, signal quality metrics, and score decile impact analysis."""
     try:
@@ -1993,6 +2043,11 @@ async def get_diagnostic_accuracy(
             if end_date:
                 clauses.append("r.published_at <= ?")
                 params.append(get_safe_end_date(end_date))
+                
+            mock_query, params = apply_metadata_filters("", params, country, lang, prefix="r")
+            if mock_query:
+                clauses.append(mock_query.replace(" AND ", "", 1))
+                
             where_clause = " WHERE " + " AND ".join(clauses)
                 
         # 1. Load decomposed_themes.json to calculate TP, FP, FN, TN
@@ -2302,7 +2357,9 @@ async def run_pipeline(
     limit_app_store: int = 50,
     from_date: Optional[str] = None,
     to_date: Optional[str] = None,
-    disable_keywords: bool = False
+    disable_keywords: bool = False,
+    country: Optional[str] = None,
+    lang: Optional[str] = None
 ):
     """Triggers the unified ingestion and analysis pipeline with individual source limits."""
     # Authenticate trigger source in production environments
@@ -2348,7 +2405,9 @@ async def run_pipeline(
         from_date,
         to_date,
         disable_keywords,
-        run_id
+        run_id,
+        country,
+        lang
     )
     pipeline_state["status"] = "running"
     pipeline_state["run_id"] = run_id

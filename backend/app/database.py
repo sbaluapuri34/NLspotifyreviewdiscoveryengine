@@ -50,7 +50,7 @@ def init_db(db_path: Optional[str] = None):
     logger.info(f"Initializing database at: {path}")
     conn = get_db_connection(path)
     try:
-        # Reviews table (updated with scraped_at, analysed, last_run_id)
+        # Reviews table (updated with scraped_at, analysed, last_run_id, detected_language)
         conn.execute("""
             CREATE TABLE IF NOT EXISTS reviews (
                 id TEXT PRIMARY KEY,
@@ -65,11 +65,12 @@ def init_db(db_path: Optional[str] = None):
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 scraped_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 analysed INTEGER DEFAULT 0,
-                last_run_id TEXT
+                last_run_id TEXT,
+                detected_language TEXT
             )
         """)
         
-        # Run migrations to add analysed and last_run_id if table already exists
+        # Run migrations to add analysed, last_run_id, and detected_language if table already exists
         try:
             conn.execute("ALTER TABLE reviews ADD COLUMN scraped_at TEXT;")
             logger.info("Migration: Added scraped_at column to reviews table.")
@@ -85,6 +86,12 @@ def init_db(db_path: Optional[str] = None):
         try:
             conn.execute("ALTER TABLE reviews ADD COLUMN last_run_id TEXT;")
             logger.info("Migration: Added last_run_id column to reviews table.")
+        except sqlite3.OperationalError:
+            pass
+
+        try:
+            conn.execute("ALTER TABLE reviews ADD COLUMN detected_language TEXT;")
+            logger.info("Migration: Added detected_language column to reviews table.")
         except sqlite3.OperationalError:
             pass
         
@@ -123,6 +130,7 @@ def init_db(db_path: Optional[str] = None):
         conn.execute("CREATE INDEX IF NOT EXISTS idx_reviews_date_source ON reviews(published_at, source);")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_reviews_scraped ON reviews(scraped_at);")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_reviews_last_run ON reviews(last_run_id);")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_reviews_filters ON reviews(source, country, detected_language);")
         conn.commit()
     finally:
         conn.close()
@@ -135,10 +143,11 @@ def save_review(review: Dict[str, Any], run_id: Optional[str] = None, db_path: O
     """
     review_copy = dict(review)
     review_copy["run_id"] = run_id
+    review_copy["detected_language"] = review.get("detected_language")
     
     query = """
-        INSERT INTO reviews (id, raw_text, translated_text, rating, source, country, sentiment, location, published_at, scraped_at, analysed, last_run_id)
-        VALUES (:id, :raw_text, :translated_text, :rating, :source, :country, :sentiment, :location, :published_at, CURRENT_TIMESTAMP, 0, :run_id)
+        INSERT INTO reviews (id, raw_text, translated_text, rating, source, country, sentiment, location, published_at, scraped_at, analysed, last_run_id, detected_language)
+        VALUES (:id, :raw_text, :translated_text, :rating, :source, :country, :sentiment, :location, :published_at, CURRENT_TIMESTAMP, 0, :run_id, :detected_language)
         ON CONFLICT(id) DO UPDATE SET
             raw_text = excluded.raw_text,
             translated_text = excluded.translated_text,
@@ -148,7 +157,8 @@ def save_review(review: Dict[str, Any], run_id: Optional[str] = None, db_path: O
             published_at = excluded.published_at,
             scraped_at = CURRENT_TIMESTAMP,
             analysed = 0,
-            last_run_id = excluded.last_run_id
+            last_run_id = excluded.last_run_id,
+            detected_language = excluded.detected_language
     """
     try:
         with get_db_connection(db_path) as conn:
@@ -168,11 +178,12 @@ def save_reviews_batch(reviews: List[Dict[str, Any]], run_id: Optional[str] = No
     for rev in reviews:
         rev_copy = dict(rev)
         rev_copy["run_id"] = run_id
+        rev_copy["detected_language"] = rev.get("detected_language")
         reviews_copied.append(rev_copy)
         
     query = """
-        INSERT INTO reviews (id, raw_text, translated_text, rating, source, country, sentiment, location, published_at, scraped_at, analysed, last_run_id)
-        VALUES (:id, :raw_text, :translated_text, :rating, :source, :country, :sentiment, :location, :published_at, CURRENT_TIMESTAMP, 0, :run_id)
+        INSERT INTO reviews (id, raw_text, translated_text, rating, source, country, sentiment, location, published_at, scraped_at, analysed, last_run_id, detected_language)
+        VALUES (:id, :raw_text, :translated_text, :rating, :source, :country, :sentiment, :location, :published_at, CURRENT_TIMESTAMP, 0, :run_id, :detected_language)
         ON CONFLICT(id) DO UPDATE SET
             raw_text = excluded.raw_text,
             translated_text = excluded.translated_text,
@@ -182,7 +193,8 @@ def save_reviews_batch(reviews: List[Dict[str, Any]], run_id: Optional[str] = No
             published_at = excluded.published_at,
             scraped_at = CURRENT_TIMESTAMP,
             analysed = 0,
-            last_run_id = excluded.last_run_id
+            last_run_id = excluded.last_run_id,
+            detected_language = excluded.detected_language
     """
     saved_count = 0
     try:

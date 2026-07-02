@@ -571,11 +571,13 @@ The SQLite database stores the following tables:
 4. `llm_cache`: Stores generated cluster titles, summaries, **Level 2.5 cluster intelligence sub-issues**, and Research Question answers mapped to specific cluster versions and timestamp ranges.
 
 ### B. Interactive Filter Query Engine (Level 2)
-To allow the user to filter the dashboard dynamically by **Date Range (From/To)**, **Ingestion Sources**, and **Maximum Review Count** without triggering new LLM calls:
-1. **DB Indexing**: The `reviews` table has composite B-Tree indexes on `(published_at, source)`.
+To allow the user to filter the dashboard dynamically by **Date Range (From/To)**, **Ingestion Sources**, **Maximum Review Count**, and specifically **Google Play Store Region (Country)** and **Detected Language** without triggering new LLM calls:
+1. **DB Indexing**: The `reviews` table features composite B-Tree indexes on `(published_at, source)` and a highly optimized composite filter index on `(source, country, detected_language)` to achieve sub-second analytical slicing.
 2. **On-the-Fly Aggregation**: When a filter request arrives from the UI, the backend queries the database for the matching subset of reviews.
-3. **Metric Compilation**: The Level 2 engine re-aggregates the statistical distributions (sentiment, ratings, sources, c-TF-IDF themes, SAP intents, listening contexts, and regional locations) on-the-fly for the filtered subset in under 100ms.
-4. **LLM Synthesis Adaptation**: It retrieves the cached LLM summaries for the active clusters. If a cluster's active reviews in the filtered slice are a subset of the full cluster, it presents the filtered statistics, medoids, and **cached Level 2.5 sub-issues**, ensuring an instant, cost-free interactive experience.
+3. **Regional & Language Slicing**: When storefront-specific country or language filters are active, the query engine applies a slice to Google Play reviews while allowing other global sources (Reddit, YouTube, Forums) to pass through globally, or excluding them based on user selection.
+4. **Data Contamination Safeguard Modal**: Since Reddit, YouTube, and Spotify Community reviews lack geographic storefront metadata, filtering by location/language automatically triggers a frontend warning dialog. The user is prompted to restrict the analysis to Google Play Store reviews only to maintain complete regional purity and prevent cross-source data contamination.
+5. **Metric Compilation**: The Level 2 engine re-aggregates the statistical distributions (sentiment, ratings, sources, c-TF-IDF themes, SAP intents, listening contexts, and regional locations) on-the-fly for the filtered subset in under 100ms.
+6. **LLM Synthesis Adaptation**: It retrieves the cached LLM summaries for the active clusters. If a cluster's active reviews in the filtered slice are a subset of the full cluster, it presents the filtered statistics, medoids, and **cached Level 2.5 sub-issues**, ensuring an instant, cost-free interactive experience.
 
 ---
 

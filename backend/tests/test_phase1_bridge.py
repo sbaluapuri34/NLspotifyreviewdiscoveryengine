@@ -124,3 +124,23 @@ def test_run_pipeline_route():
             assert response.status_code == 202
             assert "started" in response.json()["status"]
             mock_add_task.assert_called_once()
+
+def test_google_play_scraper_regional_parameters():
+    from backend.app.ingestion import PlayStoreScraper
+    import asyncio
+    
+    scraper = PlayStoreScraper()
+    queue = asyncio.Queue()
+    
+    with patch("google_play_scraper.reviews") as mock_reviews:
+        mock_reviews.return_value = ([], None)
+        
+        # Run scraping task
+        asyncio.run(scraper.scrape(queue, limit=10, lang='hi', country='in'))
+        
+        # Verify reviews was called with our target parameters
+        mock_reviews.assert_called_once()
+        args, kwargs = mock_reviews.call_args
+        assert kwargs.get('lang') == 'hi'
+        assert kwargs.get('country') == 'in'
+        assert kwargs.get('count') == 10

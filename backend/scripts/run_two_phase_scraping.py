@@ -69,7 +69,9 @@ async def main():
     if limit_gp > 0:
         logger.info(f"Preparing Google Play Store scraper (limit={limit_gp})...")
         play_scraper = PlayStoreScraper()
-        tasks.append(play_scraper.scrape(queue, limit=limit_gp))
+        gp_lang = os.environ.get("PLAY_STORE_LANG") or 'en'
+        gp_country = os.environ.get("PLAY_STORE_COUNTRY") or 'in'
+        tasks.append(play_scraper.scrape(queue, limit=limit_gp, lang=gp_lang, country=gp_country))
     
     # 2. Reddit (Hot/New feed - no query)
     if limit_reddit > 0:

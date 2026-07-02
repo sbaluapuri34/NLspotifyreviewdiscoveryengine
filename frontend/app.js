@@ -12,7 +12,7 @@ function getApiUrl(basePath) {
     return `/api/exploration/${activeTheme}/${apiName}${query}`;
 }
 
-// Intercept window.fetch to support Theme Exploration Mode dynamically
+// Intercept window.fetch to support Theme Exploration Mode and Location/Language filters dynamically
 const originalFetch = window.fetch;
 window.fetch = function(input, init) {
     let url = typeof input === 'string' ? input : input.url;
@@ -23,6 +23,24 @@ window.fetch = function(input, init) {
         
         url = getApiUrl(url);
     }
+    
+    // Automatically append country and lang filters if they are active
+    if (url.startsWith('/api/') && 
+        !url.includes('/api/pipeline-status') && 
+        !url.includes('/api/pipeline-decision') && 
+        !url.includes('/api/run-pipeline') && 
+        !url.includes('/api/cancel-pipeline') && 
+        !url.includes('/api/exploration/run-pipeline') && 
+        !url.includes('/api/exploration/cancel-pipeline')) {
+        
+        const country = state.countryFilter || 'all';
+        const lang = state.langFilter || 'all';
+        if (country !== 'all' || lang !== 'all') {
+            const separator = url.includes('?') ? '&' : '?';
+            url = `${url}${separator}country=${country}&lang=${lang}`;
+        }
+    }
+    
     if (typeof input === 'string') {
         input = url;
     } else {
@@ -35,6 +53,8 @@ window.fetch = function(input, init) {
 let state = {
     activeTab: 'clusters',
     activeSource: null, // Slicing filter
+    countryFilter: 'all',
+    langFilter: 'all',
     clusters: [],
     selectedCluster: null,
     researchQuestions: [],
@@ -66,8 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initCanvasEvents();
     initDecisionButtons();
     updateIntegrityBadge();
-    
-
+    initMetadataFilters();
     
     // Check if pipeline is already running in background
     try {
@@ -1349,6 +1368,8 @@ function initPipelineButton() {
             
             if (fromDate) url += `&from_date=${fromDate}`;
             if (toDate) url += `&to_date=${toDate}`;
+            if (state.countryFilter && state.countryFilter !== 'all') url += `&country=${state.countryFilter}`;
+            if (state.langFilter && state.langFilter !== 'all') url += `&lang=${state.langFilter}`;
             
             appendTerminalLog('Triggering pipeline run...', 'INFO');
             const response = await fetch(url, { method: 'POST' });
@@ -1659,6 +1680,64 @@ function initDecisionButtons() {
     }
     if (btnExpand) {
         btnExpand.addEventListener('click', () => sendPipelineDecision('expand'));
+    }
+}
+
+function initMetadataFilters() {
+    const countrySelect = document.getElementById('pipeline-country');
+    const langSelect = document.getElementById('pipeline-lang');
+    const modal = document.getElementById('contamination-warning-modal');
+    const btnGpOnly = document.getElementById('btn-contamination-gp-only');
+    const btnKeepAll = document.getElementById('btn-contamination-keep-all');
+    
+    if (!countrySelect || !langSelect || !modal) return;
+    
+    function checkContamination() {
+        const country = countrySelect.value;
+        const lang = langSelect.value;
+        
+        state.countryFilter = country;
+        state.langFilter = lang;
+        
+        if (country !== 'all' || lang !== 'all') {
+            const rd = parseInt(document.getElementById('limit-reddit')?.value || '0', 10);
+            const yt = parseInt(document.getElementById('limit-youtube')?.value || '0', 10);
+            const sc = parseInt(document.getElementById('limit-spotify-community')?.value || '0', 10);
+            
+            if (rd > 0 || yt > 0 || sc > 0) {
+                modal.classList.remove('hidden');
+            } else {
+                reloadDashboard();
+            }
+        } else {
+            reloadDashboard();
+        }
+    }
+    
+    countrySelect.addEventListener('change', checkContamination);
+    langSelect.addEventListener('change', checkContamination);
+    
+    if (btnGpOnly) {
+        btnGpOnly.addEventListener('click', () => {
+            const limitReddit = document.getElementById('limit-reddit');
+            const limitYoutube = document.getElementById('limit-youtube');
+            const limitSpotify = document.getElementById('limit-spotify-community');
+            
+            if (limitReddit) limitReddit.value = 0;
+            if (limitYoutube) limitYoutube.value = 0;
+            if (limitSpotify) limitSpotify.value = 0;
+            
+            modal.classList.add('hidden');
+            appendTerminalLog('Configured pipeline for uncontaminated Google Play Store analysis.', 'INFO');
+            reloadDashboard();
+        });
+    }
+    
+    if (btnKeepAll) {
+        btnKeepAll.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            reloadDashboard();
+        });
     }
 }
 

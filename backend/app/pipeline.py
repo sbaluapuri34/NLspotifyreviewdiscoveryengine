@@ -378,5 +378,6 @@ class TextPipeline:
             "country": review.get("country"),
             "sentiment": None, # Will be computed in Level 2/3
             "location": location,
-            "published_at": review.get("published_at")
+            "published_at": review.get("published_at"),
+            "detected_language": lang
         }

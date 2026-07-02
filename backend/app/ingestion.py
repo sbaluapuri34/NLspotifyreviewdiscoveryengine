@@ -48,8 +48,8 @@ class BaseScraper:
 
 class PlayStoreScraper(BaseScraper):
     """Scrapes reviews from Google Play Store for Spotify and streams them to a queue."""
-    async def scrape(self, queue: asyncio.Queue, limit: int = 100) -> None:
-        logger.info(f"Scraping Google Play Store reviews (limit={limit})...")
+    async def scrape(self, queue: asyncio.Queue, limit: int = 100, lang: str = 'en', country: str = 'in') -> None:
+        logger.info(f"Scraping Google Play Store reviews (limit={limit}, lang={lang}, country={country})...")
         try:
             from google_play_scraper import reviews, Sort
             
@@ -59,8 +59,8 @@ class PlayStoreScraper(BaseScraper):
                 None,
                 lambda: reviews(
                     PLAY_STORE_PACKAGE,
-                    lang='en',
-                    country=COUNTRY_IN,
+                    lang=lang,
+                    country=country,
                     sort=Sort.NEWEST,
                     count=limit
                 )
@@ -75,7 +75,7 @@ class PlayStoreScraper(BaseScraper):
                     "raw_text": raw_text,
                     "rating": r.get('score'),
                     "source": "google_play",
-                    "country": COUNTRY_IN,
+                    "country": country,
                     "published_at": pub_date
                 }
                 await queue.put(review)

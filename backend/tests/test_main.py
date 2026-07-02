@@ -75,3 +75,17 @@ def test_trigger_pipeline():
         assert "status" in data
         assert "task_id" in data
         mock_add_task.assert_called_once()
+
+def test_api_endpoints_with_country_and_lang_filters():
+    # Test main analytical endpoints with country and lang filters to verify route matching and schema safety
+    endpoints = [
+        "/api/source-counts?country=in&lang=en",
+        "/api/clusters?country=in&lang=en",
+        "/api/operational-friction?country=in&lang=en",
+        "/api/executive-overview?country=in&lang=en",
+        "/api/deep-theme-analysis?country=in&lang=en",
+        "/api/diagnostic-accuracy?country=in&lang=en",
+    ]
+    for endpoint in endpoints:
+        response = client.get(endpoint)
+        assert response.status_code == 200
