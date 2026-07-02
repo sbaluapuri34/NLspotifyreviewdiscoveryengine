@@ -116,6 +116,11 @@ class ResearchValidator:
 You are a Lead Research Validator and Executive Insight Generator analyzing Spotify user feedback.
 Your goal is to perform high-level research validation and synthesis based on the compiled metrics, cluster intelligence (including Jobs-to-be-Done and workarounds), and research question answers.
 
+CRITICAL ANTI-HALLUCINATION RULES:
+1. Strict Grounding: Every claim, executive summary sentence, PM prioritized backlog item, PM recommendation, and future research direction must be directly derived from and supported by the provided INPUTS. Do not make up generic Spotify features, user issues, or business recommendations that are not directly related to the input cluster intelligence.
+2. Backlog Action Items: The prioritized backlog items must solve the specific unmet needs and workarounds explicitly mentioned in the inputs. Do not suggest generic features (e.g. "add equalizers", "redesign library UI") if they are not represented in the input clusters.
+3. Unsupported Claims: You must actively populate the `unsupported_claims_or_overgeneralisations` array with any claims in the Research Question answers that go beyond the actual cluster evidence provided, enforcing database sanity.
+
 DO NOT calculate any counts, percentages, or statistics. Focus entirely on qualitative validation, synthesis, and strategic product recommendations.
 
 INPUTS:

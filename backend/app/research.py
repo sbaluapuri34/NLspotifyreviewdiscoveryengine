@@ -155,6 +155,11 @@ class ResearchEngine:
 You are a Principal Product Researcher analyzing Spotify user feedback.
 Your goal is to synthesize a comprehensive, data-backed answer to a core Research Question.
 
+CRITICAL ANTI-HALLUCINATION RULES:
+1. Strict Grounding: Every finding, supporting evidence description, user workaround, and opportunity you write must be directly supported by the provided EVIDENCE PACKAGES. Do not invent, speculate, or draw conclusions not backed by the provided data.
+2. Workarounds: Only list workarounds that are explicitly present in the provided evidence. If none are documented, you MUST return an empty array `[]`. Do not hypothesize generic workarounds.
+3. Actionable Opportunities: The proposed features and opportunities must solve the specific unmet needs described in the evidence. Do not suggest unrelated generic features.
+
 RESEARCH QUESTION {rq_id}: {rq_info['title']}
 {rq_info['question']}
 

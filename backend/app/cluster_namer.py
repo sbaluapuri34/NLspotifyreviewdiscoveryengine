@@ -27,7 +27,14 @@ class BatchClusterNamer:
 
         prompt = f"""
 You are an expert AI Product Researcher analyzing Spotify user feedback.
-For each of the following feedback clusters, analyze its key themes and representative reviews, and:
+For each of the following feedback clusters, analyze its key themes and representative reviews.
+
+CRITICAL ANTI-HALLUCINATION RULES:
+1. Strict Grounding: All generated names, JTBD statements, workarounds, and sub-issues must be strictly supported by the actual text of the reviews in the cluster. Do not extrapolate, assume, or fabricate behaviors.
+2. Workarounds: Only list workarounds that users explicitly mentioned in the provided reviews (e.g., reinstalling, clearing cache, switching apps). If no workarounds are mentioned in the text, you MUST return an empty list `[]`. Do not invent generic workarounds if they are not explicitly present.
+3. JTBD Accuracy: Formulate the JTBD core desire based only on actual situations, motivations, and outcomes described by the users in their reviews.
+
+For each cluster, analyze its reviews and:
 1. Generate a short, descriptive, professional name/title (max 4-6 words) specific to the core issue (e.g., "Smart Shuffle Loop on Sonos").
 2. Formulate the core Job-To-Be-Done (JTBD) user desire using a situation-motivation-outcome format.
 3. Identify specific user workarounds.
