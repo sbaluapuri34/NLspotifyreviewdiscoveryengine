@@ -69,6 +69,36 @@ graph TD
     end
 ```
 
+### Dual-Mode & Multi-Tenant Topology
+To support custom theme exploration without risk of data contamination to the core discovery metrics, the engine can transition between **Music Discovery Mode** (Mode 1) and **Theme Exploration Mode** (Mode 2), routing data through completely isolated states:
+
+```mermaid
+graph TD
+    UI[Vite + React Dashboard] -->|Dashboard Toggle| Router[API Router & Orchestrator]
+    
+    %% Mode 1 Pipeline
+    Router -->|Mode: Discovery| P1[Music Discovery Pipeline]
+    P1 -->|Ingests & Deduplicates| DB1[(spotify_research.db)]
+    P1 -->|Clustered Centroids| HNSW1[HNSW Index: Discovery]
+    P1 -->|LLM Prompts & RQs| RQ1[Music Discovery RQs: 1-7]
+    P1 -->|Research Answers| DB1
+    
+    %% Mode 2 Bootstrapping
+    Router -->|Mode: Theme X| Boot[Theme Bootstrapping Engine]
+    Boot -->|Generates Config| Config[Dynamic Theme Config]
+    
+    %% Mode 2 Isolated Pipeline
+    Config --> P2[Theme X Pipeline]
+    P2 -->|Ingests & Deduplicates| DB2[(spotify_research_X.db)]
+    P2 -->|Clustered Centroids| HNSW2[HNSW Index: Theme X]
+    P2 -->|LLM Prompts & RQs| RQ2[Theme-Specific RQs: 1-N]
+    P2 -->|Research Answers| DB2
+    
+    %% Cross Ingestion Bridge
+    DB1 -->|Read Raw Play/App Store Reviews| IngestBridge[Ingestion Filter Bridge]
+    IngestBridge -->|Pipe to Level 0 filter for Theme X| P2
+```
+
 ---
 
 ## 2. The Four Intelligence Tiers
@@ -101,6 +131,8 @@ To maximize performance, scale to 10,000+ reviews, and minimize AI costs, we enf
 * **Impact**: Acts purely as a high-level reasoning and synthesis layer, receiving enriched evidence instead of raw reviews.
 
 ---
+
+## 3. Geographic Targeting & Ingestion Routing Policies
 
 ### A. Geographic Targeting Policy & Limitations
 To ensure academic defensibility and technical accuracy, the system enforces a strict geographic policy across all data sources:
@@ -527,7 +559,7 @@ $$\text{Opportunity Score} = \frac{(\text{Severity} \times \text{Weighted SoV}) 
 
 ---
 
-## 11. Memory, Persistence & Multi-Dimensional Caching
+## 12. Memory, Persistence & Multi-Dimensional Caching
 
 The system implements a **Persistent Knowledge Graph** using a local **SQLite Database** to ensure that running the engine on subsequent days does not require rebuilding, and that user filtering on the dashboard is handled instantly and deterministically.
 
@@ -547,7 +579,47 @@ To allow the user to filter the dashboard dynamically by **Date Range (From/To)*
 
 ---
 
-## 12. Dashboard UI/UX: Separated Ingestion and Analysis Workflows
+## 13. Isolated Theme Exploration Engine (Mode 2)
+
+To allow the research engine to dynamically explore custom user-defined themes (e.g., Podcasts, Ads, AI DJ, Premium, Playlists) without polluting or contaminating the core **Music Discovery** (Mode 1) dataset, the architecture implements a **Dynamic Multi-Tenant Isolation Paradigm**. 
+
+### A. System Topology & Dual-Mode Isolation
+The system operates under a **shared-code, isolated-state** design:
+1. **Dynamic Database Provisioning**: When the user triggers an exploration run for theme $X$, the backend dynamically provisions an isolated SQLite database named `spotify_research_{theme_slug}.db`. All reviews, embeddings, centroids, caches, and research question answers for theme $X$ are stored exclusively within this file.
+2. **Independent Vector Space & HNSW Indices**: Every theme database has its own isolated review embeddings table and centroid vector index. Review similarity computations and HNSW centroid routing are 100% independent.
+3. **Contamination Risk Mitigation**: By using relational database-level silos rather than simple row tagging (e.g., a `theme` column):
+   * **No Query Pollutions**: Cumulative metrics (overall ratings, location mentions, counts) are completely protected from leaky SQL queries that might omit filters.
+   * **No c-TF-IDF Vocabulary Distortion**: Inverse Document Frequencies (IDF) for keywords are computed locally on each theme's corpus. Music discovery vocabulary weights are completely unaffected by terms from other themes (e.g., "podcast", "host").
+   * **No Vector Space Interference**: Centroid drift splits and Leader-Follower merges only affect the active theme's vector space.
+
+### B. Shared Raw Replica Store Architecture
+To avoid redundant web scraping and API calls for App Store and Google Play reviews:
+1. **Staging Copy**: At the start of any new theme pipeline run, the system creates a read-only staging copy of raw storefront reviews inside `spotify_raw_shared_replica.db` and immediately disconnects from the core database.
+2. **Filter & Ingest from Replica**: The Theme Exploration pipeline streams raw reviews from the raw replica database, passing them through the Theme-Aware Level 0 Preprocessing filter. Only reviews matching the theme's keywords or semantic rules are saved to the isolated `spotify_research_{theme_slug}.db`.
+
+### C. Pre-Phase 1: Theme Bootstrapping & Dynamic Configuration
+When a custom theme $X$ is entered, a **Theme Bootstrapping Engine** powered by `gemini-2.5-flash` dynamically compiles a JSON configuration schema defining:
+* **YouTube and Spotify Forums search queries** (prefixed with `"spotify "` and capped at 3).
+* **Level 0 priority routing keywords** (e.g., "episode", "host", "playback speed" for podcasts).
+* **Dynamic Semantic Anchors** (15-20 anchor phrases for dynamic SAP classification).
+* **Dynamic Research Questions** (3-4 custom RQs mapped to the theme).
+* *Note: Subreddit scraping targets remain permanently fixed to `["spotify", "truespotify", "spotifyplaylist"]` to maintain Spotify-centricity.*
+
+### D. Dynamic Semantic Anchor Projection (SAP)
+In Mode 2, the core anchor vector space is completely wiped at startup. The system embeds the dynamically bootstrapped theme-specific anchor phrases (covering goals, frustrations, workarounds, and competitors) and projects the incoming review vectors against them to compile dynamic tag distributions.
+
+### E. Dynamic Dashboard Transition & UX State Machine
+To ensure a smooth, non-blocking user experience:
+1. **Placeholder View**: While the background thread pool is compiling the custom theme, the UI remains fully active, displaying the core Music Discovery dashboard. Live pipeline logs are streamed to the terminal via SSE (`/api/stream?mode=exploration&theme={theme}`).
+2. **Completion Nudge**: Once compilation finishes, a nudge modal appears: *“New analysis for theme [X] is ready. Would you like to view the analysis?”*
+3. **Context Redirection Matrix**: Clicking `Show Analysis` redirects the frontend to dynamic API paths:
+   * Core Dashboard elements route from `/api/discovery/*` to `/api/exploration/{theme_slug}/*`.
+   * The active database connection swaps to `spotify_research_{theme_slug}.db`.
+   * The Research tab renders the custom research questions generated during bootstrapping.
+
+---
+
+## 14. Dashboard UI/UX: Separated Ingestion and Analysis Workflows
 
 To ensure maximum operational flexibility, the system separates the data collection (Ingestion/Scraping) from the data synthesis (Analysis) into two isolated workflows in the UI/UX and backend API:
 
@@ -582,7 +654,7 @@ This workflow is responsible for querying, filtering, and synthesizing the accum
 
 ---
 
-## 13. Scalability & Token Efficiency Review (100,000+ Reviews)
+## 15. Scalability & Token Efficiency Review (100,000+ Reviews)
 
 To scale the architecture to hundreds of thousands of reviews, we address potential bottlenecks with production-grade mitigations:
 
@@ -598,7 +670,7 @@ To scale the architecture to hundreds of thousands of reviews, we address potent
 
 ---
 
-## 13. Recommended Tech Stack
+## 16. Recommended Tech Stack
 
 * **Backend (Python 3.11+)**:
   - **FastAPI**: Asynchronous web framework for high-concurrency SSE streaming.
@@ -614,7 +686,7 @@ To scale the architecture to hundreds of thousands of reviews, we address potent
 
 ---
 
-## 14. Phased Architecture & Implementation Roadmap
+## 17. Phased Architecture & Implementation Roadmap
 
 This section defines the chronological rollout plan for the system:
 ```
@@ -841,7 +913,7 @@ This section defines the chronological rollout plan for the system:
   6. Upgrade the frontend HTML/JS to render the details panel callouts and introduce a dedicated 'Product Strategy' tab to curate the prioritized backlog table, the JTBD curation matrix, and dynamic research inquiry cards.
 
 
-## 15. Recent Pipeline Updates & Bug Fixes
+## 18. Recent Pipeline Updates & Bug Fixes
 
 To achieve full operational resilience, cost efficiency, and metadata transparency for users, several core architectural improvements and bug fixes have been implemented in the production pipeline:
 
@@ -864,7 +936,7 @@ To achieve full operational resilience, cost efficiency, and metadata transparen
 *   **Persistent Ingestion Logs**: All background logs and process stdout streams are captured in real-time and saved to `backend/logs/run_<run_id>.log` to enable offline diagnostics.
 
 
-## 16. Shared API Key Concurrency & Parallel Execution Policy
+## 19. Shared API Key Concurrency & Parallel Execution Policy
 
 To maximize pipeline performance, prevent HTTP 429 rate limit issues, and optimize credit efficiency, a **Shared API Key and Concurrent Execution Policy** is implemented across both the core **Discovery Pipeline** and the **Theme Exploration Pipeline**:
 
@@ -889,7 +961,7 @@ In any phase requiring bulk LLM synthesis (such as Level 2.5 Cluster Intelligenc
 
 ---
 
-## 17. Performance & Token Optimizations
+## 20. Performance & Token Optimizations
 
 To achieve production-grade efficiency, the system implements five critical runtime optimizations across both the **Music Discovery** (Mode 1) and **Theme Exploration** (Mode 2) pipelines:
 
@@ -919,7 +991,7 @@ To ensure non-blocking, multi-threaded background runs execute reliably in produ
 
 ---
 
-## 18. Automated Ingestion & Analytics Scheduler (GitHub Actions)
+## 21. Automated Ingestion & Analytics Scheduler (GitHub Actions)
 
 To ensure the music discovery database stays continuously updated without human intervention or server daemon costs, the core pipeline architecture supports a serverless scheduling layer.
 
