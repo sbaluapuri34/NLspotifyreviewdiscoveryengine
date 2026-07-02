@@ -479,8 +479,6 @@ async def get_source_counts(
         max_date_row = cursor.fetchone()
         latest_date = max_date_row[0] if max_date_row and max_date_row[0] else None
         
-        conn.close()
-        
         sources_data = {}
         total_fetched = 0
         total_analysed = 0
@@ -512,10 +510,27 @@ async def get_source_counts(
             "pending": total_fetched - total_analysed
         }
         
+        # Get overall cumulative total of analysed reviews
+        cursor.execute("SELECT COUNT(*) FROM reviews WHERE analysed = 1")
+        cumulative_total = cursor.fetchone()[0] or 0
+        
+        # Get latest completed run's review count
+        cursor.execute("SELECT run_id FROM pipeline_runs WHERE status = 'completed' ORDER BY started_at DESC LIMIT 1")
+        latest_completed_row = cursor.fetchone()
+        latest_run_id = latest_completed_row[0] if latest_completed_row else None
+        latest_run_total = 0
+        if latest_run_id:
+            cursor.execute("SELECT COUNT(*) FROM reviews WHERE last_run_id = ?", (latest_run_id,))
+            latest_run_total = cursor.fetchone()[0] or 0
+        
+        conn.close()
+        
         return JSONResponse({
             "sources": sources_data, 
             "total": total_data, 
-            "latest_date": latest_date
+            "latest_date": latest_date,
+            "cumulative_total": cumulative_total,
+            "latest_run_total": latest_run_total
         })
     except Exception as e:
         logger.error(f"Error serving /api/source-counts: {e}")
@@ -729,7 +744,12 @@ async def get_clusters(
             packages_path = Path(project_root) / "backend" / "scripts" / f"compiled_evidence_packages_{theme_slug}.json"
             cache_path = Path(project_root) / "backend" / "scripts" / f"cluster_metadata_cache_{theme_slug}.json"
         else:
-            packages_path = Path(project_root) / "backend" / "scripts" / "compiled_evidence_packages.json"
+            if only_latest:
+                packages_path = Path(project_root) / "backend" / "scripts" / "compiled_evidence_packages.json"
+            else:
+                packages_path = Path(project_root) / "backend" / "scripts" / "cumulative_compiled_evidence_packages.json"
+                if not packages_path.exists():
+                    packages_path = Path(project_root) / "backend" / "scripts" / "compiled_evidence_packages.json"
             cache_path = Path(project_root) / "backend" / "scripts" / "cluster_metadata_cache.json"
             
         metadata_cache = {}
@@ -1283,7 +1303,8 @@ async def run_pipeline_task(
     disable_keywords: bool = False,
     run_id: Optional[str] = None,
     country: Optional[str] = None,
-    lang: Optional[str] = None
+    lang: Optional[str] = None,
+    run_type: Optional[str] = "cumulative"
 ):
     target_db_path = get_db_path(theme_slug)
     theme_config_file_path = None
@@ -1295,6 +1316,11 @@ async def run_pipeline_task(
         # Generate a unique run_id if not provided by trigger route
         if not run_id:
             run_id = f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        
+        # Inject run type and run id for in-process script runners to read
+        os.environ["RUN_TYPE"] = run_type or "cumulative"
+        os.environ["RUN_ID"] = run_id
+        
         pipeline_state["run_id"] = run_id
         pipeline_state["theme_slug"] = theme_slug
         
@@ -1786,7 +1812,12 @@ async def get_executive_overview(
         if theme_slug:
             packages_path = Path(project_root) / "backend" / "scripts" / f"compiled_evidence_packages_{theme_slug}.json"
         else:
-            packages_path = Path(project_root) / "backend" / "scripts" / "compiled_evidence_packages.json"
+            if only_latest:
+                packages_path = Path(project_root) / "backend" / "scripts" / "compiled_evidence_packages.json"
+            else:
+                packages_path = Path(project_root) / "backend" / "scripts" / "cumulative_compiled_evidence_packages.json"
+                if not packages_path.exists():
+                    packages_path = Path(project_root) / "backend" / "scripts" / "compiled_evidence_packages.json"
         top_themes = []
         if packages_path.exists():
             with open(packages_path, "r", encoding="utf-8") as f:
@@ -2372,7 +2403,8 @@ async def run_pipeline(
     to_date: Optional[str] = None,
     disable_keywords: bool = False,
     country: Optional[str] = None,
-    lang: Optional[str] = None
+    lang: Optional[str] = None,
+    run_type: Optional[str] = "cumulative"
 ):
     """Triggers the unified ingestion and analysis pipeline with individual source limits."""
     # Authenticate trigger source in production environments
@@ -2420,7 +2452,8 @@ async def run_pipeline(
         disable_keywords,
         run_id,
         country,
-        lang
+        lang,
+        run_type
     )
     pipeline_state["status"] = "running"
     pipeline_state["run_id"] = run_id

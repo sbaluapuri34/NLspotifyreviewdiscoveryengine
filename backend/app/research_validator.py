@@ -259,13 +259,22 @@ Do not include any markdown formatting, backticks, or text outside the JSON obje
                 try:
                     theme_slug = self.theme_config.get("theme_slug") if self.theme_config else None
                     suffix = f"_{theme_slug}" if theme_slug else ""
-                    json_path = Path(self.db_path).parent / "scripts" / f"executive_insights{suffix}.json"
+                    run_type = os.environ.get("RUN_TYPE", "cumulative")
+                    
+                    if not theme_slug and run_type == "cumulative":
+                        json_path = Path(self.db_path).parent / "scripts" / "cumulative_executive_insights.json"
+                    else:
+                        json_path = Path(self.db_path).parent / "scripts" / f"executive_insights{suffix}.json"
+                        
                     with open(json_path, "w", encoding="utf-8") as f:
                         json.dump(data, f, indent=2, ensure_ascii=False)
                     logger.info(f"ResearchValidator: Saved executive insights JSON file to: {json_path}")
                     
                     # Save a copy to persistent metadata cache
-                    cache_path = Path(self.db_path).parent / "scripts" / f"executive_insights_cache{suffix}.json"
+                    if not theme_slug and run_type == "cumulative":
+                        cache_path = Path(self.db_path).parent / "scripts" / "cumulative_executive_insights_cache.json"
+                    else:
+                        cache_path = Path(self.db_path).parent / "scripts" / f"executive_insights_cache{suffix}.json"
                     with open(cache_path, "w", encoding="utf-8") as f:
                         json.dump(data, f, indent=2, ensure_ascii=False)
                     logger.info(f"ResearchValidator: Saved executive insights cache file to: {cache_path}")
@@ -311,15 +320,19 @@ Do not include any markdown formatting, backticks, or text outside the JSON obje
                     updated_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            
+            run_type = os.environ.get("RUN_TYPE", "cumulative")
+            target_id = 'cumulative' if run_type == 'cumulative' else 'latest'
+            
             cursor.execute("""
                 INSERT INTO executive_insights (id, insights_json, updated_at)
-                VALUES ('latest', ?, datetime('now'))
+                VALUES (?, ?, datetime('now'))
                 ON CONFLICT(id) DO UPDATE SET
                     insights_json = excluded.insights_json,
                     updated_at = datetime('now')
-            """, (json.dumps(insights),))
+            """, (target_id, json.dumps(insights)))
             conn.commit()
             conn.close()
-            logger.info("ResearchValidator: Saved executive insights to SQLite database.")
+            logger.info(f"ResearchValidator: Saved executive insights to SQLite database as '{target_id}'.")
         except Exception as e:
             logger.error(f"ResearchValidator: Error saving insights to database: {e}")

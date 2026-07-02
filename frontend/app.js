@@ -162,27 +162,90 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadResearch();
     loadThematicRefinement();
     
-    const onlyLatestCheckbox = document.getElementById('pipeline-only-latest');
+    const datasetCumulative = document.getElementById('dataset-cumulative');
+    const datasetCurrent = document.getElementById('dataset-current');
+    const cardCumulative = document.getElementById('card-dataset-cumulative');
+    const cardCurrent = document.getElementById('card-dataset-current');
     const menuPipelineDetails = document.getElementById('menu-pipeline-details');
-    if (onlyLatestCheckbox) {
-        onlyLatestCheckbox.addEventListener('change', () => {
-            loadSourceCounts();
-            loadClusters();
-            loadOperationalFriction();
-            
-            if (onlyLatestCheckbox.checked) {
-                if (menuPipelineDetails) {
-                    menuPipelineDetails.style.display = 'flex';
-                }
-                switchTab('pipeline-details');
-            } else {
-                if (menuPipelineDetails) {
-                    menuPipelineDetails.style.display = 'none';
-                }
-                if (state.activeTab === 'pipeline-details') {
-                    switchTab('clusters');
+    
+    function updateDatasetUI(mode) {
+        if (mode === 'session') {
+            if (cardCurrent) {
+                cardCurrent.classList.add('active');
+                cardCurrent.style.background = 'rgba(29, 185, 84, 0.08)';
+                cardCurrent.style.borderColor = 'var(--spotify-green)';
+                const lbl = cardCurrent.querySelector('label');
+                if (lbl) {
+                    lbl.style.color = 'var(--text-primary)';
+                    lbl.style.fontWeight = '600';
                 }
             }
+            if (cardCumulative) {
+                cardCumulative.classList.remove('active');
+                cardCumulative.style.background = 'rgba(255,255,255,0.01)';
+                cardCumulative.style.borderColor = 'rgba(255,255,255,0.05)';
+                const lbl = cardCumulative.querySelector('label');
+                if (lbl) {
+                    lbl.style.color = 'var(--text-secondary)';
+                    lbl.style.fontWeight = '500';
+                }
+            }
+            
+            if (menuPipelineDetails) {
+                menuPipelineDetails.style.display = 'flex';
+            }
+            switchTab('pipeline-details');
+        } else {
+            if (cardCumulative) {
+                cardCumulative.classList.add('active');
+                cardCumulative.style.background = 'rgba(29, 185, 84, 0.08)';
+                cardCumulative.style.borderColor = 'var(--spotify-green)';
+                const lbl = cardCumulative.querySelector('label');
+                if (lbl) {
+                    lbl.style.color = 'var(--text-primary)';
+                    lbl.style.fontWeight = '600';
+                }
+            }
+            if (cardCurrent) {
+                cardCurrent.classList.remove('active');
+                cardCurrent.style.background = 'rgba(255,255,255,0.01)';
+                cardCurrent.style.borderColor = 'rgba(255,255,255,0.05)';
+                const lbl = cardCurrent.querySelector('label');
+                if (lbl) {
+                    lbl.style.color = 'var(--text-secondary)';
+                    lbl.style.fontWeight = '500';
+                }
+            }
+            
+            if (menuPipelineDetails) {
+                menuPipelineDetails.style.display = 'none';
+            }
+            if (state.activeTab === 'pipeline-details') {
+                switchTab('clusters');
+            }
+        }
+        
+        loadSourceCounts();
+        loadClusters();
+        loadOperationalFriction();
+    }
+    
+    if (cardCumulative && datasetCumulative) {
+        cardCumulative.addEventListener('click', () => {
+            datasetCumulative.checked = true;
+            updateDatasetUI('cumulative');
+        });
+        datasetCumulative.addEventListener('change', () => {
+            updateDatasetUI('cumulative');
+        });
+    }
+    if (cardCurrent && datasetCurrent) {
+        cardCurrent.addEventListener('click', () => {
+            datasetCurrent.checked = true;
+            updateDatasetUI('session');
+        });
+        datasetCurrent.addEventListener('change', () => {
+            updateDatasetUI('session');
         });
     }
 
@@ -295,7 +358,7 @@ function updateHeaderInfo() {
 function getQueryParams() {
     let params = [];
     
-    const onlyLatest = document.getElementById('pipeline-only-latest') ? document.getElementById('pipeline-only-latest').checked : false;
+    const onlyLatest = document.getElementById('dataset-current') ? document.getElementById('dataset-current').checked : false;
     params.push(`only_latest=${onlyLatest}`);
     
     if (state.activeSource) {
@@ -525,6 +588,16 @@ async function loadSourceCounts() {
         const queryParams = getQueryParams();
         const response = await fetch(`/api/source-counts?${queryParams}`);
         const data = await response.json();
+        
+        // Update dataset radio counts dynamically
+        const lblCumulative = document.getElementById('lbl-dataset-cumulative');
+        const lblCurrent = document.getElementById('lbl-dataset-current');
+        if (lblCumulative && data.cumulative_total !== undefined) {
+            lblCumulative.innerText = `Cumulative Dataset (${data.cumulative_total.toLocaleString()} reviews)`;
+        }
+        if (lblCurrent && data.latest_run_total !== undefined) {
+            lblCurrent.innerText = `Current Run (${data.latest_run_total.toLocaleString()} reviews)`;
+        }
         
         // Update the dynamic "till date" text in the sidebar if present in the response
         if (data.latest_date) {
@@ -1160,7 +1233,7 @@ function renderResearchQuestions() {
     const deepContainer = document.getElementById('deep-inquiry-questions-container');
     if (deepContainer) {
         deepContainer.innerHTML = '';
-        const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+        const onlyLatest = document.getElementById('dataset-current')?.checked || false;
         
         fetch(`/api/executive-overview?only_latest=${onlyLatest}`)
             .then(res => res.json())
@@ -1415,10 +1488,12 @@ function initPipelineButton() {
             }
 
             // Build URL parameters
+            const onlyLatest = document.getElementById('dataset-current')?.checked || false;
+            const runType = onlyLatest ? 'session' : 'cumulative';
             const disableKws = document.getElementById('pipeline-disable-keywords')?.checked || false;
             let url = isThemeMode 
-                ? `/api/exploration/${themeSlug}/run-pipeline?limit_google_play=${gp}&limit_reddit=${rd}&limit_youtube=${yt}&limit_spotify_community=${sc}&limit_app_store=${as}&disable_keywords=${disableKws}`
-                : `/api/run-pipeline?limit_google_play=${gp}&limit_reddit=${rd}&limit_youtube=${yt}&limit_spotify_community=${sc}&limit_app_store=${as}&disable_keywords=${disableKws}`;
+                ? `/api/exploration/${themeSlug}/run-pipeline?limit_google_play=${gp}&limit_reddit=${rd}&limit_youtube=${yt}&limit_spotify_community=${sc}&limit_app_store=${as}&disable_keywords=${disableKws}&run_type=${runType}`
+                : `/api/run-pipeline?limit_google_play=${gp}&limit_reddit=${rd}&limit_youtube=${yt}&limit_spotify_community=${sc}&limit_app_store=${as}&disable_keywords=${disableKws}&run_type=${runType}`;
             
             if (fromDate) url += `&from_date=${fromDate}`;
             if (toDate) url += `&to_date=${toDate}`;
@@ -1475,7 +1550,7 @@ function formatLog(message, type) {
 // 10. Advanced Analytics Tab Loaders
 async function loadExecutiveOverview() {
     try {
-        const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+        const onlyLatest = document.getElementById('dataset-current')?.checked || false;
         let url = `/api/executive-overview?only_latest=${onlyLatest}`;
         if (state.activeSource) {
             url += `&source=${state.activeSource}`;
@@ -1574,7 +1649,7 @@ async function loadExecutiveOverview() {
 
 async function loadDeepThemeAnalysis() {
     try {
-        const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+        const onlyLatest = document.getElementById('dataset-current')?.checked || false;
         let url = `/api/deep-theme-analysis?only_latest=${onlyLatest}`;
         if (state.activeSource) {
             url += `&source=${state.activeSource}`;
@@ -1645,7 +1720,7 @@ async function loadDeepThemeAnalysis() {
 
 async function loadDiagnosticAccuracy() {
     try {
-        const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+        const onlyLatest = document.getElementById('dataset-current')?.checked || false;
         let url = `/api/diagnostic-accuracy?only_latest=${onlyLatest}`;
         if (state.activeSource) {
             url += `&source=${state.activeSource}`;
@@ -1876,7 +1951,7 @@ function hideAllTabsLoading() {
 
 async function loadStrategicRoadmap() {
     // 1. Render PM Prioritized Backlog and Inquiries from executive-overview endpoint
-    const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+    const onlyLatest = document.getElementById('dataset-current')?.checked || false;
     let url = `/api/executive-overview?only_latest=${onlyLatest}`;
     if (state.activeSource) {
         url += `&source=${state.activeSource}`;
@@ -2006,7 +2081,7 @@ window.showDataIntegrityModal = async function() {
     body.innerHTML = '<p style="text-align:center; padding: 20px; opacity:0.7;">Loading diagnostic report...</p>';
     
     try {
-        const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+        const onlyLatest = document.getElementById('dataset-current')?.checked || false;
         let url = `/api/data-integrity?only_latest=${onlyLatest}`;
         const res = await fetch(url);
         const data = await res.json();
@@ -2079,7 +2154,7 @@ async function updateIntegrityBadge() {
     if (!badge) return;
     
     try {
-        const onlyLatest = document.getElementById('pipeline-only-latest')?.checked || false;
+        const onlyLatest = document.getElementById('dataset-current')?.checked || false;
         let url = `/api/data-integrity?only_latest=${onlyLatest}`;
         const res = await fetch(url);
         const data = await res.json();

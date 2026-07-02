@@ -99,9 +99,27 @@
                     Select the date range and number of reviews for which you want to scrape and analyze. Currently, we are showing a cumulative analysis of all the reviews scraped till date.
                 </p>
                 
-                <div class="form-group" style="margin-top: 6px; flex-direction: row; align-items: center; gap: 8px;">
-                    <input type="checkbox" id="pipeline-only-latest" style="width: auto; cursor: pointer; margin: 0;">
-                    <label for="pipeline-only-latest" style="cursor: pointer; text-transform: none; font-size: 12px; margin-bottom: 0; font-weight: 500; color: var(--text-primary);">Show Only Latest Scrape</label>
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label style="font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; color: var(--spotify-green);">Analysis Dataset</label>
+                    <div style="display: flex; flex-direction: column; gap: 6px; width: 100%;">
+                        <!-- Cumulative Option Card -->
+                        <div class="dataset-option-card active" id="card-dataset-cumulative" style="cursor: pointer; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; transition: all 0.2s ease;">
+                            <input type="radio" id="dataset-cumulative" name="dataset-mode" value="cumulative" checked style="width: 14px; height: 14px; margin: 0; cursor: pointer; accent-color: var(--spotify-green);">
+                            <div style="display: flex; flex-direction: column; gap: 2px;">
+                                <label for="dataset-cumulative" id="lbl-dataset-cumulative" style="cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-primary); margin: 0; text-transform: none;">Cumulative Dataset</label>
+                                <span style="font-size: 10px; opacity: 0.6; color: var(--text-secondary);">Entire historical database</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Current Run Option Card -->
+                        <div class="dataset-option-card" id="card-dataset-current" style="cursor: pointer; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; transition: all 0.2s ease;">
+                            <input type="radio" id="dataset-current" name="dataset-mode" value="session" style="width: 14px; height: 14px; margin: 0; cursor: pointer; accent-color: var(--spotify-green);">
+                            <div style="display: flex; flex-direction: column; gap: 2px;">
+                                <label for="dataset-current" id="lbl-dataset-current" style="cursor: pointer; font-size: 12px; font-weight: 500; color: var(--text-secondary); margin: 0; text-transform: none;">Current Run</label>
+                                <span style="font-size: 10px; opacity: 0.6; color: var(--text-secondary);">Isolated latest session only</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group" style="margin-top: 6px; flex-direction: row; align-items: center; gap: 8px;">
                     <input type="checkbox" id="pipeline-disable-keywords" style="width: auto; cursor: pointer; margin: 0;">

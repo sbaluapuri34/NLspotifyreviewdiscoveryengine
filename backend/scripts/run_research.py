@@ -241,8 +241,12 @@ async def main(db_path: Optional[str] = None, theme_config_path: Optional[str] =
 
     # 5. Save answers
     if final_answers:
-        # Save to JSON
-        answers_json_filename = f"research_question_answers{suffix}.json"
+        run_type = os.environ.get("RUN_TYPE", "cumulative")
+        if not theme_slug and run_type == "cumulative":
+            answers_json_filename = "cumulative_research_question_answers.json"
+        else:
+            answers_json_filename = f"research_question_answers{suffix}.json"
+            
         answers_json_path = Path(project_root) / "backend" / "scripts" / answers_json_filename
         with open(answers_json_path, "w", encoding="utf-8") as f:
             json.dump(final_answers, f, indent=2, ensure_ascii=False)

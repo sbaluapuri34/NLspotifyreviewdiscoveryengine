@@ -104,11 +104,21 @@ def main(db_path: Optional[str] = None, theme_config_path: Optional[str] = None)
     cleaner = TextCleaner()
     embedder = VectorEmbedder()
 
+    run_type = os.environ.get("RUN_TYPE", "cumulative")
+    run_id = os.environ.get("RUN_ID")
+
     # 3. Fetch all reviews
-    logger.info("Fetching reviews from database...")
+    logger.info(f"Fetching reviews from database (Mode: {run_type.upper()})...")
     with get_db_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT id, raw_text, cleaned_text, translated_text, published_at FROM reviews ORDER BY published_at ASC")
+        if run_type == "session" and run_id:
+            logger.info(f"Filtering reviews for active session run_id: {run_id}")
+            cursor.execute(
+                "SELECT id, raw_text, cleaned_text, translated_text, published_at FROM reviews WHERE last_run_id = ? ORDER BY published_at ASC",
+                (run_id,)
+            )
+        else:
+            cursor.execute("SELECT id, raw_text, cleaned_text, translated_text, published_at FROM reviews ORDER BY published_at ASC")
         reviews = [dict(row) for row in cursor.fetchall()]
     
     total_reviews = len(reviews)

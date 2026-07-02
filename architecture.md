@@ -933,7 +933,7 @@ To achieve full operational resilience, cost efficiency, and metadata transparen
 
 ### C. Pipeline Run Details & Recent Run UI Tab
 *   **Pipeline Details Tab**: A new, dedicated sidebar menu and page panel (`#tab-pipeline-details`) was introduced in the frontend dashboard.
-*   **Automatic Navigation**: Checking the **"Show Only Latest Scrape"** checkbox automatically shows and switches the user to the Pipeline Details view. Unchecking it hides the tab and switches back.
+*   **Automatic Navigation**: Selecting the **"Current Run"** radio button under Analysis Dataset automatically shows and switches the user to the Pipeline Details view. Selecting the **"Cumulative Dataset"** radio option hides the tab and switches back.
 *   **Metadata Transparency**: Displays the exact raw scraped count (e.g., **3,039**), the in-range analysed count (e.g., **1,056**), and the number of reviews sent to the detailed AI pipeline (e.g., **2,623**), alongside a detailed timeline breakdown of the 8 pipeline execution steps and filter results.
 *   **Persistent Ingestion Logs**: All background logs and process stdout streams are captured in real-time and saved to `backend/logs/run_<run_id>.log` to enable offline diagnostics.
 
