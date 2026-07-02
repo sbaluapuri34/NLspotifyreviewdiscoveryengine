@@ -300,6 +300,8 @@ To support rapid theme bootstrapping and dynamic analysis of custom exploration 
 *   **In-Process Exploration Runs**: Triggering a new Theme Exploration pipeline calls the importable async runners (e.g. `run_clustering_pipeline(...)`, `run_cluster_intelligence_pipeline(...)`, etc.) in-process, capturing standard output and loguru streams and routing them directly to the dynamic exploration stream channel (`/api/stream?mode=exploration&theme={theme}`).
 *   **Theme Caching Isolation**: The SHA-256 evidence package and RQ hashes check the `llm_cache` table residing inside the isolated database file `spotify_research_{theme}.db`. This guarantees that cache hits are isolated to the specific theme context and never overlap with music discovery cache states.
 *   **Throttling**: Dynamic exploration tasks share the concurrent semaphore pool to maintain safety across concurrent research requests.
+*   **c-TF-IDF Speedup Integration**: Leverages the optimized single-pass c-TF-IDF corpus df precomputation outside the cluster loops to guarantee that dynamic theme compilation runs in under 30 seconds rather than minutes.
+*   **Loop Reference Safeguard**: Employs the loop preservation fix in the dynamic explorer coroutine handlers to prevent lifecycle task failures when triggering sandboxed theme analysis in background threads.
 
 ---
 
