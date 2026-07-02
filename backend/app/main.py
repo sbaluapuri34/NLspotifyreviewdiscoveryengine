@@ -240,7 +240,7 @@ def get_safe_end_date(date_str: Optional[str]) -> Optional[str]:
     except Exception:
         return date_str
 
-def apply_metadata_filters(query: str, params: list, country: Optional[str], lang: Optional[str], prefix: str = "r") -> Tuple[str, list]:
+def apply_metadata_filters(query: str, params: list, country: Optional[str], lang: Optional[str], prefix: str = "r") -> tuple[str, list]:
     """
     Applies country and language filters specifically for Google Play Reviews,
     while leaving other sources clean (or excluding them if Google Play only is requested).
