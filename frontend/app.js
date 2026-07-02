@@ -500,6 +500,8 @@ function updateLiveCounts(data) {
         `;
         container.appendChild(card);
     });
+    
+    appendExportPdfCard(container);
 }
 
 function appendTerminalLog(message, level = 'INFO') {
@@ -628,6 +630,7 @@ async function loadSourceCounts() {
             container.appendChild(card);
         });
         
+        appendExportPdfCard(container);
     } catch (e) {
         console.error('Error loading source counts:', e);
     }
@@ -2064,3 +2067,111 @@ window.reloadDashboard = async function(...args) {
     if (originalReloadDashboard) await originalReloadDashboard.apply(this, args);
     updateIntegrityBadge();
 };
+
+function appendExportPdfCard(container) {
+    const card = document.createElement('div');
+    card.className = 'source-card action-card';
+    card.id = 'btn-export-pdf';
+    card.style.cssText = 'cursor: pointer; background: rgba(29, 185, 84, 0.08); border: 1px dashed var(--spotify-green); transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: center; align-items: center; min-width: 120px;';
+    card.innerHTML = `
+        <div class="source-card-header" style="justify-content: center; width: 100%; border-bottom: none; padding-bottom: 0; padding-top: 4px;">
+            <span class="source-icon" style="margin-right: 4px;">📥</span>
+            <span class="source-name" style="color: var(--spotify-green); font-weight: 700; font-size: 12px;">Export Report</span>
+        </div>
+        <span style="font-size: 9px; opacity: 0.8; margin-top: 4px; color: var(--text-secondary); text-align: center; padding-bottom: 4px;">Generate PDF Report</span>
+    `;
+    
+    card.addEventListener('mouseenter', () => {
+        card.style.background = 'rgba(29, 185, 84, 0.15)';
+    });
+    card.addEventListener('mouseleave', () => {
+        card.style.background = 'rgba(29, 185, 84, 0.08)';
+    });
+    
+    card.addEventListener('click', triggerPdfGeneration);
+    container.appendChild(card);
+}
+
+async function triggerPdfGeneration() {
+    const { jsPDF } = window.jspdf;
+    if (!jsPDF) {
+        alert("PDF Generation library not loaded yet. Please try again in a moment.");
+        return;
+    }
+    
+    appendTerminalLog("Initializing PDF Generation...", "INFO");
+    
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; font-family: "Outfit", sans-serif;';
+    overlay.innerHTML = `
+        <div style="font-size: 40px; margin-bottom: 20px; animation: spin 1s linear infinite;">⏳</div>
+        <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 10px;">Generating PDF Report</h2>
+        <p style="font-size: 14px; opacity: 0.8;" id="pdf-progress-text">Capturing dashboard views...</p>
+    `;
+    document.body.appendChild(overlay);
+    
+    try {
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const margin = 10;
+        const targetWidth = pageWidth - (margin * 2);
+        
+        const activeTabId = state.activeTab;
+        const tabElement = document.getElementById(`tab-${activeTabId}`);
+        if (!tabElement) {
+            throw new Error("Target tab element not found.");
+        }
+        
+        pdf.setFont("Helvetica", "bold");
+        pdf.setFontSize(18);
+        pdf.setTextColor(29, 185, 84);
+        pdf.text("Spotify AI Product Research Report", margin, 15);
+        
+        pdf.setFont("Helvetica", "normal");
+        pdf.setFontSize(10);
+        pdf.setTextColor(150, 150, 150);
+        const dateStr = new Date().toLocaleString();
+        pdf.text(`Generated: ${dateStr} | Mode: ${activeTheme.toUpperCase()}`, margin, 20);
+        
+        pdf.setDrawColor(29, 185, 84);
+        pdf.setLineWidth(0.5);
+        pdf.line(margin, 22, pageWidth - margin, 22);
+        
+        document.getElementById('pdf-progress-text').innerText = "Rendering snapshot canvas...";
+        
+        const canvas = await html2canvas(tabElement, {
+            backgroundColor: "#121212",
+            scale: 2,
+            logging: false,
+            useCORS: true
+        });
+        
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        const imgWidth = targetWidth;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        let heightLeft = imgHeight;
+        let position = 25;
+        
+        pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+        heightLeft -= (pageHeight - position - margin);
+        
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight + margin;
+            pdf.addPage();
+            pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+        
+        appendTerminalLog("PDF compiled successfully. Triggering download...", "SUCCESS");
+        pdf.save(`spotify_ai_research_report_${activeTheme}_${activeTabId}.pdf`);
+        
+    } catch (err) {
+        console.error("PDF generation failed:", err);
+        appendTerminalLog("PDF generation failed: " + err.message, "WARNING");
+        alert("Failed to generate PDF: " + err.message);
+    } finally {
+        document.body.removeChild(overlay);
+    }
+}
