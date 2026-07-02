@@ -109,18 +109,18 @@ def test_run_pipeline_route():
         assert response.status_code == 400
         assert "is not bootstrapped" in response.json()["error"]
         
-        # Test 200 response for discovery mode (default)
+        # Test 202 response for discovery mode (default)
         # Mock background_tasks.add_task
         with patch("fastapi.BackgroundTasks.add_task") as mock_add_task:
             response = client.post("/api/run-pipeline")
-            assert response.status_code == 200
+            assert response.status_code == 202
             assert "started" in response.json()["status"]
             mock_add_task.assert_called_once()
             
-        # Test 200 response for theme mode
+        # Test 202 response for theme mode
         mock_get.return_value = {"theme": "podcasts"}
         with patch("fastapi.BackgroundTasks.add_task") as mock_add_task:
             response = client.post("/api/exploration/podcasts/run-pipeline")
-            assert response.status_code == 200
+            assert response.status_code == 202
             assert "started" in response.json()["status"]
             mock_add_task.assert_called_once()

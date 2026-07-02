@@ -70,7 +70,8 @@ def test_trigger_pipeline():
     # Mock BackgroundTasks.add_task to prevent the long-running pipeline from executing during the unit test
     with patch("fastapi.BackgroundTasks.add_task") as mock_add_task:
         response = client.post("/api/run-pipeline?limit_google_play=5&limit_reddit=5")
-        assert response.status_code == 200
+        assert response.status_code == 202
         data = response.json()
         assert "status" in data
+        assert "task_id" in data
         mock_add_task.assert_called_once()
