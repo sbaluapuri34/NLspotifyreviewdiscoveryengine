@@ -20,7 +20,8 @@ def main():
         "limit_reddit": 200,
         "limit_youtube": 100,
         "limit_spotify_community": 100,
-        "limit_app_store": 0
+        "limit_app_store": 0,
+        "run_type": "cumulative"
     }
     
     headers = {}
