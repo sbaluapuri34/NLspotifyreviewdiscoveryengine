@@ -1244,6 +1244,7 @@ async def run_pipeline_task(
     env = os.environ.copy()
     
     try:
+        loop = asyncio.get_running_loop()
         pipeline_state["active_task"] = asyncio.current_task()
         # Generate a unique run_id for this pipeline execution
         run_id = f"run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
