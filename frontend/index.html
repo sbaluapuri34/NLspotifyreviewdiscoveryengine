@@ -96,7 +96,7 @@
                 </div>
                 
                 <p style="font-size: 11.5px; font-style: italic; line-height: 1.4; margin-top: 6px; margin-bottom: 12px; color: var(--accent-color);" id="pipeline-instruction-text">
-                    Select the date range and number of reviews for which you want to scrape and analyze. Currently, we are showing a cumulative analysis of all the reviews scraped till date.
+                    Currently, we are showing a cumulative analysis of all the reviews scraped till recent run.
                 </p>
                 
                 <div class="form-group" style="margin-bottom: 12px;">
@@ -444,29 +444,31 @@
                         <h2>Double-Pass Validation Diagnostics</h2>
                         <p style="font-size: 13px; opacity: 0.7; margin-bottom: 20px;">Confusion matrix comparing LLM-proposed mappings vs. local semantic verification.</p>
                         
-                        <div class="confusion-matrix" style="display: grid; grid-template-columns: 120px 1fr 1fr; gap: 10px; text-align: center; font-weight: 600;">
-                            <div></div>
-                            <div style="padding: 8px; font-size: 13px; opacity: 0.8; color: var(--text-primary);">Verified (Match)</div>
-                            <div style="padding: 8px; font-size: 13px; opacity: 0.8; color: var(--text-primary);">Rejected (No Match)</div>
-                            
-                            <div style="display: flex; align-items: center; justify-content: center; font-size: 13px; opacity: 0.8; text-align: right; padding-right: 10px;">LLM Proposed</div>
-                            <div class="matrix-cell tp" style="background: rgba(46, 204, 113, 0.15); border: 2px solid #2ecc71; padding: 20px; border-radius: 8px; color: #2ecc71;">
-                                <div style="font-size: 24px; font-weight: 700;" id="diag-tp">0</div>
-                                <div style="font-size: 11px; text-transform: uppercase; margin-top: 4px; opacity: 0.8;">True Positive (TP)</div>
-                            </div>
-                            <div class="matrix-cell fp" style="background: rgba(231, 76, 60, 0.15); border: 2px solid #e74c3c; padding: 20px; border-radius: 8px; color: #e74c3c;">
-                                <div style="font-size: 24px; font-weight: 700;" id="diag-fp">0</div>
-                                <div style="font-size: 11px; text-transform: uppercase; margin-top: 4px; opacity: 0.8;">False Positive (FP)</div>
-                            </div>
-                            
-                            <div style="display: flex; align-items: center; justify-content: center; font-size: 13px; opacity: 0.8; text-align: right; padding-right: 10px;">LLM Omitted</div>
-                            <div class="matrix-cell fn" style="background: rgba(241, 196, 15, 0.15); border: 2px solid #f1c40f; padding: 20px; border-radius: 8px; color: #f1c40f;">
-                                <div style="font-size: 24px; font-weight: 700;" id="diag-fn">0</div>
-                                <div style="font-size: 11px; text-transform: uppercase; margin-top: 4px; opacity: 0.8;">False Negative (FN)</div>
-                            </div>
-                            <div class="matrix-cell tn" style="background: rgba(52, 152, 219, 0.15); border: 2px solid #3498db; padding: 20px; border-radius: 8px; color: #3498db;">
-                                <div style="font-size: 24px; font-weight: 700;" id="diag-tn">0</div>
-                                <div style="font-size: 11px; text-transform: uppercase; margin-top: 4px; opacity: 0.8;">True Negative (TN)</div>
+                        <div style="overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; padding-bottom: 8px;">
+                            <div class="confusion-matrix" style="display: grid; grid-template-columns: 120px 1fr 1fr; gap: 10px; text-align: center; font-weight: 600; min-width: 440px;">
+                                <div></div>
+                                <div style="padding: 8px; font-size: 13px; opacity: 0.8; color: var(--text-primary);">Verified (Match)</div>
+                                <div style="padding: 8px; font-size: 13px; opacity: 0.8; color: var(--text-primary);">Rejected (No Match)</div>
+                                
+                                <div style="display: flex; align-items: center; justify-content: center; font-size: 13px; opacity: 0.8; text-align: right; padding-right: 10px;">LLM Proposed</div>
+                                <div class="matrix-cell tp" style="background: rgba(46, 204, 113, 0.15); border: 2px solid #2ecc71; padding: 20px; border-radius: 8px; color: #2ecc71;">
+                                    <div style="font-size: 24px; font-weight: 700;" id="diag-tp">0</div>
+                                    <div style="font-size: 11px; text-transform: uppercase; margin-top: 4px; opacity: 0.8;">True Positive (TP)</div>
+                                </div>
+                                <div class="matrix-cell fp" style="background: rgba(231, 76, 60, 0.15); border: 2px solid #e74c3c; padding: 20px; border-radius: 8px; color: #e74c3c;">
+                                    <div style="font-size: 24px; font-weight: 700;" id="diag-fp">0</div>
+                                    <div style="font-size: 11px; text-transform: uppercase; margin-top: 4px; opacity: 0.8;">False Positive (FP)</div>
+                                </div>
+                                
+                                <div style="display: flex; align-items: center; justify-content: center; font-size: 13px; opacity: 0.8; text-align: right; padding-right: 10px;">LLM Omitted</div>
+                                <div class="matrix-cell fn" style="background: rgba(241, 196, 15, 0.15); border: 2px solid #f1c40f; padding: 20px; border-radius: 8px; color: #f1c40f;">
+                                    <div style="font-size: 24px; font-weight: 700;" id="diag-fn">0</div>
+                                    <div style="font-size: 11px; text-transform: uppercase; margin-top: 4px; opacity: 0.8;">False Negative (FN)</div>
+                                </div>
+                                <div class="matrix-cell tn" style="background: rgba(52, 152, 219, 0.15); border: 2px solid #3498db; padding: 20px; border-radius: 8px; color: #3498db;">
+                                    <div style="font-size: 24px; font-weight: 700;" id="diag-tn">0</div>
+                                    <div style="font-size: 11px; text-transform: uppercase; margin-top: 4px; opacity: 0.8;">True Negative (TN)</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -476,30 +478,31 @@
                         <h2>Signal Quality Metrics</h2>
                         <p style="font-size: 13px; opacity: 0.7;">Academically rigorous validation scores computed across all verified reviews.</p>
                         
-                        <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 10px; flex: 1; justify-content: center;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px dashed var(--border-color);">
-                                <div>
-                                    <h4 style="margin: 0; font-size: 15px; color: var(--text-primary);">Precision of Signal</h4>
-                                    <p style="margin: 3px 0 0 0; font-size: 11px; opacity: 0.7;">Accuracy of LLM thematic mappings ($TP / (TP + FP)$)</p>
+                        <div style="overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; padding-bottom: 8px;">
+                            <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 10px; flex: 1; justify-content: center; min-width: 320px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px dashed var(--border-color); gap: 15px;">
+                                    <div>
+                                        <h4 style="margin: 0; font-size: 15px; color: var(--text-primary);">Precision of Signal</h4>
+                                        <p style="margin: 3px 0 0 0; font-size: 11px; opacity: 0.7;">Accuracy of LLM thematic mappings ($TP / (TP + FP)$)</p>
+                                    </div>
+                                    <div style="font-size: 24px; font-weight: 700; color: #2ecc71;" id="diag-precision">0%</div>
                                 </div>
-                                <div style="font-size: 24px; font-weight: 700; color: #2ecc71;" id="diag-precision">0%</div>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px dashed var(--border-color);">
-                                <div>
-                                    <h4 style="margin: 0; font-size: 15px; color: var(--text-primary);">Recall of Signal</h4>
-                                    <p style="margin: 3px 0 0 0; font-size: 11px; opacity: 0.7;">Completeness of semantic capture ($TP / (TP + FN)$)</p>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px dashed var(--border-color); gap: 15px;">
+                                    <div>
+                                        <h4 style="margin: 0; font-size: 15px; color: var(--text-primary);">Recall of Signal</h4>
+                                        <p style="margin: 3px 0 0 0; font-size: 11px; opacity: 0.7;">Completeness of semantic capture ($TP / (TP + FN)$)</p>
+                                    </div>
+                                    <div style="font-size: 24px; font-weight: 700; color: #f1c40f;" id="diag-recall">0%</div>
                                 </div>
-                                <div style="font-size: 24px; font-weight: 700; color: #f1c40f;" id="diag-recall">0%</div>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div>
-                                    <h4 style="margin: 0; font-size: 15px; color: var(--text-primary);">F1 Accuracy Score</h4>
-                                    <p style="margin: 3px 0 0 0; font-size: 11px; opacity: 0.7;">Harmonic mean of precision and recall</p>
+                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px;">
+                                    <div>
+                                        <h4 style="margin: 0; font-size: 15px; color: var(--text-primary);">F1 Accuracy Score</h4>
+                                        <p style="margin: 3px 0 0 0; font-size: 11px; opacity: 0.7;">Harmonic mean of precision and recall</p>
+                                    </div>
+                                    <div style="font-size: 24px; font-weight: 700; color: #3498db;" id="diag-f1">0%</div>
                                 </div>
-                                <div style="font-size: 24px; font-weight: 700; color: #3498db;" id="diag-f1">0%</div>
                             </div>
                         </div>
-                    </div>
                 </div>
 
                 <!-- Decile Chart -->

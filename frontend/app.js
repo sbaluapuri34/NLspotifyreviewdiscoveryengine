@@ -610,7 +610,7 @@ async function loadSourceCounts() {
             });
             const instructionText = document.getElementById('pipeline-instruction-text');
             if (instructionText) {
-                instructionText.innerHTML = `Select the date range and number of reviews for which you want to scrape and analyze. Currently, we are showing a cumulative analysis of all the reviews scraped till <strong>${formattedDate}</strong>.`;
+                instructionText.innerHTML = `Currently, we are showing a cumulative analysis of all the reviews scraped till recent run dated <strong>${formattedDate}</strong>.`;
             }
         }
         
