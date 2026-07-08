@@ -156,11 +156,47 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    loadSourceCounts();
-    loadClusters();
-    loadOperationalFriction();
-    loadResearch();
-    loadThematicRefinement();
+    // Premium loading overlay transition for startup metadata
+    async function loadStartupData() {
+        const progressBar = document.getElementById('startup-progress-bar');
+        const loadingStatus = document.getElementById('startup-loading-status');
+        const startupModal = document.getElementById('startup-loading-modal');
+        
+        const steps = [
+            { name: "Scraping stats & source counts", fn: loadSourceCounts },
+            { name: "Semantic clusters & vector map", fn: loadClusters },
+            { name: "Operational friction categories", fn: loadOperationalFriction },
+            { name: "Core research questions & JTBD", fn: loadResearch },
+            { name: "Thematic refinement data", fn: loadThematicRefinement }
+        ];
+        
+        let completed = 0;
+        if (progressBar) progressBar.style.width = '10%';
+        
+        for (let i = 0; i < steps.length; i++) {
+            const step = steps[i];
+            if (loadingStatus) loadingStatus.innerText = `Loading: ${step.name}...`;
+            try {
+                await step.fn();
+            } catch (err) {
+                console.error(`Error loading startup step [${step.name}]:`, err);
+            }
+            completed++;
+            const pct = Math.round((completed / steps.length) * 100);
+            if (progressBar) progressBar.style.width = `${pct}%`;
+        }
+        
+        if (loadingStatus) loadingStatus.innerText = "Dashboard compiled successfully!";
+        setTimeout(() => {
+            if (startupModal) {
+                startupModal.style.opacity = '0';
+                startupModal.style.pointerEvents = 'none';
+                setTimeout(() => startupModal.classList.add('hidden'), 300);
+            }
+        }, 600);
+    }
+
+    await loadStartupData();
     
     const datasetCumulative = document.getElementById('dataset-cumulative');
     const datasetCurrent = document.getElementById('dataset-current');
